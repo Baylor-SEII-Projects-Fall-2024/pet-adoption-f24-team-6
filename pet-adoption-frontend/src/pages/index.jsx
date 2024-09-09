@@ -20,6 +20,7 @@ export default function HomePage() {
             <CardContent>
               <Typography variant='h3' align='center'>Pet Adoption Fall 2024</Typography>
               <Typography variant='body1' color='text.secondary'>This is your template project for the Fall 2024 Baylor Software Engineering II class project! See the README for insturctions on how to set this project up and run it locally.</Typography>
+              <Typography variant='body1' color='text.secondary'>Testing CI/CD</Typography>
             </CardContent>
           </Card>
           <Stack direction="row">
