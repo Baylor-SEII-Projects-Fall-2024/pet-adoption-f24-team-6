@@ -22,13 +22,13 @@ jobs:
         sudo chmod +x /usr/local/bin/docker-compose
         docker-compose --version  # Verify the installation
 
-    # - name: Cache Docker layers
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: /tmp/.buildx-cache
-    #     key: ${{ runner.os }}-buildx-${{ github.sha }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-buildx-
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
 
     - name: Build and run Docker Compose services
       run: |
