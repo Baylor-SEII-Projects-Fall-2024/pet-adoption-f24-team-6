@@ -32,7 +32,7 @@ jobs:
 
     - name: Build and run Docker Compose services
       run: |
-        sudo docker-compose -f docker/ci.docker-compose.yml down
+        # sudo docker-compose -f docker/ci.docker-compose.yml down
         sudo docker-compose -f docker/ci.docker-compose.yml up -d --build
         sudo docker image prune -af
         # docker-compose -f docker/ci.docker-compose.yml build
