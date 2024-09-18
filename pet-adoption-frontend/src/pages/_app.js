@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { Provider as ReduxProvider } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';
 import {BottomNavigation, BottomNavigationAction, Box, Button, CssBaseline} from '@mui/material';
@@ -21,6 +22,9 @@ let reduxStore = buildStore(initialState);
 export default function App({ Component, pageProps }) {
 
   const [value, setValue] = React.useState(0);
+
+  const router = useRouter();
+
   return (
     <ReduxProvider store={reduxStore}>
       <AppCacheProvider>
@@ -49,11 +53,28 @@ export default function App({ Component, pageProps }) {
                   value={value}
                   onChange={(event, newValue) => {
                     setValue(newValue);
+
+                      switch (newValue) {
+                          case 0:
+                              router.push('/browse'); // Route to /browse
+                              break;
+                          case 1:
+                              router.push('/events'); // Route to /events
+                              break;
+                          case 2:
+                              router.push('/contact-us'); // Route to /contact
+                              break;
+                          case 3:
+                              router.push('/FAQ'); // Route to /faq
+                              break;
+                          default:
+                              break;
+                      }
                   }}
                   sx={{width: '60vw'}}
               >
                 {/*<BottomNavigationAction label="Home" icon={<HomeIcon />} />*/}
-                <BottomNavigationAction label="Browse" icon={<SearchIcon />} />
+                <BottomNavigationAction label="Browse" icon={<SearchIcon />}  />
                 <BottomNavigationAction label="Events" icon={<HomeIcon />} />
                 <BottomNavigationAction label="Contact Us" icon={<PersonIcon />} />
                 <BottomNavigationAction label="FAQ" icon={<HelpIcon />} />
@@ -70,6 +91,7 @@ export default function App({ Component, pageProps }) {
                     marginRight: '1.5rem',
                     marginTop: '2rem'
                 }}
+                onClick={() => router.push('/sign-in')}
             >
               Sign In
             </Button>
@@ -84,6 +106,7 @@ export default function App({ Component, pageProps }) {
                   marginRight: '1.5rem',
                   marginTop: '2rem'
                 }}
+                onClick={() => router.push('/register')}
             >
               Register
             </Button>
