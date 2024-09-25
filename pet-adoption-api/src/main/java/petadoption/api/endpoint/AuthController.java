@@ -20,6 +20,7 @@ public class AuthController {
                 registerEndpoint.getPassword(),
                 registerEndpoint.getUserType()
         );
+        System.out.println("inside");
         return "User registered successfully!";
     }
 
