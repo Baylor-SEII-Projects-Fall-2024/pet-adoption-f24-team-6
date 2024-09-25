@@ -21,7 +21,7 @@ let reduxStore = buildStore(initialState);
 
 export default function App({ Component, pageProps }) {
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState('');
 
   const router = useRouter();
 
@@ -41,6 +41,17 @@ export default function App({ Component, pageProps }) {
             display: 'flex',
             displayDirection: 'row'
           }}>
+
+              <Box sx={{
+                  marginLeft: '2rem',
+                  marginTop: '2rem',
+                  marginRight: '1rem'
+              }}>
+                  <img src="/home-furever-logo.png" alt="Logo" style={{ width: '200px', height: '65px' }} onClick={() => {
+                      router.push('/');
+                      setValue('');
+                  }}/>
+              </Box>
 
             <Box sx={{ width: '100vw',
               display: 'flex',
@@ -73,7 +84,6 @@ export default function App({ Component, pageProps }) {
                   }}
                   sx={{width: '60vw'}}
               >
-                {/*<BottomNavigationAction label="Home" icon={<HomeIcon />} />*/}
                 <BottomNavigationAction label="Browse" icon={<SearchIcon />}  />
                 <BottomNavigationAction label="Events" icon={<HomeIcon />} />
                 <BottomNavigationAction label="Contact Us" icon={<PersonIcon />} />
@@ -91,7 +101,10 @@ export default function App({ Component, pageProps }) {
                     marginRight: '1.5rem',
                     marginTop: '2rem'
                 }}
-                onClick={() => router.push('/sign-in')}
+                onClick={() => {
+                    router.push('/sign-in');
+                    setValue('');
+                }}
             >
               Sign In
             </Button>
@@ -106,7 +119,10 @@ export default function App({ Component, pageProps }) {
                   marginRight: '1.5rem',
                   marginTop: '2rem'
                 }}
-                onClick={() => router.push('/register')}
+                onClick={() => {
+                    router.push('/register');
+                    setValue('');
+                }}
             >
               Register
             </Button>
