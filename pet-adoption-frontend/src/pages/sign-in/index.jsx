@@ -1,13 +1,34 @@
 import Head from "next/head";
 import React from "react";
-
+import { useState } from 'react';
 
 export default function signIn() {
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Add the functionality of signing in
-        console.log("Form Submitted")
+
+        try {
+            const response = await fetch('http://localhost:8080/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ emailAddress: username, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error("Login failed", data);
+                alert(data.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error("Error during login", error);
+            alert('An error occurred. Please try again.');
+        }
     }
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     return (
         <>
@@ -25,12 +46,14 @@ export default function signIn() {
                             placeholder="Email"
                             style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
                             required
+                            onChange={(event) => setUsername(event.target.value)}
                         />
                         <input
                             type="password"
                             placeholder="Password"
                             style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
                             required
+                            onChange={(event) => setPassword(event.target.value)}
                         />
 
                         <button
@@ -46,13 +69,11 @@ export default function signIn() {
                                 cursor: 'pointer'
                             }}
                             >
-
                             Sign In
                         </button>
                     </form>
                 </div>
             </div>
-            {/*<h1 style={{marginLeft: '1100px', marginTop: '250px'}}>SIGN-IN</h1>*/}
         </>
     )
 }
