@@ -3,7 +3,7 @@ server:
   address: 0.0.0.0
 spring:
   datasource:
-    url: jdbc:mysql://${0.0.0.0:localhost}:3307/petadoption
+    url: jdbc:mysql://${0.0.0.0:localhost}:3306/petadoption
     username: root
     password: password
     driverClassName: com.mysql.cj.jdbc.Driver
