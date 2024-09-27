@@ -18,7 +18,7 @@ services:
     ports:
       - '8080:8080'
     environment:
-      MYSQL_HOST: db
+      MYSQL_HOST: 10.128.0.2
 
   db:
     image: mysql:8.4.2
