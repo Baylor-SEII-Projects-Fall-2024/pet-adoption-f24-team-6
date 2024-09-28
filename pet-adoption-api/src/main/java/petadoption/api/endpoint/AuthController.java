@@ -18,7 +18,8 @@ public class AuthController {
         userService.registerUser(
                 registerEndpoint.getEmailAddress(),
                 registerEndpoint.getPassword(),
-                registerEndpoint.getUserType()
+                registerEndpoint.getUserType(),
+                registerEndpoint.getName()
         );
         System.out.println("inside");
         return "User registered successfully!";

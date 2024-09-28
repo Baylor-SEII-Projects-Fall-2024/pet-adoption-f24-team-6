@@ -1,25 +1,36 @@
 import Head from "next/head";
 import React from "react";
 import { useState } from 'react';
+import {useRouter} from "next/router";
 
 export default function signIn() {
+
+    const router = useRouter();
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
+
+
+        if (!username || !password) {
+            alert('Please enter both username and password');
+            return;
+        }
 
         try {
-            const response = await fetch('http://localhost:8080/api/auth/login', {
+            const response = await fetch('${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ emailAddress: username, password }),
+                body: JSON.stringify({ emailAddress: username, password: password }),
             });
 
-            const data = await response.json();
+            const data = await response.text();
 
             if (!response.ok) {
                 console.error("Login failed", data);
                 alert(data.message || 'Login failed');
+            } else {
+                router.push('/account');
             }
         } catch (error) {
             console.error("Error during login", error);
@@ -39,7 +50,7 @@ export default function signIn() {
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'Center', height: '50vh'}}>
                 <div style={{textAlign: 'center'}}>
                     <h1>SIGN-IN</h1>
-                    <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto'}}>
+                    <form style={{display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto'}}>
 
                         <input
                             type="email"
@@ -57,8 +68,6 @@ export default function signIn() {
                         />
 
                         <button
-
-                            type={"submit"}
                             style={{
                                 padding: '10px',
                                 margin: '10px 0',
@@ -68,6 +77,7 @@ export default function signIn() {
                                 borderRadius: '5px',
                                 cursor: 'pointer'
                             }}
+                            onClick={handleSubmit}
                             >
                             Sign In
                         </button>

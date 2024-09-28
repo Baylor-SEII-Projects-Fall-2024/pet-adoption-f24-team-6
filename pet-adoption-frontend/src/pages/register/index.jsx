@@ -12,7 +12,7 @@ export default function register() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ emailAddress: emailAddress, password: password, userType: 'CUSTOMER' }),
+                body: JSON.stringify({ emailAddress: emailAddress, password: password, userType: 'CUSTOMER', name: name }),
             });
 
             const data = await response.text();
@@ -21,8 +21,8 @@ export default function register() {
                 setSuccess(false);
                 setErrorMessage('Registration Failed');
             } else {
-                setSuccess(true); // Set success to true on successful registration
-                setErrorMessage(''); // Clear error message
+                setSuccess(true);
+                setErrorMessage('');
             }
 
         } catch (error) {
