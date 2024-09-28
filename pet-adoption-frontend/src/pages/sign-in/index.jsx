@@ -16,7 +16,7 @@ export default function signIn() {
         }
 
         try {
-            const response = await fetch('${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/login', {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
