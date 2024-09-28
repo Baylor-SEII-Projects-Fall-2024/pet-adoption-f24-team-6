@@ -4,6 +4,7 @@ public class RegisterEndpoint {
     private String emailAddress;
     private String password;
     private String userType;
+    private String name;
 
     // Getters and setters
     public String getEmailAddress() {
@@ -29,4 +30,13 @@ public class RegisterEndpoint {
     public void setUserType(String userType) {
         this.userType = userType;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

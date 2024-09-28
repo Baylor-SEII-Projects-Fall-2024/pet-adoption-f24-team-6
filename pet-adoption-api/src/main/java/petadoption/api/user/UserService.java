@@ -19,7 +19,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User registerUser(String email, String password, String userType) {
+    public User registerUser(String email, String password, String userType, String name) {
         User existingUser = userRepository.findByEmailAddress(email);
         if (existingUser != null) {
             throw new IllegalStateException("Email is already registered");
@@ -29,6 +29,7 @@ public class UserService {
         user.setEmailAddress(email);
         user.setPassword(password);
         user.setUserType(userType);
+        user.setName(name);
 
         return userRepository.save(user);
     }
