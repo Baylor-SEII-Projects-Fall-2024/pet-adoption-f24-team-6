@@ -1,15 +1,16 @@
 package petadoption.api.endpoint;
 
+import org.hibernate.annotations.DialectOverride;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import petadoption.api.model.CheckAuthorization;
 import petadoption.api.service.JwtService;
 import petadoption.api.user.User;
 import petadoption.api.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,5 +52,24 @@ public class AuthController {
         }
 
         return ResponseEntity.badRequest().body("Invalid Credentials");
+    }
+
+    @GetMapping("/checkAuth")
+    public ResponseEntity<?> checkAuthentication(@RequestBody CheckAuthorization checkAuth) {
+        try {
+            String test = authService.extractUsername(checkAuth.authToken);
+
+            User user = userService.findUserByEmail(test);
+
+            authService.isTokenValid(checkAuth.authToken, user);
+
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("Authorized", true);
+            return ResponseEntity.ok().body(response); // JSON response with token
+        } catch (Exception e) {
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("Authorized", false);
+            return ResponseEntity.ok().body(response); // JSON response with token
+        }
     }
 }
