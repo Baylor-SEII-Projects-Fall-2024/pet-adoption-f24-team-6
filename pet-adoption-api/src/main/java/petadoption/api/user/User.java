@@ -27,6 +27,9 @@ public class User {
     @Column(name = "USER_TYPE")
     String userType;
 
-    @Column(name = "NAME")
-    String name;
+    @Column(name = "FIRST_NAME")
+    String firstName;
+
+    @Column(name = "LAST_NAME")
+    String lastName;
 }
