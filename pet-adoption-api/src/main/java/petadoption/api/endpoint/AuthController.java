@@ -55,13 +55,13 @@ public class AuthController {
     }
 
     @GetMapping("/checkAuth")
-    public ResponseEntity<?> checkAuthentication(@RequestBody CheckAuthorization checkAuth) {
+    public ResponseEntity<?> checkAuthentication(@RequestParam String authToken) {
         try {
-            String test = authService.extractUsername(checkAuth.authToken);
+            String test = authService.extractUsername(authToken);
 
             User user = userService.findUserByEmail(test);
 
-            authService.isTokenValid(checkAuth.authToken, user);
+            authService.isTokenValid(authToken, user);
 
             Map<String, Boolean> response = new HashMap<>();
             response.put("Authorized", true);

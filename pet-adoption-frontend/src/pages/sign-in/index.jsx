@@ -2,6 +2,7 @@ import Head from "next/head";
 import React from "react";
 import { useState } from 'react';
 import {useRouter} from "next/router";
+import Cookies from 'js-cookie';
 
 export default function signIn() {
 
@@ -24,13 +25,18 @@ export default function signIn() {
                 body: JSON.stringify({ emailAddress: username, password: password }),
             });
 
-            const data = await response.text();
+            // const data = await response.text();
 
             if (!response.ok) {
                 console.error("Login failed", data);
                 alert(data.message || 'Login failed');
             } else {
-                router.push('/account');
+                const data = await response.json()
+                console.log(data)
+
+                // Set the token in a cookie
+                Cookies.set('authToken', data.authToken, { expires: 7, secure: true });
+                await router.push('/account');
             }
         } catch (error) {
             console.error("Error during login", error);
