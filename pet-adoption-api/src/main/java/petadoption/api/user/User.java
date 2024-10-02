@@ -31,6 +31,12 @@ public class User implements UserDetails {
     @Column(name = "NAME")
     String name;
 
+    @Column(name = "FIRST_NAME")
+    String firstName;
+
+    @Column(name = "LAST_NAME")
+    String lastName;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

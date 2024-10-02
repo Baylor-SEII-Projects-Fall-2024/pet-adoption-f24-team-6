@@ -12,7 +12,7 @@ export default function register() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ emailAddress: emailAddress, password: password, userType: 'CUSTOMER', name: name }),
+                body: JSON.stringify({ emailAddress: emailAddress, password: password, userType: 'CUSTOMER', firstName: firstName, lastName: lastName }),
             });
 
             const data = await response.text();
@@ -32,7 +32,8 @@ export default function register() {
 
     }
 
-    const [name, setName] = useState('');
+    const [firstName, setfirstName] = useState('');
+    const [lastName, setlastName] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
     const [password, setPassword] = useState('');
     const [success, setSuccess] = useState(false);
@@ -60,13 +61,21 @@ export default function register() {
                         </Alert>
                     )}
 
-                    <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto'}}>
+                    <form onSubmit={handleSubmit}
+                          style={{display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto'}}>
                         <input
-                            type="name"
-                            placeholder="Name"
+                            type="First Name"
+                            placeholder="First Name"
                             style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
                             required
-                            onChange={(event) => setName(event.target.value)}
+                            onChange={(event) => setfirstName(event.target.value)}
+                        />
+                        <input
+                            type="Last Name"
+                            placeholder="Last Name"
+                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
+                            required
+                            onChange={(event) => setlastName(event.target.value)}
                         />
                         <input
                             type="email"
@@ -95,7 +104,7 @@ export default function register() {
                                 borderRadius: '5px',
                                 cursor: 'pointer'
                             }}
-                            >
+                        >
 
                             Register
                         </button>
