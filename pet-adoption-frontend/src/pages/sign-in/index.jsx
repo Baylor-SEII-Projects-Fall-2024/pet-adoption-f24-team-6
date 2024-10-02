@@ -36,7 +36,7 @@ export default function signIn() {
                 const data = await response.json()
                 console.log(data)
 
-                Cookies.set('authToken', data.authToken, { expires: 7, secure: false, path: '/' });
+                Cookies.set('authToken', data.authToken, { expires: 7, secure: false, path: '/', domain: ${process.env.NEXT_PUBLIC_API_URL} });
                 await router.push('/account');
             }
         } catch (error) {
