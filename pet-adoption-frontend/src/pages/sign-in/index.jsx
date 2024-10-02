@@ -36,7 +36,7 @@ export default function signIn() {
                 const data = await response.json()
                 console.log(data)
 
-                Cookies.set('authToken', data.authToken, { expires: 7, secure: true });
+                Cookies.set('authToken', data.authToken, { expires: 7, secure: false, path: '/' });
                 await router.push('/account');
             }
         } catch (error) {
