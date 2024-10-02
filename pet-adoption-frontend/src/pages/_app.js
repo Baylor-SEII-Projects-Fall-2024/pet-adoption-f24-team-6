@@ -44,7 +44,6 @@ export default function App({ Component, pageProps }) {
                 console.log(data)
 
                 if (!response.ok) {
-                    // Handle error response
                     console.error('Authentication failed', response.statusText);
                 }
             } catch (error) {
@@ -55,7 +54,7 @@ export default function App({ Component, pageProps }) {
         if (token) {
             checkAuth();
         }
-    }, [token]); // Dependency array to run the effect when the token changes
+    }, [token]);
 
 
   return (
@@ -67,7 +66,6 @@ export default function App({ Component, pageProps }) {
         </Head>
 
         <PetAdoptionThemeProvider>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
 
           <Box sx={{
@@ -165,6 +163,27 @@ export default function App({ Component, pageProps }) {
           </Button>
                   </>)
               }
+
+              {(token && !data?.Authorized) && (
+                  <Button
+                      variant="outlined"
+                      size='small'
+                      disableElevation
+                      sx={{
+                          height: '35px',
+                          width: '100px',
+                          marginRight: '1.5rem',
+                          marginTop: '2rem'
+                      }}
+                      onClick={() => {
+                          Cookies.remove('authToken');
+                          router.push('/');
+                          setValue('');
+                      }}
+                  >
+                      Sign Out
+                  </Button>
+              )}
 
           </Box>
           <Component {...pageProps} />

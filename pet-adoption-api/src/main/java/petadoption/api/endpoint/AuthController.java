@@ -1,10 +1,7 @@
 package petadoption.api.endpoint;
 
-import org.hibernate.annotations.DialectOverride;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import petadoption.api.model.CheckAuthorization;
 import petadoption.api.service.JwtService;
 import petadoption.api.user.User;
 import petadoption.api.user.UserService;
@@ -42,7 +39,7 @@ public class AuthController {
     public ResponseEntity<?> loginUser(@RequestBody LoginEndpoint loginEndpoint) {
         User user = userService.findUserByEmail(loginEndpoint.getEmailAddress());
         if (user == null) {
-            throw new IllegalStateException("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid Credentials");
         }
 
         if (userService.checkPassword(loginEndpoint.getPassword(), user.getPassword())) {
@@ -66,11 +63,11 @@ public class AuthController {
 
             Map<String, Boolean> response = new HashMap<>();
             response.put("Authorized", true);
-            return ResponseEntity.ok().body(response); // JSON response with token
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             Map<String, Boolean> response = new HashMap<>();
             response.put("Authorized", false);
-            return ResponseEntity.ok().body(response); // JSON response with token
+            return ResponseEntity.ok().body(response);
         }
     }
 }
