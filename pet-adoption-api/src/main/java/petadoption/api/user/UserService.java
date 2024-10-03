@@ -2,6 +2,7 @@ package petadoption.api.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import petadoption.api.model.USER_TYPE;
 
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User registerUser(String email, String password, String userType, String firstName, String lastName) {
+    public User registerUser(String email, String password, USER_TYPE userType, String firstName, String lastName) {
         User existingUser = userRepository.findByEmailAddress(email);
         if (existingUser != null) {
             throw new IllegalStateException("Email is already registered");

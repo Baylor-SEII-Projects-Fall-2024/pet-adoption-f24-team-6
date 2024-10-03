@@ -1,9 +1,12 @@
-package petadoption.api.endpoint;
+package petadoption.api.model;
 
-public class RegisterEndpoint {
+
+import petadoption.api.user.User;
+
+public class Register {
     private String emailAddress;
     private String password;
-    private String userType;
+    private USER_TYPE userType;
     private String firstName;
     private String lastName;
 
@@ -24,11 +27,11 @@ public class RegisterEndpoint {
         this.password = password;
     }
 
-    public String getUserType() {
+    public USER_TYPE getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(USER_TYPE userType) {
         this.userType = userType;
     }
 
