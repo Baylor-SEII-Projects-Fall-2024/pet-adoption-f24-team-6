@@ -2,6 +2,7 @@ package petadoption.api.endpoint;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import petadoption.api.model.Register;
 import petadoption.api.service.JwtService;
 import petadoption.api.user.User;
 import petadoption.api.user.UserService;
@@ -23,7 +24,7 @@ public class AuthController {
     private JwtService authService;
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody RegisterEndpoint registerEndpoint) {
+    public ResponseEntity<?> registerUser(@RequestBody Register registerEndpoint) {
         userService.registerUser(
                 registerEndpoint.getEmailAddress(),
                 registerEndpoint.getPassword(),
@@ -32,7 +33,7 @@ public class AuthController {
                 registerEndpoint.getLastName()
         );
         System.out.println("inside");
-        return "User registered successfully!";
+        return ResponseEntity.ok("User Registered");
     }
 
     @PostMapping("/login")

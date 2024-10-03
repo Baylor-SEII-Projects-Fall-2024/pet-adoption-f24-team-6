@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import petadoption.api.model.USER_TYPE;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = User.TABLE_NAME)
 public class User implements UserDetails {
+
+
     public static final String TABLE_NAME = "USERS";
 
     @Id
@@ -26,7 +29,8 @@ public class User implements UserDetails {
     String password;
 
     @Column(name = "USER_TYPE")
-    String userType;
+    @Enumerated(EnumType.STRING)
+    USER_TYPE userType;
 
     @Column(name = "FIRST_NAME")
     String firstName;
