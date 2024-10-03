@@ -4,7 +4,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';
-import {BottomNavigation, BottomNavigationAction, Box, Button, CssBaseline} from '@mui/material';
+import {Avatar, BottomNavigation, BottomNavigationAction, Box, Button, CssBaseline} from '@mui/material';
 
 import { PetAdoptionThemeProvider } from '@/utils/theme';
 import { buildStore } from '@/utils/redux';
@@ -23,6 +23,7 @@ let reduxStore = buildStore(initialState);
 export default function App({ Component, pageProps }) {
 
   const [value, setValue] = React.useState('');
+  const [initials, setInitials] = React.useState('');
 
   const token = Cookies.get('authToken');
 
@@ -53,8 +54,32 @@ export default function App({ Component, pageProps }) {
 
         if (token) {
             checkAuth();
+            getInitials()
         }
     }, [token]);
+
+    const getInitials = async () => {
+        if(token){
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/getNames?authToken=${token}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                data = await response.json()
+
+                if (!response.ok) {
+                    console.error('Error', response.statusText);
+                } else {
+                    setInitials(data?.initials);
+                }
+            } catch (error) {
+                console.error("Error during getNames", error);
+            }
+        }
+    };
 
 
   return (
@@ -164,25 +189,30 @@ export default function App({ Component, pageProps }) {
                   </>)
               }
 
+
               {(token && !data?.Authorized) && (
-                  <Button
-                      variant="outlined"
-                      size='small'
-                      disableElevation
-                      sx={{
-                          height: '35px',
-                          width: '100px',
-                          marginRight: '1.5rem',
-                          marginTop: '2rem'
-                      }}
-                      onClick={() => {
-                          Cookies.remove('authToken');
-                          router.push('/');
-                          setValue('');
-                      }}
-                  >
-                      Sign Out
-                  </Button>
+                  <>
+                      <Button
+                          variant="outlined"
+                          size='small'
+                          disableElevation
+                          sx={{
+                              height: '35px',
+                              width: '100px',
+                              marginRight: '1.5rem',
+                              marginTop: '2rem'
+                          }}
+                          onClick={() => {
+                              Cookies.remove('authToken');
+                              router.push('/');
+                              setValue('');
+                          }}
+                      >
+                          Sign Out
+                      </Button>
+
+                      <Avatar sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}>{initials}</Avatar>
+                  </>
               )}
 
           </Box>

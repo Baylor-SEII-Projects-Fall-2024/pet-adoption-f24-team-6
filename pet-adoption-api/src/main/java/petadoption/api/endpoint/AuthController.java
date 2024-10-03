@@ -71,4 +71,32 @@ public class AuthController {
             return ResponseEntity.ok().body(response);
         }
     }
+
+    @GetMapping("/getNames")
+    public ResponseEntity<?> getNames(@RequestParam String authToken) {
+        try {
+            String userEmailAddress = authService.extractUsername(authToken);
+            User user = userService.findUserByEmail(userEmailAddress);
+
+            if(authService.isTokenValid(authToken, user)){
+                String firstName = authService.extractFirstName(authToken);
+                String lastName = authService.extractFirstName(authToken);
+
+                String initials = firstName.charAt(0) + "" + lastName.charAt(0);
+
+                initials = initials.toUpperCase();
+
+                Map<String, String> response = new HashMap<>();
+                response.put("firstName", firstName);
+                response.put("lastName", lastName);
+                response.put("initials", initials);
+                return ResponseEntity.ok().body(response);
+            }
+
+            return ResponseEntity.badRequest().body("User Not Valid");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }
