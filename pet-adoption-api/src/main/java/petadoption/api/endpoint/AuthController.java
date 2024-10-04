@@ -80,7 +80,7 @@ public class AuthController {
 
             if(authService.isTokenValid(authToken, user)){
                 String firstName = authService.extractFirstName(authToken);
-                String lastName = authService.extractFirstName(authToken);
+                String lastName = authService.extractLastName(authToken);
 
                 String initials = firstName.charAt(0) + "" + lastName.charAt(0);
 
