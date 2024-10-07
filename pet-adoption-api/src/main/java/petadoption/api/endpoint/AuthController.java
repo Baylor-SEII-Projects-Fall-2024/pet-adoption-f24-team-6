@@ -3,6 +3,7 @@ package petadoption.api.endpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import petadoption.api.model.Register;
+import petadoption.api.model.UpdateUser;
 import petadoption.api.service.JwtService;
 import petadoption.api.user.User;
 import petadoption.api.user.UserService;
@@ -71,6 +72,36 @@ public class AuthController {
             return ResponseEntity.ok().body(response);
         }
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestParam String email, @RequestBody UpdateUser updateUser, @RequestParam String authToken) {
+        try {
+            // Extract the username from the token
+            String currentUserEmail = authService.extractUsername(authToken);
+
+            // Find the user based on the email extracted from the token
+            User user = userService.findUserByEmail(currentUserEmail);
+
+            // Validate the token for the user
+            if (!authService.isTokenValid(authToken, user)) {
+                throw new IllegalStateException("Invalid or expired token");
+            }
+
+            // Ensure the user is allowed to update their details
+            if (!email.equals(currentUserEmail)) {
+                throw new IllegalStateException("You do not have permission to update this user's details");
+            }
+
+            // Proceed to update user details
+            User updatedUser = userService.updateUser(email, updateUser, currentUserEmail);
+
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user: " + e.getMessage());
+        }
+    }
+
+
 
     @GetMapping("/getNames")
     public ResponseEntity<?> getNames(@RequestParam String authToken) {
