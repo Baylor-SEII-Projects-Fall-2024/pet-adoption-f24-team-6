@@ -4,7 +4,16 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';
-import {Avatar, BottomNavigation, BottomNavigationAction, Box, Button, CssBaseline} from '@mui/material';
+import {
+    Avatar,
+    BottomNavigation,
+    BottomNavigationAction,
+    Box,
+    Button,
+    CssBaseline,
+    Menu,
+    MenuItem
+} from '@mui/material';
 
 import { PetAdoptionThemeProvider } from '@/utils/theme';
 import { buildStore } from '@/utils/redux';
@@ -79,6 +88,16 @@ export default function App({ Component, pageProps }) {
                 console.error("Error during getNames", error);
             }
         }
+    };
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleAvatarHover = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
 
@@ -192,26 +211,32 @@ export default function App({ Component, pageProps }) {
 
               {(token && !data?.Authorized) && (
                   <>
-                      <Button
-                          variant="outlined"
-                          size='small'
-                          disableElevation
-                          sx={{
-                              height: '35px',
-                              width: '100px',
-                              marginRight: '1.5rem',
-                              marginTop: '2rem'
+                      <Avatar
+                          sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}
+                          onMouseEnter={handleAvatarHover}
+                      >
+                          {initials}
+                      </Avatar>
+
+                      <Menu
+                          anchorEl={anchorEl}
+                          open={Boolean(anchorEl)}
+                          onClose={handleMenuClose}
+                          PaperProps={{
+                              onMouseLeave: handleMenuClose
                           }}
-                          onClick={() => {
+                      >
+                          <MenuItem onClick={() => {
+                              router.push('/users/123');
+                              handleMenuClose();
+                          }}>Account Details</MenuItem>
+
+                          <MenuItem onClick={() => {
                               Cookies.remove('authToken');
                               router.push('/');
                               setValue('');
-                          }}
-                      >
-                          Sign Out
-                      </Button>
-
-                      <Avatar sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}>{initials}</Avatar>
+                          }}>Sign Out</MenuItem>
+                      </Menu>
                   </>
               )}
 
