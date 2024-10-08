@@ -74,28 +74,26 @@ public class AuthController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestParam String email, @RequestBody UpdateUser updateUser, @RequestParam String authToken) {
+    public ResponseEntity<?> updateUser(@RequestHeader("Authorization") String authToken, @RequestBody UpdateUser updateUser) {
         try {
-            String currentUserEmail = authService.extractUsername(authToken);
+            String token = authToken.replace("Bearer ", "");
+
+            String currentUserEmail = authService.extractUsername(token);
 
             User user = userService.findUserByEmail(currentUserEmail);
 
-            if (!authService.isTokenValid(authToken, user)) {
+            if (!authService.isTokenValid(token, user)) {
                 throw new IllegalStateException("Invalid or expired token");
             }
 
-            // Ensure the user is allowed to update their details
-            if (!email.equals(currentUserEmail)) {
-                throw new IllegalStateException("You do not have permission to update this user's details");
-            }
-
-            User updatedUser = userService.updateUser(email, updateUser, currentUserEmail);
+            User updatedUser = userService.updateUser(currentUserEmail, updateUser, currentUserEmail);
 
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user: " + e.getMessage());
         }
     }
+
 
 
 

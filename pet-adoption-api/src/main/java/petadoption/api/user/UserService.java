@@ -43,12 +43,10 @@ public class UserService {
             throw new IllegalStateException("User not found");
         }
 
-        // Ensure the user can only update their own details
         if (!email.equals(currentUserEmail)) {
             throw new IllegalStateException("You do not have permission to update this user's details");
         }
 
-        // Update the user details
         if (updateUser.getFirstName() != null && !updateUser.getFirstName().isEmpty()) {
             existingUser.setFirstName(updateUser.getFirstName());
         }
@@ -56,7 +54,7 @@ public class UserService {
             existingUser.setLastName(updateUser.getLastName());
         }
         if (updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
-            existingUser.setPassword(updateUser.getPassword()); // Hash if needed
+            existingUser.setPassword(updateUser.getPassword());
         }
 
         return userRepository.save(existingUser);
