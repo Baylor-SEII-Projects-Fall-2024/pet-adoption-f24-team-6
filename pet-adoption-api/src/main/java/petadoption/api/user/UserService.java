@@ -50,15 +50,27 @@ public class UserService {
         if (updateUser.getFirstName() != null && !updateUser.getFirstName().isEmpty()) {
             existingUser.setFirstName(updateUser.getFirstName());
         }
+
         if (updateUser.getLastName() != null && !updateUser.getLastName().isEmpty()) {
             existingUser.setLastName(updateUser.getLastName());
         }
+
         if (updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
             existingUser.setPassword(updateUser.getPassword());
         }
 
+        if (updateUser.getEmailAddress() != null && !updateUser.getEmailAddress().isEmpty()) {
+            User userWithNewEmail = userRepository.findByEmailAddress(updateUser.getEmailAddress());
+            if (userWithNewEmail != null && !userWithNewEmail.getId().equals(existingUser.getId())) {
+                throw new IllegalStateException("Email address is already taken");
+            }
+
+            existingUser.setEmailAddress(updateUser.getEmailAddress());
+        }
+
         return userRepository.save(existingUser);
     }
+
 
 
     public User findUserByEmail(String email) {
