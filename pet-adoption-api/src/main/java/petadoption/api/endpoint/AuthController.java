@@ -76,13 +76,10 @@ public class AuthController {
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestParam String email, @RequestBody UpdateUser updateUser, @RequestParam String authToken) {
         try {
-            // Extract the username from the token
             String currentUserEmail = authService.extractUsername(authToken);
 
-            // Find the user based on the email extracted from the token
             User user = userService.findUserByEmail(currentUserEmail);
 
-            // Validate the token for the user
             if (!authService.isTokenValid(authToken, user)) {
                 throw new IllegalStateException("Invalid or expired token");
             }
@@ -92,7 +89,6 @@ public class AuthController {
                 throw new IllegalStateException("You do not have permission to update this user's details");
             }
 
-            // Proceed to update user details
             User updatedUser = userService.updateUser(email, updateUser, currentUserEmail);
 
             return ResponseEntity.ok(updatedUser);
