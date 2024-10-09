@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import petadoption.api.model.USER_TYPE;
 import petadoption.api.model.UpdateUser;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -79,5 +80,9 @@ public class UserService {
 
     public boolean checkPassword(String rawPassword, String encodedPassword) {
         return rawPassword.equals(encodedPassword);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }

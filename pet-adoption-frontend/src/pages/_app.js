@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }) {
 
   const [value, setValue] = React.useState('');
   const [initials, setInitials] = React.useState('');
+  const [userType, setUserType] = React.useState('');
 
   const token = Cookies.get('authToken');
 
@@ -56,6 +57,7 @@ export default function App({ Component, pageProps }) {
                 if (!response.ok) {
                     console.error('Authentication failed', response.statusText);
                 }
+                setUserType(data?.userType)
             } catch (error) {
                 console.error("Error during checkAuth", error);
             }
@@ -231,11 +233,20 @@ export default function App({ Component, pageProps }) {
                               handleMenuClose();
                           }}>Account Details</MenuItem>
 
+                          {userType === 'ADMIN' &&(
+                              <MenuItem onClick={() => {
+                                  router.push('/all-users');
+                                  setValue('');
+                              }}>All Users</MenuItem>
+                          )
+                          }
+
                           <MenuItem onClick={() => {
                               Cookies.remove('authToken');
                               router.push('/');
                               setValue('');
                           }}>Sign Out</MenuItem>
+
                       </Menu>
                   </>
               )}
