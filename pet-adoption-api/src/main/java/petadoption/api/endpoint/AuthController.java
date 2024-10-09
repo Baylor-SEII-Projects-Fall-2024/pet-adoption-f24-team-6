@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,6 +27,19 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody Register registerEndpoint) {
+        userService.registerUser(
+                registerEndpoint.getEmailAddress(),
+                registerEndpoint.getPassword(),
+                registerEndpoint.getUserType(),
+                registerEndpoint.getFirstName(),
+                registerEndpoint.getLastName()
+        );
+        System.out.println("inside");
+        return ResponseEntity.ok("User Registered");
+    }
+
+    @PostMapping("/registerAdmin")
+    public ResponseEntity<?> registerAdminUser(@RequestBody Register registerEndpoint) {
         userService.registerUser(
                 registerEndpoint.getEmailAddress(),
                 registerEndpoint.getPassword(),
@@ -63,7 +77,8 @@ public class AuthController {
 
             authService.isTokenValid(authToken, user);
 
-            Map<String, Boolean> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
+            response.put("userType", user.getUserType());
             response.put("Authorized", true);
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
@@ -90,8 +105,20 @@ public class AuthController {
             userDetails.put("emailAddress", user.getEmailAddress());
             userDetails.put("firstName", user.getFirstName());
             userDetails.put("lastName", user.getLastName());
+            userDetails.put("userType", user.getUserType().toString());
 
             return ResponseEntity.ok(userDetails);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to retrieve user: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<?> getAllUser() {
+        try {
+            List<User> allUsers = userService.getAllUsers();
+
+            return ResponseEntity.ok(allUsers);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to retrieve user: " + e.getMessage());
         }
