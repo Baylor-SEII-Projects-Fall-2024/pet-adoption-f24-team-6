@@ -52,7 +52,6 @@ export default function App({ Component, pageProps }) {
                 });
 
                 data = await response.json()
-                console.log(data)
 
                 if (!response.ok) {
                     console.error('Authentication failed', response.statusText);

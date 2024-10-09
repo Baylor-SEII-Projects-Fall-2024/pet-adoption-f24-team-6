@@ -22,7 +22,6 @@ export default function AllUsers() {
                 }
 
                 const data = await response.json();
-                console.log(data)
                 setUsers(data);
             } catch (error) {
                 console.error('Error fetching users', error);
