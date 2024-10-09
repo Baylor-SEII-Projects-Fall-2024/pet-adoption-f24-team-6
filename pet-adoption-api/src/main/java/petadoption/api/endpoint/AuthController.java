@@ -3,6 +3,7 @@ package petadoption.api.endpoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import petadoption.api.model.Register;
+import petadoption.api.model.UpdateUser;
 import petadoption.api.service.JwtService;
 import petadoption.api.user.User;
 import petadoption.api.user.UserService;
@@ -71,6 +72,54 @@ public class AuthController {
             return ResponseEntity.ok().body(response);
         }
     }
+
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUser(@RequestHeader("Authorization") String authToken) {
+        try {
+            String token = authToken.replace("Bearer ", "");
+
+            String currentUserEmail = authService.extractUsername(token);
+
+            User user = userService.findUserByEmail(currentUserEmail);
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            Map<String, String> userDetails = new HashMap<>();
+            userDetails.put("emailAddress", user.getEmailAddress());
+            userDetails.put("firstName", user.getFirstName());
+            userDetails.put("lastName", user.getLastName());
+
+            return ResponseEntity.ok(userDetails);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to retrieve user: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestHeader("Authorization") String authToken, @RequestBody UpdateUser updateUser) {
+        try {
+            String token = authToken.replace("Bearer ", "");
+
+            String currentUserEmail = authService.extractUsername(token);
+
+            User user = userService.findUserByEmail(currentUserEmail);
+
+            if (!authService.isTokenValid(token, user)) {
+                throw new IllegalStateException("Invalid or expired token");
+            }
+
+            User updatedUser = userService.updateUser(currentUserEmail, updateUser, currentUserEmail);
+
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user: " + e.getMessage());
+        }
+    }
+
+
+
 
     @GetMapping("/getNames")
     public ResponseEntity<?> getNames(@RequestParam String authToken) {
