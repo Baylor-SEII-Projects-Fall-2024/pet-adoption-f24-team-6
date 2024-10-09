@@ -227,7 +227,7 @@ export default function App({ Component, pageProps }) {
                           }}
                       >
                           <MenuItem onClick={() => {
-                              router.push('/users/123');
+                              router.push('/account-details');
                               handleMenuClose();
                           }}>Account Details</MenuItem>
 
