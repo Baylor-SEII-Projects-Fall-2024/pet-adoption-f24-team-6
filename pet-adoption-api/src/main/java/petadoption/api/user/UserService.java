@@ -3,6 +3,7 @@ package petadoption.api.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petadoption.api.model.USER_TYPE;
+import petadoption.api.model.UpdateUser;
 
 import java.util.Optional;
 
@@ -35,6 +36,42 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public User updateUser(String email, UpdateUser updateUser, String currentUserEmail) {
+        User existingUser = userRepository.findByEmailAddress(email);
+        if (existingUser == null) {
+            throw new IllegalStateException("User not found");
+        }
+
+        if (!email.equals(currentUserEmail)) {
+            throw new IllegalStateException("You do not have permission to update this user's details");
+        }
+
+        if (updateUser.getFirstName() != null && !updateUser.getFirstName().isEmpty()) {
+            existingUser.setFirstName(updateUser.getFirstName());
+        }
+
+        if (updateUser.getLastName() != null && !updateUser.getLastName().isEmpty()) {
+            existingUser.setLastName(updateUser.getLastName());
+        }
+
+        if (updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
+            existingUser.setPassword(updateUser.getPassword());
+        }
+
+        if (updateUser.getEmailAddress() != null && !updateUser.getEmailAddress().isEmpty()) {
+            User userWithNewEmail = userRepository.findByEmailAddress(updateUser.getEmailAddress());
+            if (userWithNewEmail != null && !userWithNewEmail.getId().equals(existingUser.getId())) {
+                throw new IllegalStateException("Email address is already taken");
+            }
+
+            existingUser.setEmailAddress(updateUser.getEmailAddress());
+        }
+
+        return userRepository.save(existingUser);
+    }
+
+
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmailAddress(email);
