@@ -73,6 +73,30 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUser(@RequestHeader("Authorization") String authToken) {
+        try {
+            String token = authToken.replace("Bearer ", "");
+
+            String currentUserEmail = authService.extractUsername(token);
+
+            User user = userService.findUserByEmail(currentUserEmail);
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            Map<String, String> userDetails = new HashMap<>();
+            userDetails.put("emailAddress", user.getEmailAddress());
+            userDetails.put("firstName", user.getFirstName());
+            userDetails.put("lastName", user.getLastName());
+
+            return ResponseEntity.ok(userDetails);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to retrieve user: " + e.getMessage());
+        }
+    }
+
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestHeader("Authorization") String authToken, @RequestBody UpdateUser updateUser) {
         try {
