@@ -1,4 +1,7 @@
 package petadoption.api.adoptioncenter;
 
-public interface AdoptionCenterRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AdoptionCenterRepository extends JpaRepository<AdoptionCenter, Long> {
+
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import petadoption.api.adoptioncenter.AdoptionCenter;
 import petadoption.api.model.USER_TYPE;
 
 import java.util.Collection;
@@ -50,4 +51,8 @@ public class Pet {
 
     @Column(name = "TRAINING_LEVEL")
     Integer trainingLevel;
+
+    @ManyToOne
+    @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")
+    private AdoptionCenter adoptionCenter;
 }
