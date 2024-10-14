@@ -29,7 +29,8 @@ public class PetController {
                     registerPet.getPhoto(),
                     registerPet.getColor(),
                     registerPet.getFriendliness(),
-                    registerPet.getTrainingLevel()
+                    registerPet.getTrainingLevel(),
+                    registerPet.getCenterId() // Pass the centerId to the service
             );
             return ResponseEntity.ok(pet);
         } catch (Exception e) {

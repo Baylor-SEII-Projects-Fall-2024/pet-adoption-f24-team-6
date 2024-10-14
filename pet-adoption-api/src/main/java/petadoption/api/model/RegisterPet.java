@@ -13,6 +13,7 @@ public class RegisterPet {
     private String color;
     private Integer friendliness;
     private Integer trainingLevel;
+    private Long centerId;
 
     // Getters and setters
     public String getName() {
@@ -93,5 +94,13 @@ public class RegisterPet {
 
     public void setTrainingLevel(Integer trainingLevel) {
         this.trainingLevel = trainingLevel;
+    }
+
+    public Long getCenterId() {
+        return centerId;
+    }
+
+    public void setCenterId(Long centerId) {
+        this.centerId = centerId;
     }
 }
