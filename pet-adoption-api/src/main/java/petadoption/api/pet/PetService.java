@@ -112,4 +112,8 @@ public class PetService {
         }
         petRepository.delete(existingPetOptional.get());
     }
+
+    public List<Pet> getPetsByCenterId(Long centerId) {
+        return petRepository.findByAdoptionCenter_Id(centerId);
+    }
 }

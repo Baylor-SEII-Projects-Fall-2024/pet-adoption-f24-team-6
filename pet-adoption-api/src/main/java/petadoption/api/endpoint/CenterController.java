@@ -1,9 +1,13 @@
-package petadoption.api.adoptioncenter;
+package petadoption.api.endpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import petadoption.api.adoptioncenter.AdoptionCenter;
+import petadoption.api.adoptioncenter.AdoptionCenterService;
+import petadoption.api.pet.Pet;
+import petadoption.api.pet.PetService;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +19,9 @@ public class CenterController {
 
     @Autowired
     private AdoptionCenterService adoptionCenterService;
+
+    @Autowired
+    private PetService petService;
 
     @GetMapping("/all")
     public ResponseEntity<List<AdoptionCenter>> getAllCenters() {
@@ -64,6 +71,16 @@ public class CenterController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Failed to delete adoption center: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{centerId}/pets")
+    public ResponseEntity<?> getPetsByCenter(@PathVariable Long centerId) {
+        List<Pet> pets = petService.getPetsByCenterId(centerId);
+        if (pets.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(pets);
         }
     }
 }
