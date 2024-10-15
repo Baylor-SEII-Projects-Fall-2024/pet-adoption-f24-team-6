@@ -40,8 +40,9 @@ public class Pet {
     @Column(name = "GENDER")
     @Enumerated(EnumType.STRING)
     GENDER_TYPE gender;
-    //link to photo maybe?
-    @Column(name = "PHOTO")
+
+    @Column(name = "PHOTO", columnDefinition = "TEXT")
+    @Lob
     String photo;
 
     @Column(name = "COLOR")
