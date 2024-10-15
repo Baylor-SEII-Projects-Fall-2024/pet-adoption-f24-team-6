@@ -15,19 +15,55 @@ export default function RegisterPet() {
         breed: '',
         size: '',
         gender: '',
-        photo: '',
         color: '',
         friendliness: 5,
         trainingLevel: 10,
-        centerId: '',
+        centerId: 1,
     });
 
     const colors = ['Black', 'White', 'Brown', 'Golden', 'Mixed'];
     const sizes = ['Puppy', 'Adult', 'Senior'];
     const speciesList = ['Dog', 'Cat', 'Bird', 'Rabbit'];
 
-    const [selectedFile, setSelectedFile] = useState(null); // Track the selected file
-    const [isUploading, setIsUploading] = useState(false); // Upload status
+    const [file, setFile] = useState(null);
+    const [photoUrl, setPhotoUrl] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+        setError(null); // Reset error state
+    };
+
+    const uploadFile = async () => {
+        if (!file) {
+            setError('Please select a file to upload.');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pic/upload`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            setSuccess(response.data);
+
+            setPhotoUrl(response)
+            console.log(photoUrl)
+        } catch (err) {
+            setError('Failed to upload the file.');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,60 +74,24 @@ export default function RegisterPet() {
         setPetData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]); // Store the selected file
-    };
-
-    const uploadImageToGCS = async () => {
-        if (!selectedFile) {
-            alert('Please select a file to upload');
-            return null;
-        }
-
-        try {
-            setIsUploading(true);
-
-            // Step 1: Get signed URL from the backend
-            const { data } = await axios.get('/generate-signed-url', {
-                params: { filename: selectedFile.name },
-            });
-
-            // Step 2: Upload the image to GCS using the signed URL
-            await axios.put(data.url, selectedFile, {
-                headers: {
-                    'Content-Type': selectedFile.type, // Set content type correctly
-                },
-            });
-
-            // Step 3: Return the public URL for the uploaded file
-            const publicUrl = `https://storage.googleapis.com/your-bucket-name/${selectedFile.name}`;
-            setIsUploading(false);
-            return publicUrl;
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            setIsUploading(false);
-            return null;
-        }
-    };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Step 4: Upload the image and get the URL
-        const photoUrl = await uploadImageToGCS();
-        if (!photoUrl) return; // Stop if the upload failed
+        await uploadFile();
+
 
         try {
             // Step 5: Send the pet data with the image URL to the backend
-            const response = await axios.post('/api/register-pet', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/register`, {
                 ...petData,
-                photo: photoUrl, // Include the uploaded image URL
+                photo: photoUrl?.data?.toString(),
             });
 
             console.log('Pet registered successfully:', response.data);
 
-            // Reset form after successful registration
+            Reset form after successful registration
             setPetData({
                 name: '',
                 age: '',
@@ -99,13 +99,13 @@ export default function RegisterPet() {
                 breed: '',
                 size: '',
                 gender: '',
-                photo: '',
                 color: '',
                 friendliness: 5,
                 trainingLevel: 10,
-                centerId: '',
+                centerId: 1,
             });
-            setSelectedFile(null);
+            setFile(null);
+            setPhotoUrl(null)
         } catch (error) {
             console.error('Error registering pet:', error);
         }
@@ -222,7 +222,7 @@ export default function RegisterPet() {
                     <Box margin="normal">
                         <Typography gutterBottom>Upload Photo</Typography>
                         <input type="file" accept="image/*" onChange={handleFileChange} />
-                        {isUploading && <Typography>Uploading...</Typography>}
+                        {loading && <Typography>Uploading...</Typography>}
                     </Box>
                     <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
                         Register Pet
