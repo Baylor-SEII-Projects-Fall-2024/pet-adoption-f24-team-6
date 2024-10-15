@@ -11,3 +11,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: file:src/main/resources/advance-sonar-434701-g4-174f26b320fc.json
+        bucket: pet-adoption-images-sw2
+
