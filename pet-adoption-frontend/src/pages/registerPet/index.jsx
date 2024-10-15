@@ -90,8 +90,7 @@ export default function RegisterPet() {
             });
 
             console.log('Pet registered successfully:', response.data);
-
-            Reset form after successful registration
+            
             setPetData({
                 name: '',
                 age: '',
