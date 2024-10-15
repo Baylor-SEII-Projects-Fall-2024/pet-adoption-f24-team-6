@@ -8,7 +8,7 @@ public class RegisterPet {
     private String species;
     private String breed;
     private String size;
-    private String gender;
+    private GENDER_TYPE gender;
     private String photo;
     private String color;
     private Integer friendliness;
@@ -56,11 +56,11 @@ public class RegisterPet {
         this.size = size;
     }
 
-    public String getGender() {
+    public GENDER_TYPE getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(GENDER_TYPE gender) {
         this.gender = gender;
     }
 

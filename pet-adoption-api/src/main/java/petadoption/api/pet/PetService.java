@@ -3,6 +3,7 @@ package petadoption.api.pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petadoption.api.adoptioncenter.*;
+import petadoption.api.model.GENDER_TYPE;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class PetService {
         return petRepository.save(pet);
     }
 
-    public Pet registerPet(String name, Integer age, String species, String breed, String size, String gender, String photo, String color, Integer friendliness, Integer trainingLevel, Long centerId) {
+    public Pet registerPet(String name, Integer age, String species, String breed, String size, GENDER_TYPE gender, String photo, String color, Integer friendliness, Integer trainingLevel, Long centerId) {
         Pet pet = new Pet();
         pet.setName(name);
         pet.setAge(age);
@@ -37,11 +38,13 @@ public class PetService {
         pet.setFriendliness(friendliness);
         pet.setTrainingLevel(trainingLevel);
 
-        Optional<AdoptionCenter> adoptionCenterOptional = adoptionCenterRepository.findById(centerId);
-        if (adoptionCenterOptional.isPresent()) {
-            pet.setAdoptionCenter(adoptionCenterOptional.get()); // Link the pet to the adoption center
-        } else {
-            throw new IllegalStateException("Adoption Center not found with id: " + centerId);
+        if (centerId != null) {
+            Optional<AdoptionCenter> adoptionCenterOptional = adoptionCenterRepository.findById(centerId);
+            if (adoptionCenterOptional.isPresent()) {
+                pet.setAdoptionCenter(adoptionCenterOptional.get());
+            } else {
+                throw new IllegalStateException("Adoption Center not found with id: " + centerId);
+            }
         }
 
         return petRepository.save(pet);
@@ -75,7 +78,7 @@ public class PetService {
             existingPet.setSize(updatedPet.getSize());
         }
 
-        if (updatedPet.getGender() != null && !updatedPet.getGender().isEmpty()) {
+        if (updatedPet.getGender() != null) {
             existingPet.setGender(updatedPet.getGender());
         }
 

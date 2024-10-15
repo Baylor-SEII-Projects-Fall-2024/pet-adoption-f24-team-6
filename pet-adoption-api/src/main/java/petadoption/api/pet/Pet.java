@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import petadoption.api.adoptioncenter.AdoptionCenter;
+import petadoption.api.model.GENDER_TYPE;
 import petadoption.api.model.USER_TYPE;
 
 import java.util.Collection;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = Pet.TABLE_NAME)
 public class Pet {
-    public static final String TABLE_NAME = "USERS";
+    public static final String TABLE_NAME = "PETS";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,7 @@ public class Pet {
 
     @Column(name = "GENDER")
     @Enumerated(EnumType.STRING)
-    String gender;
+    GENDER_TYPE gender;
     //link to photo maybe?
     @Column(name = "PHOTO")
     String photo;
