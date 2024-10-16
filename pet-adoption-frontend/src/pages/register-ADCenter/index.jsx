@@ -13,12 +13,14 @@ export default function RegisterAsAdoptionCenter() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    address: address,
-                    password: password,
                     name: centerName,
+                    address: address,
+                    ownerFirstName: firstName,
+                    ownerLastName: lastName,
+                    ownerAddress: emailAddress,
+                    password: password,
                     contactInfo: contactInfo,
                     description: description
-
                 }),
             });
 
@@ -37,12 +39,15 @@ export default function RegisterAsAdoptionCenter() {
     };
 
     const [centerName, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [emailAddress, setOwnerAddress] = useState('');
     const [address, setAddress] = useState('');
     const [password, setPassword] = useState('');
     const [contactInfo, setContactInfo] = useState('');
     const [description, setDescription] = useState('');
     const [success, setSuccess] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(''); // State for error messages
+    const [errorMessage, setErrorMessage] = useState('');
 
     return (
         <>
@@ -50,11 +55,10 @@ export default function RegisterAsAdoptionCenter() {
                 <title>Register | Furever Homes</title>
             </Head>
 
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
-                <div style={{ textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+                <div style={{ textAlign: 'center', maxWidth: '400px', width: '100%' }}>
                     <h1>Register</h1>
-
-                    <h2 style={{marginTop: '20px', marginBottom: '20px'}}>Registering as an Adoption Center</h2>
+                    <h2 style={{ marginTop: '20px', marginBottom: '20px' }}>Registering as an Adoption Center</h2>
 
                     {success && (
                         <Alert severity="success" onClose={() => setSuccess(false)} style={{ marginBottom: '1rem' }}>
@@ -69,32 +73,53 @@ export default function RegisterAsAdoptionCenter() {
                     )}
 
                     <form onSubmit={handleSubmit}
-                          style={{display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto'}}>
+                          style={{ display: 'flex', flexDirection: 'column', width: '100%', margin: '0 auto' }}>
                         <input
                             type="text"
                             placeholder="Adoption Center Name"
-                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
+                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
                             required
                             onChange={(event) => setName(event.target.value)}
                         />
                         <input
                             type="text"
                             placeholder="Address"
-                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
+                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
                             required
                             onChange={(event) => setAddress(event.target.value)}
                         />
                         <input
                             type="text"
-                            placeholder="Contact Info(Phone or Email)"
-                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
+                            placeholder="Owner First Name"
+                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
+                            required
+                            onChange={(event) => setFirstName(event.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Owner Last Name"
+                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
+                            required
+                            onChange={(event) => setLastName(event.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Owner Email Address"
+                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
+                            required
+                            onChange={(event) => setOwnerAddress(event.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="Adoption Center Contact Info (Phone or Email)"
+                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
                             required
                             onChange={(event) => setContactInfo(event.target.value)}
                         />
                         <input
                             type="password"
                             placeholder="Password"
-                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
+                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
                             required
                             onChange={(event) => setPassword(event.target.value)}
                         />
@@ -106,11 +131,11 @@ export default function RegisterAsAdoptionCenter() {
                                 borderRadius: '5px',
                                 border: '1px solid #ccc',
                                 width: '100%',
-                                height: '100px', // Adjust this to make the textarea taller
-                                resize: 'vertical' // Allows the user to resize the textarea vertically
+                                height: '100px',
+                                resize: 'vertical'
                             }}
                             required
-                            onChange={(event) => setDescription(event.target.value)} // Assuming you're setting description state here
+                            onChange={(event) => setDescription(event.target.value)}
                         />
 
                         <button
