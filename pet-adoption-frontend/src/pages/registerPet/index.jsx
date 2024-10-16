@@ -90,18 +90,18 @@ export default function RegisterPet() {
 
             console.log('Pet registered successfully:', response.data);
 
-            // setPetData({
-            //     name: '',
-            //     age: '',
-            //     species: '',
-            //     breed: '',
-            //     size: '',
-            //     gender: '',
-            //     color: '',
-            //     friendliness: 5,
-            //     trainingLevel: 10,
-            //     centerId: 1,
-            // });
+            setPetData({
+                name: '',
+                age: '',
+                species: '',
+                breed: '',
+                size: '',
+                gender: '',
+                color: '',
+                friendliness: 5,
+                trainingLevel: 10,
+                centerId: 1,
+            });
             setFile(null);
             setPhotoUrl(null)
         } catch (error) {
