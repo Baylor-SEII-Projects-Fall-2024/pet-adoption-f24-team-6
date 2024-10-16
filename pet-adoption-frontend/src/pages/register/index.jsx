@@ -50,13 +50,13 @@ export default function register() {
                     <h1>Register</h1>
 
                     {success && (
-                        <Alert severity="success" onClose={() => setSuccess(false)} style={{ marginBottom: '1rem' }}>
+                        <Alert severity="success" onClose={() => setSuccess(false)} style={{marginBottom: '1rem'}}>
                             Registration Successful!
                         </Alert>
                     )}
 
                     {errorMessage && (
-                        <Alert severity="error" onClose={() => setErrorMessage('')} style={{ marginBottom: '1rem' }}>
+                        <Alert severity="error" onClose={() => setErrorMessage('')} style={{marginBottom: '1rem'}}>
                             {errorMessage}
                         </Alert>
                     )}
@@ -108,6 +108,22 @@ export default function register() {
 
                             Register
                         </button>
+
+                        <button
+                            onClick={() => window.location.href = '/register-ADCenter'}
+                            style={{
+                                padding: '10px',
+                                margin: '10px 0',
+                                backgroundColor: 'cornflowerblue',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '5px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Registering as an Adoption Center?
+                        </button>
+
                     </form>
 
                 </div>
