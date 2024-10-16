@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -25,14 +26,20 @@ public class GcsSignedUrlController {
 
     public GcsSignedUrlController(
             @Value("${spring.cloud.gcp.storage.bucket}") String bucketName) throws IOException {
-        this.storage =  StorageOptions.newBuilder()
-                .setCredentials(
-                        com.google.auth.oauth2.ServiceAccountCredentials.fromStream(
-                                new FileInputStream(getClass().getClassLoader().getResource("advance-sonar-434701-g4-174f26b320fc.json").getFile())
-                        )
-                )
-                .build()
-                .getService();
+        try (InputStream serviceAccountStream = getClass().getClassLoader().getResourceAsStream("advance-sonar-434701-g4-174f26b320fc.json")) {
+            if (serviceAccountStream == null) {
+                throw new FileNotFoundException("Service account JSON file not found in resources.");
+            }
+
+            this.storage = StorageOptions.newBuilder()
+                    .setCredentials(
+                            com.google.auth.oauth2.ServiceAccountCredentials.fromStream(serviceAccountStream)
+                    )
+                    .build()
+                    .getService();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to initialize Google Cloud Storage", e);
+        }
         this.bucketName = bucketName;
     }
 
