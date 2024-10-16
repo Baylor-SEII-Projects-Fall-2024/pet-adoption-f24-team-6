@@ -6,8 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petadoption.api.adoptioncenter.AdoptionCenter;
 import petadoption.api.adoptioncenter.AdoptionCenterService;
+import petadoption.api.model.USER_TYPE;
 import petadoption.api.pet.Pet;
 import petadoption.api.pet.PetService;
+import petadoption.api.user.User;
+import petadoption.api.user.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +25,9 @@ public class CenterController {
 
     @Autowired
     private PetService petService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/all")
     public ResponseEntity<List<AdoptionCenter>> getAllCenters() {
@@ -42,13 +48,27 @@ public class CenterController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCenter(@RequestBody AdoptionCenter center) {
+    public ResponseEntity<?> createCenter(@RequestBody CreateAdoptionCenterInput input) {
         try {
-            AdoptionCenter createdCenter = adoptionCenterService.saveAdoptionCenter(center);
+            AdoptionCenter newAdoptionCenter = new AdoptionCenter();
+            newAdoptionCenter.setAddress(input.getOwnerAddress());
+            newAdoptionCenter.setDescription(input.getDescription());
+            newAdoptionCenter.setContactInfo(input.getContactInfo());
+            newAdoptionCenter.setName(input.getName());
+            AdoptionCenter createdCenter = adoptionCenterService.saveAdoptionCenter(newAdoptionCenter);
+
+            User newUser = new User();
+            newUser.setUserType(USER_TYPE.ADOPTION_CENTER);
+            newUser.setEmailAddress(input.getOwnerAddress());
+            newUser.setFirstName(input.getOwnerFirstName());
+            newUser.setLastName(input.getOwnerLastName());
+            newUser.setPassword(input.getPassword());
+            userService.saveUser(newUser);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCenter);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Failed to create adoption center: " + e.getMessage());
+                    .body("Failed to create adoption input: " + e.getMessage());
         }
     }
 
