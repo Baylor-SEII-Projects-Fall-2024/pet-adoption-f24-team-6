@@ -84,7 +84,30 @@ export default function browse() {
                                     <div key={pet.name} style={styles.box}>
 
                                         <div style={styles.imageContainer}>
-                                            {pet.name} {/* display pet name in image container */}
+                                            <img
+                                                src={pet.photo}
+                                                alt={pet.name}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover',
+                                                    borderRadius: '8px',
+                                                }}
+                                            />
+                                            <span
+                                                style={{
+                                                    position: 'absolute',
+                                                    bottom: '10px',
+                                                    left: '10px',
+                                                    color: 'white',
+                                                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                                    padding: '5px 10px',
+                                                    borderRadius: '5px',
+                                                    fontSize: '1rem'
+                                                }}
+                                            >
+        {pet.name}
+    </span>
                                         </div>
 
                                         <div style={styles.textContainer}>
