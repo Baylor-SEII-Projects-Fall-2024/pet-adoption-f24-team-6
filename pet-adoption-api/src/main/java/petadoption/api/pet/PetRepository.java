@@ -21,4 +21,6 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
     List<Pet> findByFriendlinessGreaterThanEqual(Integer friendliness);
 
     List<Pet> findByTrainingLevelGreaterThanEqual(Integer trainingLevel);
+
+    List<Pet> findByAdoptionCenter_Id(Long centerId);
 }
