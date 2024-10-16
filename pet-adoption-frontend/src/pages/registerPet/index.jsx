@@ -1,4 +1,3 @@
-// Import necessary Material-UI components
 import React, { useState } from 'react';
 import {
     TextField, Button, FormControl, InputLabel, Select, MenuItem,
@@ -90,7 +89,7 @@ export default function RegisterPet() {
             });
 
             console.log('Pet registered successfully:', response.data);
-            
+
             setPetData({
                 name: '',
                 age: '',

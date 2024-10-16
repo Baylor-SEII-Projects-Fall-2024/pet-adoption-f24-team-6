@@ -43,7 +43,6 @@ public class GcsSignedUrlController {
         return signedUrl.toString();
     }
 
-    // Endpoint to upload a file
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFile(@RequestParam("file") MultipartFile file) {
         try {
@@ -51,10 +50,9 @@ public class GcsSignedUrlController {
             String filename = file.getOriginalFilename();
 
             BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, filename)
-                    .setContentType(file.getContentType()) // Set the correct content type
+                    .setContentType(file.getContentType())
                     .build();
 
-            // Upload the file to GCS
             storage.create(blobInfo, file.getBytes());
 
 
@@ -64,7 +62,6 @@ public class GcsSignedUrlController {
                     SignUrlOption.withV4Signature()
             );
 
-            // Return a success message or the URL of the uploaded file
             return signedUrl.toString();
         } catch (Exception e) {
             e.printStackTrace();
