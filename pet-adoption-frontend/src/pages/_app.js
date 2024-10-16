@@ -240,6 +240,14 @@ export default function App({ Component, pageProps }) {
                           )
                           }
 
+                          {userType === 'ADOPTION_CENTER' &&(
+                              <MenuItem onClick={() => {
+                                  router.push('/registerPet');
+                                  setValue('');
+                              }}>Register Pet</MenuItem>
+                          )
+                          }
+
                           <MenuItem onClick={() => {
                               Cookies.remove('authToken');
                               router.push('/');

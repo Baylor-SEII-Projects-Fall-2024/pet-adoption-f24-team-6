@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import {
     TextField, Button, FormControl, InputLabel, Select, MenuItem,
     RadioGroup, FormControlLabel, Radio, Slider, Box, Typography,
-    FormLabel, Grid, Paper
+    FormLabel, Grid, Paper, Dialog, DialogTitle, DialogContent,
+    DialogContentText, DialogActions
 } from '@mui/material';
 import axios from 'axios';
+import {router} from "next/client";
 
 export default function RegisterPet() {
     const [petData, setPetData] = useState({
@@ -25,10 +27,10 @@ export default function RegisterPet() {
     const speciesList = ['Dog', 'Cat', 'Bird', 'Rabbit'];
 
     const [file, setFile] = useState(null);
-    const [photoUrl, setPhotoUrl] = useState(null);
+    let photoUrl = null;
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState(false); // Success dialog state
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -52,10 +54,10 @@ export default function RegisterPet() {
                 },
             });
 
-            setSuccess(response.data);
-
-            setPhotoUrl(response)
-            console.log(photoUrl)
+            if (response.data) {
+                photoUrl = response.data;
+                console.log('Uploaded photo URL:', response.data);
+            }
         } catch (err) {
             setError('Failed to upload the file.');
             console.error(err);
@@ -73,23 +75,20 @@ export default function RegisterPet() {
         setPetData((prev) => ({ ...prev, [name]: value }));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Step 4: Upload the image and get the URL
-        const testing = await uploadFile();
-
+        await uploadFile(); // Ensure file upload completes
 
         try {
-            // Step 5: Send the pet data with the image URL to the backend
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/register`, {
                 ...petData,
-                photo: photoUrl.toString(),
+                photo: photoUrl,
             });
 
             console.log('Pet registered successfully:', response.data);
 
+            // Reset form and show success dialog
             setPetData({
                 name: '',
                 age: '',
@@ -103,11 +102,16 @@ export default function RegisterPet() {
                 centerId: 1,
             });
             setFile(null);
-            setPhotoUrl(null);
-            setSuccess()
+            photoUrl = null;
+            setSuccess(true); // Open success dialog
         } catch (error) {
             console.error('Error registering pet:', error);
         }
+    };
+
+    const handleCloseSuccessDialog = () => {
+        setSuccess(false); // Close the dialog
+        router.push('/');
     };
 
     return (
@@ -228,6 +232,21 @@ export default function RegisterPet() {
                     </Button>
                 </form>
             </Paper>
+
+            {/* Success Dialog */}
+            <Dialog open={success} onClose={handleCloseSuccessDialog}>
+                <DialogTitle>Registration Successful</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        The pet has been successfully registered!
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseSuccessDialog} autoFocus>
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Grid>
     );
 }
