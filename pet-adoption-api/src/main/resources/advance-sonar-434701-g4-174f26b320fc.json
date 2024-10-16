@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "advance-sonar-434701-g4",
+  "private_key_id": "174f26b320fcb2e7c937e6579c827c1a61336c14",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDifbQ0eRejH8cZ\nRVq3R38J76YCaeL+jeiPdxUXj7VJqnBhR59Vn8a8pnuw75P99W0AufQisJV1P/xV\nzMQj2Ms7H9lLMxGv3V+NK3GG7UbXb13yGrOXupnFDalseRvHJipSEAZwt+nAJhJq\nPCz4Z4YttDRFEMTonhJi5mwCC3Pr0ZXaZrBDB000zJ9/ODbIj5joywYNzigg07eM\ns8Cv12Skson5QUXbTR1isZavauFQf8pXZ7XPTKxJEru8EiiLBYEkqlUXypXV6KKI\nsRX1QTWA+2i2f4wmvv+NzTW1dDyqwzgroSibEb0868DuYT1UdmQZXMK99rZ+b0zp\n9kNDGv5hAgMBAAECggEAFkLntu6eAaUKczPrZi9LT8UzynHw4zc8f/li49V2qp5r\nfExHX2mcZYdxieMKZ0A7rgIY+l3j2snmueIt9x4EX7PSLj9/QgterGf0OSBSQbOL\nBtRUCZpIKeOdXvGKZukb6MP1dhfFjGLRlYqDmwjF2fEn4A/1Yq3CveDLBeptQuS/\n129KVKQOUVsmn4czPALmhwvWkJFdrUE92jh0unYJcVrq4Xlh1boOcCb1VGVSmcvr\nfKVKGlDqfTBpPwZKOon3k8VqCozDepMMqQrFGrsB311kTqiaIjDIM/cvY6dCi3ch\nSYFtOtpbbxyU4Hqhr+Xl58idth+RCxqWGcySHRNTyQKBgQD63TsxoIRHX0GAkjO1\n8kTICI4XWcYiPvJCh3gww7JfyN2fBWP7QhJ5tzfv82YLiqb/XCKqYFm9ZTP0VWzE\n9eOvNOvVjaPEsORlklbvselxBoOk5vaF5HnfU1wWJEZOA/UVmIp5+1lnfiE1BaDZ\nMJx4b2JMu1YVCMzhl3uVLKWX1QKBgQDnILvoWiAvcqVfFSoRtY8homeDC4vwFDKb\nSzTjNKnryR5fPiwMYK4aoU4ncheX8u8Ed1WMNs/tjfiiQ6vgdasV2LvSs6uTMVr8\neg+WS+w4gtfLmSGz5rUGSV6b8nFY37B6Llpu8hUfLisZ05aiojVgGgfp+AFWQqPS\naxKodVh+XQKBgQC7/f3V+swmECQuDWHi/2K75G1W4lewYit537saEA0j6orqGEgM\nij7+J2cr0eKu04DB7HGt6/ZUD/sXJs0T7JBrQ+VXa4VGaKk/1KKBjXm60X7lnI8x\nVz5dNULU9OoanKyVOnLLZqhg/gw0h7s6B0u6lP29MsYXjTi79aEO8R5G4QKBgGgR\nmCpt8lIK+CVQ/UlOC+2kF6Gs4Eywe3zrJxwqyVvuieturhzAp4Q8H1mpiLAVZcQI\nC4//2i3noA1IFSsTMH68wQ2Fcvrq3UITn9MXynxDhfEZuVAs0FPNU3k6eAkBZ5AM\nMRIFlLceba/KUuhVy1zDO88AqXFyvhrvtU3+0GLNAoGAee36sU4iZQAmQMK58Hx0\nM1jW3k4yFhtHPbKdo+ChpH5VAol8cx1tF1ItNo+kLTdoCsdt9tX9SptejGefsgLZ\nqM55qlTx10C8nkM0LGm/EdPWser+qmVYVn279HMK4hm35pWob90TORdt4VHBKP7h\ncpCxjcsKHZ+60VA93LNBnKk=\n-----END PRIVATE KEY-----\n",
+  "client_email": "gcs-upload-service@advance-sonar-434701-g4.iam.gserviceaccount.com",
+  "client_id": "115940098614540615435",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gcs-upload-service%40advance-sonar-434701-g4.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

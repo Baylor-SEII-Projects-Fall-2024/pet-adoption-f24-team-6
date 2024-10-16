@@ -18,13 +18,10 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://${PUBLIC_IP:localhost}:3000")
 public class AuthController {
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private JwtService authService;
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody Register registerEndpoint) {
         userService.registerUser(
@@ -144,9 +141,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user: " + e.getMessage());
         }
     }
-
-
-
 
     @GetMapping("/getNames")
     public ResponseEntity<?> getNames(@RequestParam String authToken) {
