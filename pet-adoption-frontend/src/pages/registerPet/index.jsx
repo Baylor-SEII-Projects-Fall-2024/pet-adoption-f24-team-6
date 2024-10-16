@@ -78,30 +78,30 @@ export default function RegisterPet() {
         e.preventDefault();
 
         // Step 4: Upload the image and get the URL
-        await uploadFile();
+        const testing = await uploadFile();
 
 
         try {
             // Step 5: Send the pet data with the image URL to the backend
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/register`, {
                 ...petData,
-                photo: photoUrl?.data?.toString(),
+                photo: photoUrl.toString(),
             });
 
             console.log('Pet registered successfully:', response.data);
 
-            setPetData({
-                name: '',
-                age: '',
-                species: '',
-                breed: '',
-                size: '',
-                gender: '',
-                color: '',
-                friendliness: 5,
-                trainingLevel: 10,
-                centerId: 1,
-            });
+            // setPetData({
+            //     name: '',
+            //     age: '',
+            //     species: '',
+            //     breed: '',
+            //     size: '',
+            //     gender: '',
+            //     color: '',
+            //     friendliness: 5,
+            //     trainingLevel: 10,
+            //     centerId: 1,
+            // });
             setFile(null);
             setPhotoUrl(null)
         } catch (error) {
