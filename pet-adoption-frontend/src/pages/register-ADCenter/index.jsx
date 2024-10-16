@@ -13,9 +13,8 @@ export default function RegisterAsAdoptionCenter() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    emailAddress: address,
+                    address: address,
                     password: password,
-                    userType: 'ADOPTION_CENTER',
                     name: centerName,
                     contactInfo: contactInfo,
                     description: description
