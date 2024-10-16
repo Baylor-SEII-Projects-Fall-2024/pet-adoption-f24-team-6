@@ -52,8 +52,8 @@ export default function RegisterAsAdoptionCenter() {
                 <title>Register | Furever Homes</title>
             </Head>
 
-            <Container maxWidth="sm" sx={{ display: 'flex', height: '90vh', alignItems: 'center', justifyContent: 'center', marginBottom: '10rem' }}>
-                <Paper elevation={3} sx={{ padding: '2rem', width: '100%', textAlign: 'center', marginTop: '10rem' }}>
+            <Container maxWidth="sm" sx={{ display: 'flex', height: '650px', alignItems: 'center', justifyContent: 'center', marginBottom: '10rem', marginTop: '10rem' }}>
+                <Paper elevation={3} sx={{ padding: '2rem', width: '100%', textAlign: 'center' }}>
                     <Typography variant="h4" gutterBottom sx={{ marginBottom: '1rem' }}>
                         Register as an Adoption Center
                     </Typography>
