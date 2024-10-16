@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     TextField, Button, FormControl, InputLabel, Select, MenuItem,
     RadioGroup, FormControlLabel, Radio, Slider, Box, Typography,
@@ -6,7 +6,7 @@ import {
     DialogContentText, DialogActions
 } from '@mui/material';
 import axios from 'axios';
-import {router} from "next/client";
+import {router} from "next/router";
 
 export default function RegisterPet() {
     const [petData, setPetData] = useState({
