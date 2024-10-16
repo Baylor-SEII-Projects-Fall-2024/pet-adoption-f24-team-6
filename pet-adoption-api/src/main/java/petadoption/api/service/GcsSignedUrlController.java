@@ -28,7 +28,7 @@ public class GcsSignedUrlController {
         this.storage =  StorageOptions.newBuilder()
                 .setCredentials(
                         com.google.auth.oauth2.ServiceAccountCredentials.fromStream(
-                                new FileInputStream("src/main/resources/advance-sonar-434701-g4-174f26b320fc.json")
+                                new FileInputStream(getClass().getClassLoader().getResource("advance-sonar-434701-g4-174f26b320fc.json").getFile())
                         )
                 )
                 .build()
