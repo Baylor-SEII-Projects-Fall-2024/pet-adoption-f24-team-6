@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Button, Container, TextField, Typography, Box } from "@mui/material";
+import { Alert, Button, Container, TextField, Typography, Box, Paper } from "@mui/material";
 import Head from "next/head";
 
 export default function RegisterAsAdoptionCenter() {
@@ -52,9 +52,9 @@ export default function RegisterAsAdoptionCenter() {
                 <title>Register | Furever Homes</title>
             </Head>
 
-            <Container maxWidth="sm" sx={{ display: 'flex', height: '80vh', alignItems: 'center', justifyContent: 'center' }}>
-                <Box sx={{ textAlign: 'center', width: '100%' }}>
-                    <Typography variant="h4" gutterBottom sx={{marginTop: '50px'}}>
+            <Container maxWidth="sm" sx={{ display: 'flex', height: '90vh', alignItems: 'center', justifyContent: 'center', marginBottom: '10rem' }}>
+                <Paper elevation={3} sx={{ padding: '2rem', width: '100%', textAlign: 'center', marginTop: '10rem' }}>
+                    <Typography variant="h4" gutterBottom sx={{ marginBottom: '1rem' }}>
                         Register as an Adoption Center
                     </Typography>
 
@@ -136,7 +136,7 @@ export default function RegisterAsAdoptionCenter() {
                             Register
                         </Button>
                     </form>
-                </Box>
+                </Paper>
             </Container>
         </>
     );
