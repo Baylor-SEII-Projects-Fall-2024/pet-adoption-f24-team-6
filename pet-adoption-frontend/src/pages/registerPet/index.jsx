@@ -103,7 +103,8 @@ export default function RegisterPet() {
                 centerId: 1,
             });
             setFile(null);
-            setPhotoUrl(null)
+            setPhotoUrl(null);
+            setSuccess()
         } catch (error) {
             console.error('Error registering pet:', error);
         }
