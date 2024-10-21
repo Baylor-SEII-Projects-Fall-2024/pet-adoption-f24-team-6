@@ -44,7 +44,7 @@ public class CenterEventController {
     }
 
     // Create a new event
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<CenterEvent> createEvent(@RequestBody CenterEvent centerEvent) {
         CenterEvent createdEvent = centerEventService.saveCenterEvent(centerEvent);
         return ResponseEntity.ok(createdEvent);

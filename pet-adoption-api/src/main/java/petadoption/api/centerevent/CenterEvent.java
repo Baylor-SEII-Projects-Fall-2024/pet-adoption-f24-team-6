@@ -32,7 +32,7 @@ public class CenterEvent {
     String address;
 
     @Column(name = "DATE")
-    String contactInfo;
+    String date;
 
     @ManyToOne
     @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")

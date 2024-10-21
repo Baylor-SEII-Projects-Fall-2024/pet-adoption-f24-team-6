@@ -43,7 +43,7 @@ public class CenterEventService {
             CenterEvent updatedEvent = existingCenterEvent.get();
             updatedEvent.setDescription(centerEvent.getDescription());
             updatedEvent.setAddress(centerEvent.getAddress());
-            updatedEvent.setContactInfo(centerEvent.getContactInfo());
+            updatedEvent.setDate(centerEvent.getDate());
             updatedEvent.setAdoptionCenter(centerEvent.getAdoptionCenter());
             return centerEventRepository.save(updatedEvent);
         } else {
