@@ -1,12 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { Paper, Typography, CircularProgress } from '@mui/material';
+import {useRouter} from "next/router";
+import Cookies from "js-cookie";
 
 export default function AllUsers() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const authToken = Cookies.get("authToken")
+    const router = useRouter();
 
     useEffect(() => {
+
+        const checkAuth = async () => {
+            if (!authToken) {
+                router.push('/not-authorized'); // Redirect if no token.
+                return;
+            }
+
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
+                const data = await response.json();
+
+                if (!response.ok || data.userType !== "ADMIN") {
+                    router.push('/not-authorized');
+                }
+            } catch (error) {
+                console.error("Auth check failed", error);
+                router.push('/not-authorized');
+            }
+        };
+
         const fetchUsers = async () => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/getAllUsers`, {
@@ -29,7 +53,7 @@ export default function AllUsers() {
                 setLoading(false);
             }
         };
-
+        checkAuth();
         fetchUsers();
     }, []);
 

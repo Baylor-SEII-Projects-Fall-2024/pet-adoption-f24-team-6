@@ -16,6 +16,10 @@ import java.util.List;
 public class AdoptionCenter {
     public static final String TABLE_NAME = "AdoptionCenter";
 
+    public Long getId() {
+        return id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CENTER_ID")

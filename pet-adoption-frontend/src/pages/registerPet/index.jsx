@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import {router} from "next/router";
+import Cookies from "js-cookie";
 
 export default function RegisterPet() {
     const [petData, setPetData] = useState({
@@ -19,7 +20,6 @@ export default function RegisterPet() {
         color: '',
         friendliness: 5,
         trainingLevel: 10,
-        centerId: 1,
     });
 
     const colors = ['Black', 'White', 'Brown', 'Golden', 'Mixed'];
@@ -30,7 +30,54 @@ export default function RegisterPet() {
     let photoUrl = null;
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false); // Success dialog state
+    const [success, setSuccess] = useState(false);
+    const authToken = Cookies.get('authToken');
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            if (!authToken) {
+                router.push('/not-authorized'); // Redirect if no token.
+                return;
+            }
+
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
+                const data = await response.json();
+
+                if (!response.ok || data.userType !== "ADOPTION_CENTER") {
+                    router.push('/not-authorized');
+                }
+            } catch (error) {
+                console.error("Auth check failed", error);
+                router.push('/not-authorized');
+            }
+        }
+        checkAuth()
+    })
+
+    const getCenterId = async (e) => {
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/getCenterID?authToken=${authToken}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setSuccess(false);
+                setErrorMessage('Registration Failed');
+            } else {
+                return data?.centerID
+            }
+        } catch (error) {
+            console.error("Error during register", error);
+            alert('An error occurred. Please try again.');
+        }
+    };
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -77,13 +124,14 @@ export default function RegisterPet() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         await uploadFile(); // Ensure file upload completes
+        const centerID = await getCenterId();
 
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/register`, {
                 ...petData,
                 photo: photoUrl,
+                centerId: centerID,
             });
 
             console.log('Pet registered successfully:', response.data);
@@ -99,7 +147,6 @@ export default function RegisterPet() {
                 color: '',
                 friendliness: 5,
                 trainingLevel: 10,
-                centerId: 1,
             });
             setFile(null);
             photoUrl = null;
