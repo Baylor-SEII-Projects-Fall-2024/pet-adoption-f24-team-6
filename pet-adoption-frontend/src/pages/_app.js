@@ -106,7 +106,7 @@ export default function App({ Component, pageProps }) {
         setAnchorEl(null);
     };
 
-    if(loadingAuth || loadingInitials) {
+    if(token !== undefined && (loadingAuth || loadingInitials)) {
         return (
             <div className={styles.loadingContainer}>
                 <img
