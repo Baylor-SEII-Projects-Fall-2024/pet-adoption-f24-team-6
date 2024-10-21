@@ -3,6 +3,7 @@ package petadoption.api.centerevent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petadoption.api.adoptioncenter.CenterEvent;
+import petadoption.api.pet.Pet;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,5 +50,9 @@ public class CenterEventService {
         } else {
             throw new RuntimeException("Center Event not found");
         }
+    }
+
+    public List<CenterEvent> getPetsByCenterId(Long centerId) {
+        return centerEventRepository.findByAdoptionCenter_Id(centerId);
     }
 }

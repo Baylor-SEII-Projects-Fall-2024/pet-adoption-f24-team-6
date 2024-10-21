@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import petadoption.api.adoptioncenter.AdoptionCenter;
 import petadoption.api.adoptioncenter.AdoptionCenterService;
+import petadoption.api.adoptioncenter.CenterEvent;
 import petadoption.api.model.USER_TYPE;
 import petadoption.api.pet.Pet;
 import petadoption.api.pet.PetService;
@@ -104,5 +105,10 @@ public class CenterController {
         } else {
             return ResponseEntity.ok(pets);
         }
+    }
+
+    @GetMapping("/{centerId}/events")
+    public ResponseEntity<?> getEventsByCenter(@PathVariable Long centerId) {
+        List<CenterEvent> events = petService.
     }
 }
