@@ -21,6 +21,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import HelpIcon from '@mui/icons-material/Help';
+import styles from '../styles/Loading.module.css'; // CSS module for styling
 
 import '@/styles/globals.css'
 import Cookies from "js-cookie";
@@ -34,6 +35,8 @@ export default function App({ Component, pageProps }) {
   const [value, setValue] = React.useState('');
   const [initials, setInitials] = React.useState('');
   const [userType, setUserType] = React.useState('');
+  const [loadingAuth, setLoadingAuth] = React.useState(true);
+  const [loadingInitials, setLoadingInitials] = React.useState(true);
 
   const token = Cookies.get('authToken');
 
@@ -57,6 +60,7 @@ export default function App({ Component, pageProps }) {
                     console.error('Authentication failed', response.statusText);
                 }
                 setUserType(data?.userType)
+                setLoadingAuth(false);
             } catch (error) {
                 console.error("Error during checkAuth", error);
             }
@@ -84,6 +88,7 @@ export default function App({ Component, pageProps }) {
                     console.error('Error', response.statusText);
                 } else {
                     setInitials(data?.initials);
+                    setLoadingInitials(false)
                 }
             } catch (error) {
                 console.error("Error during getNames", error);
@@ -101,16 +106,27 @@ export default function App({ Component, pageProps }) {
         setAnchorEl(null);
     };
 
+    if(loadingAuth || loadingInitials) {
+        return (
+            <div className={styles.loadingContainer}>
+                <img
+                    src="/dog-loading.png" // Replace with your image path
+                    alt="Loading..."
+                    className={styles.loadingImage}
+                />
+            </div>
+        )
+    }
 
-  return (
-    <ReduxProvider store={reduxStore}>
-      <AppCacheProvider>
-        <Head>
-          <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width' />
-          <link rel='icon' href='/favicon.ico' />
-        </Head>
+    return (
+        <ReduxProvider store={reduxStore}>
+            <AppCacheProvider>
+                <Head>
+                    <meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width'/>
+                    <link rel='icon' href='/favicon.ico'/>
+                </Head>
 
-        <PetAdoptionThemeProvider>
+                <PetAdoptionThemeProvider>
           <CssBaseline />
 
           <Box sx={{

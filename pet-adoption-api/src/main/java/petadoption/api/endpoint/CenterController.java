@@ -12,7 +12,9 @@ import petadoption.api.pet.PetService;
 import petadoption.api.user.User;
 import petadoption.api.user.UserService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
