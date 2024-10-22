@@ -116,7 +116,7 @@ export default function events() {
                             <div key={index} style={styles.row}>
                                 {events.slice(index, index + 3).map(event => (
                                     <div key={event.description} style={styles.box}>
-                                        <Link style={styles.imageContainer} href="events/what">
+                                        <Link style={styles.imageContainer} href={`events/${event.event_id}`}>
                                             <img
                                                 src={event.photo}
                                                 alt={event.name}
