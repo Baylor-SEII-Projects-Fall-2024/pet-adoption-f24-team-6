@@ -46,6 +46,8 @@ public class CenterEventService {
             updatedEvent.setAddress(centerEvent.getAddress());
             updatedEvent.setDate(centerEvent.getDate());
             updatedEvent.setAdoptionCenter(centerEvent.getAdoptionCenter());
+            updatedEvent.setName(centerEvent.getName());
+            updatedEvent.setPhoto(centerEvent.getPhoto());
             return centerEventRepository.save(updatedEvent);
         } else {
             throw new RuntimeException("Center Event not found");

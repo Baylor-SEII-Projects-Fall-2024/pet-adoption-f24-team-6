@@ -25,6 +25,9 @@ public class CenterEvent {
     @Column(name = "EVENT_ID")
     Long id;
 
+    @Column(name = "NAME")
+    String name;
+
     @Column(name = "DESCRIPTION")
     String description;
 
@@ -33,6 +36,10 @@ public class CenterEvent {
 
     @Column(name = "DATE")
     String date;
+
+    @Column(name = "PHOTO", columnDefinition = "TEXT")
+    @Lob
+    String photo;
 
     @ManyToOne
     @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")
