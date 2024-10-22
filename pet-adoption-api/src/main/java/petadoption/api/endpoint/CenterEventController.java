@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/events")
+@CrossOrigin(origins = "http://${PUBLIC_IP:localhost}:3000")
 public class CenterEventController {
 
     private final CenterEventService centerEventService;
