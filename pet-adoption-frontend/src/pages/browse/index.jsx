@@ -1,5 +1,7 @@
 import Head from "next/head";
 import React, { useState, useEffect } from 'react';
+import {Box, CircularProgress, Typography} from "@mui/material";
+import PetsIcon from "@mui/icons-material/Pets";
 
 const styles = {
     container: {
@@ -66,14 +68,49 @@ export default function browse() {
     }, []);
 
     if (loading) {
-        return <div>Loading pets...</div>;
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "80vh",
+                }}
+            >
+                <CircularProgress size={80} />
+            </Box>
+        );
     }
+
+
 
     return (
         <>
             <Head>
                 <title>Browse | Baylor Furries</title>
             </Head>
+
+            {pets.length === 0 && (
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "80vh",
+                        textAlign: "center",
+                        gap: 2,
+                    }}
+                >
+                    <PetsIcon sx={{ fontSize: 80, color: "#757575" }} />
+                    <Typography variant="h5" component="h2">
+                        No Pets Available
+                    </Typography>
+                    <Typography variant="body1">
+                        Check back later to see if any new pets are available for adoption!
+                    </Typography>
+                </Box>
+            )}
 
             <div style={styles.container}>
                 {pets.map((pet, index) => {
