@@ -84,7 +84,7 @@ export default function events() {
     return (
         <>
             <Head>
-                <title>Browse | Baylor Furries</title>
+                <title>Events | Furever Homes</title>
             </Head>
 
             {events.length === 0 && (
