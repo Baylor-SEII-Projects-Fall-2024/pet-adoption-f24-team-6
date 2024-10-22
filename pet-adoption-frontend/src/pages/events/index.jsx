@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React, { useState, useEffect } from "react";
-import {Box, CircularProgress, Typography} from "@mui/material";
+import {Box, CircularProgress, Link, Typography} from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
 const styles = {
@@ -84,7 +84,7 @@ export default function events() {
     return (
         <>
             <Head>
-                <title>Browse | Baylor Furries</title>
+                <title>Events | Furever Homes</title>
             </Head>
 
             {events.length === 0 && (
@@ -116,11 +116,10 @@ export default function events() {
                             <div key={index} style={styles.row}>
                                 {events.slice(index, index + 3).map(event => (
                                     <div key={event.description} style={styles.box}>
-
-                                        <div style={styles.imageContainer}>
+                                        <Link style={styles.imageContainer} href={`events/${event.event_id}`}>
                                             <img
-                                                src={event.id}
-                                                alt={event.description}
+                                                src={event.photo}
+                                                alt={event.name}
                                                 style={{
                                                     width: '100%',
                                                     height: '100%',
@@ -142,10 +141,12 @@ export default function events() {
                                             >
                                             {event.description}
                                             </span>
-                                        </div>
+
+                                        </Link>
 
                                         <div style={styles.textContainer}>
-                                            <p>Address: {event.address}</p>
+                                            <p>{event.name}</p>
+                                            <p>Location: {event.address}</p>
                                             <p>Date: {event.date}</p>
                                         </div>
 
