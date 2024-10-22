@@ -143,8 +143,8 @@ export default function browse() {
                                                     fontSize: '1rem'
                                                 }}
                                             >
-        {pet.name}
-    </span>
+                                            {pet.name}
+                                            </span>
                                         </div>
 
                                         <div style={styles.textContainer}>
