@@ -42,10 +42,6 @@ const styles = {
     }
 };
 
-function handleClick() {
-    console.log('Going to event details page');
-}
-
 export default function events() {
 
     const [events, setEvents] = useState([]);
