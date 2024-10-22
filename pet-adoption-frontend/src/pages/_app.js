@@ -264,6 +264,13 @@ export default function App({ Component, pageProps }) {
                           )
                           }
 
+                          {userType === 'CUSTOMER' &&(
+                              <MenuItem onClick={() => {
+                                  router.push('/preferences');
+                                  handleMenuClose();
+                              }}>Preferences</MenuItem>
+                          )}
+
                           <MenuItem onClick={() => {
                               Cookies.remove('authToken');
                               router.push('/');
