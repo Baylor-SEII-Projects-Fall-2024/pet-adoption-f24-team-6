@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import petadoption.api.pet.PetRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +22,13 @@ class AdoptionCenterServiceTest {
     @Autowired
     private AdoptionCenterRepository adoptionCenterRepository;
 
+    @Autowired
+    private PetRepository petRepository;
+
     @BeforeEach
     void setUp() {
+        petRepository.deleteAll();
         adoptionCenterRepository.deleteAll();
-        List<AdoptionCenter> existingCenters = adoptionCenterRepository.findAll();
-        System.out.println("Existing centers in setUp: " + existingCenters);
     }
 
     @Test
@@ -101,18 +104,20 @@ class AdoptionCenterServiceTest {
         center1.setDescription("TestDescription5");
         center1.setAddress("1242 Real Road");
         center1.setContactInfo("555-555-5559");
-        
+
         adoptionCenterRepository.save(center1);
 
-        /*AdoptionCenter center2 = new AdoptionCenter();
+        AdoptionCenter center2 = new AdoptionCenter();
         center2.setName("TestShelter6");
         center2.setDescription("TestDescription6");
         center2.setAddress("1244 Real Road");
         center2.setContactInfo("555-555-5560");
-        adoptionCenterRepository.save(center2);*/
-      
+
+        adoptionCenterRepository.save(center2);
+
+
         List<AdoptionCenter> centers = adoptionCenterService.getAllAdoptionCenters();
-        assertEquals(1, centers.size());
+        assertEquals(2, centers.size());
     }
 
     @Test
