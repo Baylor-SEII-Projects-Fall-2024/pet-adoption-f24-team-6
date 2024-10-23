@@ -24,6 +24,10 @@ public class AdoptionCenterService {
         return adoptionCenterRepository.findById(id);
     }
 
+    public Optional<AdoptionCenter> getAdoptionCenterByEmailAddress(String emailAddress) {
+        return adoptionCenterRepository.findByAddress(emailAddress);
+    }
+
     public AdoptionCenter saveAdoptionCenter(AdoptionCenter adoptionCenter) {
         return adoptionCenterRepository.save(adoptionCenter);
     }
@@ -46,4 +50,6 @@ public class AdoptionCenterService {
             throw new RuntimeException("Adoption Center not found");
         }
     }
+
+
 }

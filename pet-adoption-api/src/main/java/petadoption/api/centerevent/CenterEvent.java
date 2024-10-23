@@ -12,9 +12,9 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = AdoptionCenter.TABLE_NAME)
-public class AdoptionCenter {
-    public static final String TABLE_NAME = "AdoptionCenter";
+@Table(name = CenterEvent.TABLE_NAME)
+public class CenterEvent {
+    public static final String TABLE_NAME = "CenterEvent";
 
     public Long getId() {
         return id;
@@ -22,7 +22,7 @@ public class AdoptionCenter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CENTER_ID")
+    @Column(name = "EVENT_ID")
     Long id;
 
     @Column(name = "NAME")
@@ -34,11 +34,16 @@ public class AdoptionCenter {
     @Column(name = "ADDRESS")
     String address;
 
-    @Column(name = "CONTACTINFO")
-    String contactInfo;
+    @Column(name = "DATE")
+    String date;
 
-    @Column(name = "LIKES")
-    Integer likes;
+    @Column(name = "PHOTO", columnDefinition = "TEXT")
+    @Lob
+    String photo;
+
+    @ManyToOne
+    @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")
+    private AdoptionCenter adoptionCenter;
 
 
 }

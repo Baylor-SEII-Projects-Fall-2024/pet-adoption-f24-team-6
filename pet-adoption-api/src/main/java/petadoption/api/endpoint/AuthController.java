@@ -2,7 +2,10 @@ package petadoption.api.endpoint;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import petadoption.api.adoptioncenter.AdoptionCenter;
+import petadoption.api.adoptioncenter.AdoptionCenterService;
 import petadoption.api.model.Register;
+import petadoption.api.model.USER_TYPE;
 import petadoption.api.model.UpdateUser;
 import petadoption.api.service.JwtService;
 import petadoption.api.user.User;
@@ -13,17 +16,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://${PUBLIC_IP:localhost}:3000")
 public class AuthController {
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private JwtService authService;
+
+    @Autowired
+    private AdoptionCenterService adoptionCenterService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody Register registerEndpoint) {
@@ -106,6 +111,8 @@ public class AuthController {
             userDetails.put("firstName", user.getFirstName());
             userDetails.put("lastName", user.getLastName());
             userDetails.put("userType", user.getUserType().toString());
+            userDetails.put("breedPref", user.getBreedPref());
+            userDetails.put("speciesPref", user.getSpeciesPref());
 
             return ResponseEntity.ok(userDetails);
         } catch (Exception e) {
@@ -145,8 +152,26 @@ public class AuthController {
         }
     }
 
+    @PutMapping("/updatePref")
+    public ResponseEntity<?> updatePref(@RequestHeader("Authorization") String authToken, @RequestBody UpdateUser updateUser) {
+        try {
+            String token = authToken.replace("Bearer ", "");
 
+            String currentUserEmail = authService.extractUsername(token);
 
+            User user = userService.findUserByEmail(currentUserEmail);
+
+            if (!authService.isTokenValid(token, user)) {
+                throw new IllegalStateException("Invalid or expired token");
+            }
+
+            User updatedUser = userService.updatePreferences(currentUserEmail, updateUser, currentUserEmail);
+
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user: " + e.getMessage());
+        }
+    }
 
     @GetMapping("/getNames")
     public ResponseEntity<?> getNames(@RequestParam String authToken) {
@@ -172,6 +197,26 @@ public class AuthController {
             return ResponseEntity.badRequest().body("User Not Valid");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getCenterID")
+    public ResponseEntity<?> getAdoptionCenterIDByAuthToken(@RequestParam String authToken) {
+        try {
+            String emailAddress = authService.extractUsername(authToken);
+            User user = userService.findUserByEmail(emailAddress);
+            USER_TYPE userType = user.getUserType();
+
+            if(authService.isTokenValid(authToken, user) && userType == USER_TYPE.ADOPTION_CENTER) {
+                Optional<AdoptionCenter> center = adoptionCenterService.getAdoptionCenterByEmailAddress(emailAddress);
+                Map<String, Object> response = new HashMap<>();
+                response.put("centerID", center.get().getId());
+                return ResponseEntity.ok().body(response);
+            }
+
+            return ResponseEntity.badRequest().body("Not Valid Auth Token");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: check logs");
         }
     }
 
