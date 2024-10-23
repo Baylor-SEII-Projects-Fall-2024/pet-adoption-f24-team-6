@@ -256,13 +256,19 @@ export default function App({ Component, pageProps }) {
                           )
                           }
 
-                          {userType === 'ADOPTION_CENTER' &&(
-                              <MenuItem onClick={() => {
-                                  router.push('/registerPet');
-                                  setValue('');
-                              }}>Register Pet</MenuItem>
-                          )
-                          }
+                          {userType === 'ADOPTION_CENTER' && (
+                              <>
+                                  <MenuItem onClick={() => {
+                                      router.push('/registerPet');
+                                      setValue('');
+                                  }}>Register Pet</MenuItem>
+
+                                  <MenuItem onClick={() => {
+                                    router.push('/my-pets');
+                                    setValue('');
+                                    }}>My Pets</MenuItem>
+                              </>
+                          )}
 
                           {userType === 'CUSTOMER' &&(
                               <MenuItem onClick={() => {
