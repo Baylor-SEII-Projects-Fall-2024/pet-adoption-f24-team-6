@@ -39,4 +39,6 @@ jobs:
 
       # Run Unit Tests
       - name: Run Unit Tests
-        run: mvn clean test
+        run: |
+          cd pet-adoption-api
+          mvn clean test
