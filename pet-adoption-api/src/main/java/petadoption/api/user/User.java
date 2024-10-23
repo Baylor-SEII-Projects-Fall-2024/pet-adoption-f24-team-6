@@ -38,6 +38,12 @@ public class User implements UserDetails {
     @Column(name = "LAST_NAME")
     String lastName;
 
+    @Column(name = "SPECIES_PREF")
+    String speciesPref;
+
+    @Column(name = "BREED_PREF")
+    String breedPref;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
