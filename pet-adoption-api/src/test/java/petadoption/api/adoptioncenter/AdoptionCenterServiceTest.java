@@ -99,6 +99,7 @@ class AdoptionCenterServiceTest {
         center1.setDescription("TestDescription5");
         center1.setAddress("1242 Real Road");
         center1.setContactInfo("555-555-5559");
+        center1.setId(20124124L);
         adoptionCenterRepository.save(center1);
 
         AdoptionCenter center2 = new AdoptionCenter();
@@ -106,7 +107,7 @@ class AdoptionCenterServiceTest {
         center2.setDescription("TestDescription6");
         center2.setAddress("1244 Real Road");
         center2.setContactInfo("555-555-5560");
-
+        center2.setId(902842L);
         adoptionCenterRepository.save(center2);
         List<AdoptionCenter> centers = adoptionCenterService.getAllAdoptionCenters();
         assertEquals(2, centers.size());
