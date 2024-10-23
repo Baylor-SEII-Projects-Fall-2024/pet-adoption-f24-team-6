@@ -231,6 +231,7 @@ export default function App({ Component, pageProps }) {
                       <Avatar
                           sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}
                           onMouseEnter={handleAvatarHover}
+                          onClick={() => router.push('/account')}
                       >
                           {initials}
                       </Avatar>
@@ -256,13 +257,19 @@ export default function App({ Component, pageProps }) {
                           )
                           }
 
-                          {userType === 'ADOPTION_CENTER' &&(
-                              <MenuItem onClick={() => {
-                                  router.push('/registerPet');
-                                  setValue('');
-                              }}>Register Pet</MenuItem>
-                          )
-                          }
+                          {userType === 'ADOPTION_CENTER' && (
+                              <>
+                                  <MenuItem onClick={() => {
+                                      router.push('/registerPet');
+                                      setValue('');
+                                  }}>Register Pet</MenuItem>
+
+                                  <MenuItem onClick={() => {
+                                    router.push('/my-pets');
+                                    setValue('');
+                                    }}>My Pets</MenuItem>
+                              </>
+                          )}
 
                           {userType === 'CUSTOMER' &&(
                               <MenuItem onClick={() => {
