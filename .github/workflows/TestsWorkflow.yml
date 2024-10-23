@@ -14,13 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up JDK 17 (or any version your project requires)
-      - name: Set up JDK 17
+      - name: Set up JDK 22
         uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: '22'
           distribution: 'temurin'
-          cache: 'gradle'  # Caches Gradle dependencies automatically
+          cache: 'gradle'
 
       # Cache Gradle dependencies
       - name: Cache Gradle Dependencies
@@ -30,6 +29,9 @@ jobs:
           key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             gradle-${{ runner.os }}-
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       # Run Unit Tests
       - name: Run Unit Tests
