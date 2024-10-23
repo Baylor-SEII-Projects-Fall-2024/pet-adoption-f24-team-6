@@ -111,6 +111,8 @@ public class AuthController {
             userDetails.put("firstName", user.getFirstName());
             userDetails.put("lastName", user.getLastName());
             userDetails.put("userType", user.getUserType().toString());
+            userDetails.put("breedPref", user.getBreedPref());
+            userDetails.put("speciesPref", user.getSpeciesPref());
 
             return ResponseEntity.ok(userDetails);
         } catch (Exception e) {
@@ -143,6 +145,27 @@ public class AuthController {
             }
 
             User updatedUser = userService.updateUser(currentUserEmail, updateUser, currentUserEmail);
+
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/updatePref")
+    public ResponseEntity<?> updatePref(@RequestHeader("Authorization") String authToken, @RequestBody UpdateUser updateUser) {
+        try {
+            String token = authToken.replace("Bearer ", "");
+
+            String currentUserEmail = authService.extractUsername(token);
+
+            User user = userService.findUserByEmail(currentUserEmail);
+
+            if (!authService.isTokenValid(token, user)) {
+                throw new IllegalStateException("Invalid or expired token");
+            }
+
+            User updatedUser = userService.updatePreferences(currentUserEmail, updateUser, currentUserEmail);
 
             return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {

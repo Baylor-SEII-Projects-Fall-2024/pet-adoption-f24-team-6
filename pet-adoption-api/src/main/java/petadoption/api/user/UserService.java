@@ -34,6 +34,8 @@ public class UserService {
         user.setUserType(userType);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setBreedPref("N/A");
+        user.setSpeciesPref("N/A");
 
         return userRepository.save(user);
     }
@@ -67,6 +69,31 @@ public class UserService {
             }
 
             existingUser.setEmailAddress(updateUser.getEmailAddress());
+        }
+
+        return userRepository.save(existingUser);
+    }
+
+    public User updatePreferences(String email, UpdateUser updateUser, String currentUserEmail) {
+        User existingUser = userRepository.findByEmailAddress(email);
+        if (existingUser == null) {
+            throw new IllegalStateException("User not found");
+        }
+
+        if (!email.equals(currentUserEmail)) {
+            throw new IllegalStateException("You do not have permission to update this user's details");
+        }
+
+        if (updateUser.getBreedPref() != null && !updateUser.getBreedPref().isEmpty()) {
+            existingUser.setBreedPref(updateUser.getBreedPref());
+        }
+
+        if (updateUser.getSpeciesPref() != null && !updateUser.getSpeciesPref().isEmpty()) {
+            existingUser.setSpeciesPref(updateUser.getSpeciesPref());
+        }
+
+        if (updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
+            existingUser.setPassword(updateUser.getPassword());
         }
 
         return userRepository.save(existingUser);
