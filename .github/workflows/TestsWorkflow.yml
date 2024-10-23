@@ -7,21 +7,28 @@ on:
 
 jobs:
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
-      # Checkout code from the PR
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Java environment (adjust version if needed)
+      # Set up JDK 17 (or your desired version)
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin' # Use AdoptOpenJDK or Temurin
+          distribution: 'temurin'
 
-      # Cache Maven or Gradle dependencies for faster builds
+      # Install Maven
+      - name: Install Maven
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+          mvn --version  # Verify Maven installation
+
+      # Cache Maven Dependencies
       - name: Cache Maven Dependencies
         uses: actions/cache@v3
         with:
@@ -30,6 +37,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      # Run Maven tests (use Gradle if your project uses it)
+      # Run Unit Tests
       - name: Run Unit Tests
         run: mvn clean test
