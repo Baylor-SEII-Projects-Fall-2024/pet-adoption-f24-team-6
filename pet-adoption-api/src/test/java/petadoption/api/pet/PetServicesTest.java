@@ -158,7 +158,7 @@ class PetServicesTest {
         pet.setName("TestDog7");
         pet.setSpecies("Dog");
         pet.setAdoptionCenter(adoptionCenter);
-        pet = petRepository.save(pet);
+        petRepository.save(pet);
 
         List<Pet> pets = petService.getPetsByCenterId(adoptionCenter.getId());
         assertFalse(pets.isEmpty());
