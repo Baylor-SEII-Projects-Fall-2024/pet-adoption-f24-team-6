@@ -33,4 +33,6 @@ jobs:
 
       # Run Unit Tests
       - name: Run Unit Tests
-        run: ./gradlew clean test --no-daemon
+        run: |
+          cd pet-adoption-api
+          ./gradlew clean test --no-daemon
