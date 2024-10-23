@@ -107,13 +107,8 @@ class AdoptionCenterServiceTest {
         center2.setDescription("TestDescription6");
         center2.setAddress("1244 Real Road");
         center2.setContactInfo("555-555-5560");
-        
-        try {
-        adoptionCenterRepository.save(center2);
-        } catch (Exception e) {
-        System.err.println("Error saving center2: " + e.getMessage());
-        e.printStackTrace();
-        }
+        //adoptionCenterRepository.save(center2);
+      
         List<AdoptionCenter> centers = adoptionCenterService.getAllAdoptionCenters();
         assertEquals(2, centers.size());
     }
