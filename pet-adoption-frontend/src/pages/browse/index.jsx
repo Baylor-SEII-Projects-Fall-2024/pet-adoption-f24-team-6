@@ -2,13 +2,15 @@ import Head from "next/head";
 import React, { useState, useEffect } from 'react';
 import {Box, CircularProgress, Typography} from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
+import {useRouter} from "next/router";
 
 const styles = {
     container: {
         display: "flex",
         flexDirection: "column",
         width: "80%",
-        margin: "0 auto"
+        margin: "0 auto",
+        marginTop: '20px'
     },
     row: {
         display: "flex",
@@ -47,6 +49,7 @@ export default function browse() {
 
     const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     // useEffect to fetch data on component mount
     useEffect(() => {
@@ -118,7 +121,7 @@ export default function browse() {
                         return (
                             <div key={index} style={styles.row}>
                                 {pets.slice(index, index + 3).map(pet => (
-                                    <div key={pet.name} style={styles.box}>
+                                    <div key={pet.name} style={styles.box} onClick={() => router.push(`/pet/${pet.id}`)}>
 
                                         <div style={styles.imageContainer}>
                                             <img
@@ -131,25 +134,12 @@ export default function browse() {
                                                     borderRadius: '8px',
                                                 }}
                                             />
-                                            <span
-                                                style={{
-                                                    position: 'absolute',
-                                                    bottom: '10px',
-                                                    left: '10px',
-                                                    color: 'white',
-                                                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                                                    padding: '5px 10px',
-                                                    borderRadius: '5px',
-                                                    fontSize: '1rem'
-                                                }}
-                                            >
-                                            {pet.name}
-                                            </span>
                                         </div>
 
                                         <div style={styles.textContainer}>
                                             <p>Breed: {pet.breed}</p>
                                             <p>Age: {pet.age}</p>
+                                            <p>Name: {pet.name}</p>
                                         </div>
 
                                     </div>
