@@ -231,6 +231,7 @@ export default function App({ Component, pageProps }) {
                       <Avatar
                           sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}
                           onMouseEnter={handleAvatarHover}
+                          onClick={() => router.push('/account')}
                       >
                           {initials}
                       </Avatar>
