@@ -32,11 +32,10 @@ jobs:
 
     - name: Build and run Docker Compose services
       run: |
-        sudo docker-compose -f docker/ci.docker-compose.yml down
-        sudo docker-compose -f docker/ci.docker-compose.yml up -d --build
-        sudo docker image prune -af
-        # docker-compose -f docker/ci.docker-compose.yml build
-        # docker-compose -f docker/ci.docker-compose.yml up -d
+          sudo docker-compose -f docker/ci.docker-compose.yml down
+          sudo docker-compose -f docker/ci.docker-compose.yml build --no-cache --build-arg SKIP_TESTS=true
+          sudo docker-compose -f docker/ci.docker-compose.yml up -d
+          sudo docker image prune -af
 
     - name: Display running containers
       run: |
