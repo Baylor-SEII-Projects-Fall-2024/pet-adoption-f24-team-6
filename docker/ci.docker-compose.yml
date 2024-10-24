@@ -22,14 +22,10 @@ services:
       - mysql-data:/var/lib/mysql
 
   api:
-    depends_on:
-      db:
-        condition: service_healthy
     image: pet-adoption-api
     build:
       context: ../pet-adoption-api
       dockerfile: ../docker/pet-adoption-api.Dockerfile
-    command: ./gradlew clean build -x test
     restart: always
     ports:
       - '8080:8080'
