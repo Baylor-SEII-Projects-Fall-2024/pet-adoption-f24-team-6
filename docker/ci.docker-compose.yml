@@ -9,18 +9,6 @@ services:
     ports:
       - '3000:3000'
 
-  api:
-    image: pet-adoption-api
-    build:
-      context: ../pet-adoption-api
-      dockerfile: ../docker/pet-adoption-api.Dockerfile
-    restart: always
-    ports:
-      - '8080:8080'
-    environment:
-      MYSQL_HOST: 10.128.0.2
-      PUBLIC_IP: 34.172.241.48
-
   db:
     image: mysql:8.4.2
     command: --mysql-native-password=ON
@@ -32,6 +20,22 @@ services:
       MYSQL_DATABASE: petadoption
     volumes:
       - mysql-data:/var/lib/mysql
+
+  api:
+    depends_on:
+      db:
+        condition: service_healthy
+    image: pet-adoption-api
+    build:
+      context: ../pet-adoption-api
+      dockerfile: ../docker/pet-adoption-api.Dockerfile
+    restart: always
+    ports:
+      - '8080:8080'
+    environment:
+      MYSQL_HOST: 10.128.0.2
+      PUBLIC_IP: 34.172.241.48
+
 volumes:
   mysql-data:
 
