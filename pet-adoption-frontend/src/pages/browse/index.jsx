@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {Box, CircularProgress, Typography} from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import {useRouter} from "next/router";
+import Footer from "@/components/Footer";
 
 const styles = {
     container: {
@@ -150,6 +151,7 @@ export default function browse() {
                     return null;
                 })}
             </div>
+            <Footer />
         </>
     )
 }

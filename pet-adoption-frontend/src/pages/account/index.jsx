@@ -8,6 +8,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PetsIcon from '@mui/icons-material/Pets';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PeopleIcon from '@mui/icons-material/People';
+import Footer from "@/components/Footer";
 
 export default function Browse() {
     const router = useRouter();
@@ -147,6 +148,7 @@ export default function Browse() {
                     )}
                 </Grid>
             </Box>
+            <Footer />
         </>
     );
 }
