@@ -46,7 +46,7 @@ public class GcsSignedUrlController {
     @GetMapping("/generate-signed-url")
     public String generateSignedUrl(@RequestParam String filename) {
         BlobInfo blobInfo = BlobInfo.newBuilder(bucketName, filename).build();
-        URL signedUrl = storage.signUrl(blobInfo, 15, TimeUnit.MINUTES, SignUrlOption.withV4Signature());
+        URL signedUrl = storage.signUrl(blobInfo, 3650, TimeUnit.DAYS, SignUrlOption.withV4Signature());
         return signedUrl.toString();
     }
 
