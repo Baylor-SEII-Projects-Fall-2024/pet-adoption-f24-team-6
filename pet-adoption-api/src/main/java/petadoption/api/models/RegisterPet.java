@@ -1,6 +1,4 @@
-package petadoption.api.model;
-
-import petadoption.api.pet.Pet;
+package petadoption.api.models;
 
 public class RegisterPet {
     private String name;

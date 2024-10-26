@@ -31,7 +31,7 @@ function Footer() {
                         User Account
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <Link href="/login" underline="hover">
+                        <Link href="/sign-in" underline="hover">
                             Login
                         </Link>
                         <Link href="/browse" underline="hover">
@@ -45,7 +45,7 @@ function Footer() {
                         Adoption Center
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                        <Link href="/register" underline="hover">
+                        <Link href="/register-ADCenter" underline="hover">
                             Register Adoption Center
                         </Link>
                     </Box>

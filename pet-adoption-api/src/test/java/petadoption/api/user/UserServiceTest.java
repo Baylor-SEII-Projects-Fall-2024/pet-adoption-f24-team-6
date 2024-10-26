@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import petadoption.api.model.USER_TYPE;
-import petadoption.api.model.UpdateUser;
+import petadoption.api.models.USER_TYPE;
+import petadoption.api.models.UpdateUser;
+import petadoption.api.models.User;
+import petadoption.api.repositories.UserRepository;
+import petadoption.api.service.UserService;
 
 import java.util.List;
 import java.util.Optional;

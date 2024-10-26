@@ -1,7 +1,9 @@
-package petadoption.api.adoptioncenter;
+package petadoption.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import petadoption.api.models.AdoptionCenter;
+import petadoption.api.repositories.AdoptionCenterRepository;
 
 import java.util.List;
 import java.util.Optional;

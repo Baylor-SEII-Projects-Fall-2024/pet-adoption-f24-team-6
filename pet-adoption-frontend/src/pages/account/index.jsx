@@ -10,7 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PeopleIcon from '@mui/icons-material/People';
 import Footer from "@/components/Footer";
 
-export default function Browse() {
+export default function Account() {
     const router = useRouter();
     const [userType, setUserType] = useState(null);
     const authToken = Cookies.get('authToken');
@@ -18,15 +18,18 @@ export default function Browse() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
-                const data = await response.json();
+                if(authToken){
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
+                    const data = await response.json();
 
-                if (!response.ok) {
-                    console.error('Failed to fetch user type:', response.statusText);
-                    return;
+                    if (!response.ok) {
+                        console.error('Failed to fetch user type:', response.statusText);
+                        return;
+                    }
+                    setUserType(data.userType);
+                } else {
+                    router.push('/not-authorized')
                 }
-
-                setUserType(data.userType);
             } catch (error) {
                 console.error("Error fetching user type:", error);
             }
@@ -43,14 +46,14 @@ export default function Browse() {
     return (
         <>
             <Head>
-                <title>Browse | Baylor Furries</title>
+                <title>Account | Baylor Furries</title>
             </Head>
 
             <Typography variant="h4" align="center" sx={{ mt: 5 }}>
                 ACCOUNT
             </Typography>
 
-            <Box sx={{ flexGrow: 1, mt: 3, mx: 4, marginBottom: '20px' }}>
+            <Box sx={{ flexGrow: 1, mt: 3, mx: 4, marginBottom: '20px', height: '60vh'}}>
                 <Grid container spacing={3} justifyContent="center">
                     {userType === "CUSTOMER" && (
                         <>

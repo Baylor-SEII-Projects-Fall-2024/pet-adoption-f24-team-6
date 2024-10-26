@@ -1,6 +1,7 @@
-package petadoption.api.adoptioncenter;
+package petadoption.api.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import petadoption.api.models.AdoptionCenter;
 
 import java.util.Optional;
 

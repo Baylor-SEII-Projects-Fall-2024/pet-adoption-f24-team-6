@@ -1,4 +1,4 @@
-package petadoption.api.endpoint;
+package petadoption.api.models;
 
 public class CreateAdoptionCenterInput {
 

@@ -1,15 +1,16 @@
-package petadoption.api.endpoint;
+package petadoption.api.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import petadoption.api.adoptioncenter.AdoptionCenter;
-import petadoption.api.adoptioncenter.AdoptionCenterService;
-import petadoption.api.model.Register;
-import petadoption.api.model.USER_TYPE;
-import petadoption.api.model.UpdateUser;
+import petadoption.api.models.AdoptionCenter;
+import petadoption.api.service.AdoptionCenterService;
+import petadoption.api.models.LoginEndpoint;
+import petadoption.api.models.Register;
+import petadoption.api.models.USER_TYPE;
+import petadoption.api.models.UpdateUser;
 import petadoption.api.service.JwtService;
-import petadoption.api.user.User;
-import petadoption.api.user.UserService;
+import petadoption.api.models.User;
+import petadoption.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

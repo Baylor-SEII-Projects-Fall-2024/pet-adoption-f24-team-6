@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import petadoption.api.pet.PetRepository;
+import petadoption.api.models.AdoptionCenter;
+import petadoption.api.repositories.PetRepository;
+import petadoption.api.repositories.AdoptionCenterRepository;
+import petadoption.api.service.AdoptionCenterService;
 
 import java.util.List;
 import java.util.Optional;

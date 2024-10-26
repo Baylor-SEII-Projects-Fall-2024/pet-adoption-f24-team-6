@@ -1,12 +1,12 @@
-package petadoption.api.endpoint;
+package petadoption.api.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import petadoption.api.model.RegisterPet;
-import petadoption.api.pet.Pet;
-import petadoption.api.pet.PetService;
+import petadoption.api.models.RegisterPet;
+import petadoption.api.models.Pet;
+import petadoption.api.service.PetService;
 
 @RestController
 @RequestMapping("/api/pet")
