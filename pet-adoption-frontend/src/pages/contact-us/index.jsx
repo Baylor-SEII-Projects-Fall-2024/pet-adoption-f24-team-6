@@ -3,6 +3,7 @@ import {Box, TextField, Button, Typography, Container, Paper, CircularProgress, 
 import Head from "next/head";
 import axios from "axios";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import Footer from "@/components/Footer";
 
 export default function ContactUs() {
 
@@ -138,6 +139,7 @@ export default function ContactUs() {
                     </Box>
                 </Paper>
             </Container>
+            <Footer />
         </>
     );
 }

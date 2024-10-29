@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import petadoption.api.model.USER_TYPE;
+import petadoption.api.models.USER_TYPE;
+import petadoption.api.models.User;
+import petadoption.api.service.UserService;
 
 import java.util.Optional;
 
@@ -21,20 +23,20 @@ public class UserTests {
     @Test
     void testUserCreate() {
         User newUser = new User();
-        newUser.userType = USER_TYPE.CUSTOMER;
-        newUser.emailAddress = "example@example.com";
-        newUser.password = "password";
+        newUser.setUserType(USER_TYPE.CUSTOMER);
+        newUser.setEmailAddress("example@example.com");
+        newUser.setPassword("password");
 
         User savedUser = userService.saveUser(newUser);
-        assertNotNull(savedUser.id);
+        assertNotNull(savedUser.getId());
 
-        Optional<User> foundUserOpt = userService.findUser(savedUser.id);
+        Optional<User> foundUserOpt = userService.findUser(savedUser.getId());
         assertTrue(foundUserOpt.isPresent());
         User foundUser = foundUserOpt.get();
 
-        assertEquals(newUser.userType, foundUser.userType);
-        assertEquals(newUser.emailAddress, foundUser.emailAddress);
-        assertEquals(newUser.password, foundUser.password);
+        assertEquals(newUser.getUserType(), foundUser.getUserType());
+        assertEquals(newUser.getEmailAddress(), foundUser.getEmailAddress());
+        assertEquals(newUser.getPassword(), foundUser.getPassword());
     }
 
     @Test

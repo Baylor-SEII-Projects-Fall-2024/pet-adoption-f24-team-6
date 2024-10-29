@@ -4,6 +4,7 @@ import { Box, CircularProgress, Link, Typography, Button } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import Footer from "@/components/Footer";
 
 const styles = {
     container: {
@@ -176,6 +177,7 @@ export default function Events() {
                     Add a new event
                 </Button>
             )}
+            <Footer />
         </>
     );
 }

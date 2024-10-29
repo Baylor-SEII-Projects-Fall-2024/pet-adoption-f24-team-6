@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Footer from "@/components/Footer";
+import React from "react";
 
 export default function FAQ() {
     const faqData = [
@@ -32,9 +34,9 @@ export default function FAQ() {
                 <title>FAQ | Baylor Furries</title>
             </Head>
 
-            <Box sx={{ maxWidth: '600px', margin: '0 auto', mt: 5 , marginBottom: 2}}>
+            <Box sx={{ maxWidth: '600px', margin: '0 auto', height: '80vh'}}>
                 <Typography variant="h4" align="center" gutterBottom>
-                    FAQ
+                    Frequently Asked Questions
                 </Typography>
                 {faqData.map((item, index) => (
                     <Accordion key={index}>
@@ -47,6 +49,7 @@ export default function FAQ() {
                     </Accordion>
                 ))}
             </Box>
+            <Footer />
         </>
     );
 }

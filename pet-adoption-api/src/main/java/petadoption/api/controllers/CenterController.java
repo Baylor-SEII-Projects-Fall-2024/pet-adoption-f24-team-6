@@ -1,22 +1,21 @@
-package petadoption.api.endpoint;
+package petadoption.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import petadoption.api.adoptioncenter.AdoptionCenter;
-import petadoption.api.adoptioncenter.AdoptionCenterService;
-import petadoption.api.adoptioncenter.CenterEvent;
-import petadoption.api.centerevent.CenterEventService;
-import petadoption.api.model.USER_TYPE;
-import petadoption.api.pet.Pet;
-import petadoption.api.pet.PetService;
-import petadoption.api.user.User;
-import petadoption.api.user.UserService;
+import petadoption.api.models.AdoptionCenter;
+import petadoption.api.service.AdoptionCenterService;
+import petadoption.api.models.CenterEvent;
+import petadoption.api.service.CenterEventService;
+import petadoption.api.models.CreateAdoptionCenterInput;
+import petadoption.api.models.USER_TYPE;
+import petadoption.api.models.Pet;
+import petadoption.api.service.PetService;
+import petadoption.api.models.User;
+import petadoption.api.service.UserService;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController

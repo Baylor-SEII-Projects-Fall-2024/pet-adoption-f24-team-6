@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {Box, CircularProgress, Typography} from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import {useRouter} from "next/router";
+import Footer from "@/components/Footer";
 
 const styles = {
     container: {
@@ -10,7 +11,8 @@ const styles = {
         flexDirection: "column",
         width: "80%",
         margin: "0 auto",
-        marginTop: '20px'
+        marginTop: '20px',
+        height: '80vh'
     },
     row: {
         display: "flex",
@@ -150,6 +152,7 @@ export default function browse() {
                     return null;
                 })}
             </div>
+            <Footer />
         </>
     )
 }

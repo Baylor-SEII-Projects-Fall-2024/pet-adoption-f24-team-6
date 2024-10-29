@@ -1,7 +1,5 @@
-package petadoption.api.model;
+package petadoption.api.models;
 
-
-import petadoption.api.user.User;
 
 public class Register {
     private String emailAddress;

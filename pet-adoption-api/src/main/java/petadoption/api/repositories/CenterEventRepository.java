@@ -1,12 +1,9 @@
-package petadoption.api.centerevent;
+package petadoption.api.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import petadoption.api.adoptioncenter.CenterEvent;
-import petadoption.api.centerevent.CenterEventService;
-import petadoption.api.pet.Pet;
+import petadoption.api.models.CenterEvent;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CenterEventRepository extends JpaRepository<CenterEvent, Long> {
 

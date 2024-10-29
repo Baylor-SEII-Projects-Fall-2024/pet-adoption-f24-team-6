@@ -10,9 +10,9 @@ import {
     BottomNavigationAction,
     Box,
     Button,
-    CssBaseline,
+    CssBaseline, Grid, Link,
     Menu,
-    MenuItem
+    MenuItem, Typography
 } from '@mui/material';
 
 import { PetAdoptionThemeProvider } from '@/utils/theme';

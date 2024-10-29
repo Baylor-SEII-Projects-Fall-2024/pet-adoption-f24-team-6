@@ -1,4 +1,4 @@
-package petadoption.api.model;
+package petadoption.api.models;
 
 public enum USER_TYPE {
     CUSTOMER,

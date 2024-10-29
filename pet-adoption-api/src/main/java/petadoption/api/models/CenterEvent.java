@@ -1,14 +1,7 @@
-package petadoption.api.adoptioncenter;
+package petadoption.api.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.checkerframework.checker.units.qual.C;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import petadoption.api.model.USER_TYPE;
-
-import java.util.Collection;
-import java.util.List;
 
 @Data
 @Entity

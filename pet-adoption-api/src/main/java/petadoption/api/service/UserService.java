@@ -1,9 +1,11 @@
-package petadoption.api.user;
+package petadoption.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import petadoption.api.model.USER_TYPE;
-import petadoption.api.model.UpdateUser;
+import petadoption.api.models.USER_TYPE;
+import petadoption.api.models.UpdateUser;
+import petadoption.api.repositories.UserRepository;
+import petadoption.api.models.User;
 
 import java.util.List;
 import java.util.Optional;
