@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import petadoption.api.models.RegisterPet;
-import petadoption.api.models.Pet;
+import petadoption.api.tables.Pet;
 import petadoption.api.service.PetService;
 
 @RestController

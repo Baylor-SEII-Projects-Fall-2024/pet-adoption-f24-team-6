@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import petadoption.api.models.User;
+import petadoption.api.tables.User;
 
 @Service
 public class JwtService {

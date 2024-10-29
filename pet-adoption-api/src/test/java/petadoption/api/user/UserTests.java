@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import petadoption.api.models.USER_TYPE;
-import petadoption.api.models.User;
+import petadoption.api.tables.User;
 import petadoption.api.service.UserService;
 
 import java.util.Optional;

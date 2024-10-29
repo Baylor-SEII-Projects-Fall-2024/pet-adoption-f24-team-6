@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import petadoption.api.models.USER_TYPE;
 import petadoption.api.models.UpdateUser;
 import petadoption.api.repositories.UserRepository;
-import petadoption.api.models.User;
+import petadoption.api.tables.User;
 
 import java.util.List;
 import java.util.Optional;

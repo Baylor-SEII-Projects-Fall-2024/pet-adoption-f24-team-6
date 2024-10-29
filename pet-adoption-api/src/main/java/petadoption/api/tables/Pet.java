@@ -1,7 +1,8 @@
-package petadoption.api.models;
+package petadoption.api.tables;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import petadoption.api.models.GENDER_TYPE;
 
 @Data
 @Entity
@@ -45,6 +46,12 @@ public class Pet {
 
     @Column(name = "TRAINING_LEVEL")
     Integer trainingLevel;
+
+    @Column(name = "LIKES")
+    Integer likes;
+
+    @Column(name = "DISLIKES")
+    Integer dislikes;
 
     @ManyToOne
     @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")

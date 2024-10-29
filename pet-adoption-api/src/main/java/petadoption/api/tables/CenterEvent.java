@@ -1,4 +1,4 @@
-package petadoption.api.models;
+package petadoption.api.tables;
 
 import jakarta.persistence.*;
 import lombok.Data;
