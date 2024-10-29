@@ -31,9 +31,6 @@ public class UserInteractionService {
 
         List<Pet> recommendedPets = petRepository.findAllById(recommendedPetIds);
 
-//        return recommendedPets.stream()
-//                .filter(pet -> !interactedPetIds.contains(pet.getId()))
-//                .collect(Collectors.toList());
         return recommendedPets;
     }
 }

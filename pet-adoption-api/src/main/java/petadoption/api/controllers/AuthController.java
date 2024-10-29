@@ -68,7 +68,7 @@ public class AuthController {
             String token = authService.generateToken(user);
             Map<String, String> response = new HashMap<>();
             response.put("authToken", token);
-            return ResponseEntity.ok().body(response); // JSON response with token
+            return ResponseEntity.ok().body(response);
         }
 
         return ResponseEntity.badRequest().body("Invalid Credentials");

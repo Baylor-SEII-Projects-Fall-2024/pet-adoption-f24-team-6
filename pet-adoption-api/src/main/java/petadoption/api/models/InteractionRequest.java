@@ -4,7 +4,6 @@ public class InteractionRequest {
     private Long userId;
     private Long petId;
 
-    // Getters and setters
     public Long getUserId() {
         return userId;
     }
