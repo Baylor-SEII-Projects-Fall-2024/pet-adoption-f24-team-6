@@ -18,6 +18,7 @@ public interface UserInteractionRepository extends JpaRepository<UserInteraction
             "AND (i.interactionType = 'LIKE' OR i.interactionType = 'VIEW')")
     List<Long> findPetsInteractedByUser(@Param("userId") Long userId);
 
+    //This is being Used by Rec Enginge
     @Query("SELECT DISTINCT i.user.id FROM UserInteraction i " +
             "WHERE i.pet.id IN :petIds AND i.user.id != :userId")
     List<Long> findSimilarUsers(@Param("petIds") List<Long> petIds,
