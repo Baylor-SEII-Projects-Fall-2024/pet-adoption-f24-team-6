@@ -2,9 +2,9 @@ package petadoption.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import petadoption.api.models.AdoptionCenter;
+import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.models.GENDER_TYPE;
-import petadoption.api.models.Pet;
+import petadoption.api.tables.Pet;
 import petadoption.api.repositories.AdoptionCenterRepository;
 import petadoption.api.repositories.PetRepository;
 

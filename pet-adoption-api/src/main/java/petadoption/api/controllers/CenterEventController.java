@@ -3,7 +3,7 @@ package petadoption.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import petadoption.api.models.CenterEvent;
+import petadoption.api.tables.CenterEvent;
 import petadoption.api.service.CenterEventService;
 
 import java.util.List;

@@ -1,9 +1,10 @@
-package petadoption.api.models;
+package petadoption.api.tables;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import petadoption.api.models.USER_TYPE;
 
 import java.util.Collection;
 import java.util.List;

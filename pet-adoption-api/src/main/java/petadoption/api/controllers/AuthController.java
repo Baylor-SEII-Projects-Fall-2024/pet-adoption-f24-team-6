@@ -2,14 +2,14 @@ package petadoption.api.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import petadoption.api.models.AdoptionCenter;
+import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.service.AdoptionCenterService;
 import petadoption.api.models.LoginEndpoint;
 import petadoption.api.models.Register;
 import petadoption.api.models.USER_TYPE;
 import petadoption.api.models.UpdateUser;
 import petadoption.api.service.JwtService;
-import petadoption.api.models.User;
+import petadoption.api.tables.User;
 import petadoption.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +68,7 @@ public class AuthController {
             String token = authService.generateToken(user);
             Map<String, String> response = new HashMap<>();
             response.put("authToken", token);
-            return ResponseEntity.ok().body(response); // JSON response with token
+            return ResponseEntity.ok().body(response);
         }
 
         return ResponseEntity.badRequest().body("Invalid Credentials");
