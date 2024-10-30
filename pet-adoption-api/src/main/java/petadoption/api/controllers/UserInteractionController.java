@@ -75,7 +75,7 @@ public class UserInteractionController {
         User user = userRepository.findById(request.getUserId()).orElse(new User());
         Pet pet = petRepository.findById(request.getPetId()).orElse(new Pet());
 
-        pet.setDislikes((pet.getViews() + 1));
+        pet.setViews((pet.getViews() + 1));
         pet = petRepository.save(pet);
 
         UserInteraction interaction = new UserInteraction(
