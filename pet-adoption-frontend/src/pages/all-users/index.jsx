@@ -3,6 +3,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Paper, Typography, CircularProgress } from '@mui/material';
 import {useRouter} from "next/router";
 import Cookies from "js-cookie";
+import {Button} from '@mui/material'
+import axios from 'axios';
 
 export default function AllUsers() {
     const [users, setUsers] = useState([]);
@@ -63,7 +65,40 @@ export default function AllUsers() {
         { field: 'lastName', headerName: 'Last Name', width: 150 },
         { field: 'emailAddress', headerName: 'Email Address', width: 200 },
         { field: 'userType', headerName: 'User Type', width: 120 },
+        { field: 'delete', headerName: 'Delete', width: 120,
+            renderCell: (params) => (
+                <Button
+                    variant="outlined"
+                    startIcon={<img src="deleteIcon.png"/>}
+                    color="primary"
+                    onClick={() => handleButtonClick(params.row.id)}
+                >
+                    Delete
+                </Button>
+            ),
+        },
     ];
+
+    const handleButtonClick = async (id) => {
+        try {
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                console.error('Failed to delete user', response.statusText);
+                return;
+            }
+        } catch (error) {
+            console.error('Error fetching users', error);
+        } finally {
+            setLoading(false);
+            setUsers((prevRows) => prevRows.filter((row) => row.id !== id));
+        }
+    };
 
     return (
         <div style={{ height: 400, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '150px', marginBottom: '50px' }}>
