@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import petadoption.api.models.USER_TYPE;
 import petadoption.api.models.UpdateUser;
 import petadoption.api.repositories.UserRepository;
+import petadoption.api.tables.Pet;
 import petadoption.api.tables.User;
 
 import java.util.List;
@@ -113,5 +114,13 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public void deleteUser(Long userId) {
+        Optional<User> existingUserOptional = userRepository.findById(userId);
+        if (existingUserOptional.isEmpty()) {
+            throw new IllegalStateException("User not found");
+        }
+        userRepository.delete(existingUserOptional.get());
     }
 }
