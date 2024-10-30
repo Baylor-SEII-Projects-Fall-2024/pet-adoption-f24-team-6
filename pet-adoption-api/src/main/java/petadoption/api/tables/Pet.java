@@ -53,6 +53,9 @@ public class Pet {
     @Column(name = "DISLIKES")
     Integer dislikes;
 
+    @Column(name = "VIEWS")
+    Integer views;
+
     @ManyToOne
     @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")
     private AdoptionCenter adoptionCenter;
