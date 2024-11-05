@@ -13,12 +13,13 @@ import Footer from "@/components/Footer";
 export default function Account() {
     const router = useRouter();
     const [userType, setUserType] = useState(null);
+    const [centerId, setCenterId] = useState(null);
     const authToken = Cookies.get('authToken');
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                if(authToken){
+                if (authToken) {
                     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
                     const data = await response.json();
 
@@ -28,7 +29,7 @@ export default function Account() {
                     }
                     setUserType(data.userType);
                 } else {
-                    router.push('/not-authorized')
+                    router.push('/not-authorized');
                 }
             } catch (error) {
                 console.error("Error fetching user type:", error);
@@ -36,11 +37,29 @@ export default function Account() {
         };
 
         checkAuth();
+    }, [authToken, router]);
+
+    useEffect(() => {
+        const fetchCenterId = async () => {
+            if (authToken) {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/getCenterID?authToken=${authToken}`);
+                const centerData = await response.json();
+
+                if (response.ok) {
+                    console.log(centerData)
+                    setCenterId(centerData.centerID);
+                } else {
+                    console.error("Failed to fetch center ID:", response.statusText);
+                }
+            }
+        };
+
+        fetchCenterId();
     }, [authToken]);
 
     const handleLogout = () => {
-        Cookies.remove('authToken')
-        router.push('/')
+        Cookies.remove('authToken');
+        router.push('/');
     };
 
     return (
@@ -53,20 +72,20 @@ export default function Account() {
                 ACCOUNT
             </Typography>
 
-            <Box sx={{ flexGrow: 1, mt: 3, mx: 4, marginBottom: '20px', height: '60vh'}}>
+            <Box sx={{ flexGrow: 1, mt: 3, mx: 4, marginBottom: '20px', height: '60vh' }}>
                 <Grid container spacing={3} justifyContent="center">
                     {userType === "CUSTOMER" && (
                         <>
                             <Grid item xs={12} sm={4}>
-                                <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }} onClick={() => router.push('/preferences')}>
-                                    <IconButton onClick={() => handleNavigation('/preferences')}>
+                                <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }}>
+                                    <IconButton onClick={() => router.push('/preferences')}>
                                         <SettingsIcon fontSize="large" />
                                     </IconButton>
                                     <Typography variant="h6">Preferences</Typography>
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }} onClick={() => router.push('/account-details')}>
+                                <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }}>
                                     <IconButton onClick={() => router.push('/account-details')}>
                                         <AccountCircleIcon fontSize="large" />
                                     </IconButton>
@@ -75,7 +94,7 @@ export default function Account() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }}>
-                                    <IconButton onClick={() => handleLogout()}>
+                                    <IconButton onClick={handleLogout}>
                                         <LogoutIcon fontSize="large" />
                                     </IconButton>
                                     <Typography variant="h6">Logout</Typography>
@@ -112,10 +131,18 @@ export default function Account() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }}>
-                                    <IconButton onClick={() => handleLogout()}>
+                                    <IconButton onClick={handleLogout}>
                                         <LogoutIcon fontSize="large" />
                                     </IconButton>
                                     <Typography variant="h6">Logout</Typography>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }}>
+                                    <IconButton onClick={() => centerId && router.push(`/requests/${centerId}`)}>
+                                        <LogoutIcon fontSize="large" />
+                                    </IconButton>
+                                    <Typography variant="h6">Adoption Requests</Typography>
                                 </Paper>
                             </Grid>
                         </>
@@ -141,7 +168,7 @@ export default function Account() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }}>
-                                    <IconButton onClick={() => handleLogout()}>
+                                    <IconButton onClick={handleLogout}>
                                         <LogoutIcon fontSize="large" />
                                     </IconButton>
                                     <Typography variant="h6">Logout</Typography>

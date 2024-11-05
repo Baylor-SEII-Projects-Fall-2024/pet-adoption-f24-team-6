@@ -6,10 +6,12 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
+import Cookies from "js-cookie";
 
 export default function PetDetails() {
     const router = useRouter();
     const { petID } = router.query;
+    const authToken = Cookies.get("authToken")
 
     const [pet, setPet] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -50,6 +52,28 @@ export default function PetDetails() {
     const {
         name, age, species, breed, size, gender, photo, color, friendliness, trainingLevel, adoptionCenter,
     } = pet;
+
+    const handleRequestInfo = async () => {
+        if(!authToken){
+            router.push('/sign-in')
+        }
+        const requestData = {
+            userId: '1',
+            petId: petID,
+            adoptionCenterId: adoptionCenter.id
+        };
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
+
+            if(response.status === 200){
+                router.push('/pet/requested');
+            }
+        } catch (error) {
+            console.error('Error while requesting adoption:', error.response?.data || error.message);
+        }
+
+    };
 
     return (
         <Container
@@ -117,7 +141,7 @@ export default function PetDetails() {
                         variant="contained"
                         color="success"
                         sx={{ mt: 2 }}
-                        // onClick={handleRequestInfo}
+                        onClick={() => handleRequestInfo()}
                         startIcon={<PhoneForwardedIcon />}
                     >
                         Request Adoption

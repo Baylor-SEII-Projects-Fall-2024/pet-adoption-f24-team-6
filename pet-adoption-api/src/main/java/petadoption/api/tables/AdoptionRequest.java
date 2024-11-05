@@ -2,6 +2,7 @@ package petadoption.api.tables;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import petadoption.api.models.RequestStatus;
 
 import java.time.LocalDateTime;
@@ -9,7 +10,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = AdoptionCenter.TABLE_NAME)
+@Table(name = AdoptionRequest.TABLE_NAME)
+@NoArgsConstructor
 public class AdoptionRequest {
 
     public static final String TABLE_NAME = "AdoptionRequest";
