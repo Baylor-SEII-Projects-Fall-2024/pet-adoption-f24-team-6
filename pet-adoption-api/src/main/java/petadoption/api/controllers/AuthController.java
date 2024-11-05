@@ -53,7 +53,6 @@ public class AuthController {
                 registerEndpoint.getFirstName(),
                 registerEndpoint.getLastName()
         );
-        System.out.println("inside");
         return ResponseEntity.ok("User Registered");
     }
 
