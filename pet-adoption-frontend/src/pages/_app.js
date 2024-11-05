@@ -10,9 +10,9 @@ import {
     BottomNavigationAction,
     Box,
     Button,
-    CssBaseline, Grid, Link,
+    CssBaseline,
     Menu,
-    MenuItem, Typography
+    MenuItem,
 } from '@mui/material';
 
 import { PetAdoptionThemeProvider } from '@/utils/theme';
@@ -21,12 +21,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import HelpIcon from '@mui/icons-material/Help';
-import styles from '../styles/Loading.module.css'; // CSS module for styling
+import styles from '../styles/Loading.module.css';
 
 import '@/styles/globals.css'
 import Cookies from "js-cookie";
 
-// Initialize Redux
 let initialState = {};
 let reduxStore = buildStore(initialState);
 
