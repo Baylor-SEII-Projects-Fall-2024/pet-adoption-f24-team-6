@@ -110,25 +110,25 @@ export default function PetDetails() {
     const handleRequestInfo = async () => {
         if(!authToken){
             router.push('/sign-in')
-        }
-        const requestData = {
-            userId: userID,
-            petId: petID,
-            adoptionCenterId: adoptionCenter.id
-        };
+        }else {
+            const requestData = {
+                userId: userID,
+                petId: petID,
+                adoptionCenterId: adoptionCenter.id
+            };
 
-        try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
+            try {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
 
-            await sendEmail()
+                await sendEmail()
 
-            if(response.status === 200){
-                router.push('/pet/requested');
+                if(response.status === 200){
+                    router.push('/pet/requested');
+                }
+            } catch (error) {
+                console.error('Error while requesting adoption:', error.response?.data || error.message);
             }
-        } catch (error) {
-            console.error('Error while requesting adoption:', error.response?.data || error.message);
         }
-
     };
 
     return (
