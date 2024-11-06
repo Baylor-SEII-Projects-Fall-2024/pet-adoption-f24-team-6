@@ -6,6 +6,10 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
+import ThumbsUpIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbsDownIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbsUpFilledIcon from '@mui/icons-material/ThumbUp';
+import ThumbsDownFilledIcon from '@mui/icons-material/ThumbDown';
 import Cookies from "js-cookie";
 
 export default function PetDetails() {
@@ -19,6 +23,7 @@ export default function PetDetails() {
     const [error, setError] = useState(false);
     const [otherPets, setOtherPets] = useState([]);
     const [userID, setUserID] = useState(1);
+    const [clicked, setClicked] = useState();
 
     useEffect(() => {
         if (petID) {
@@ -131,6 +136,52 @@ export default function PetDetails() {
         }
     };
 
+    const handleLike = async () => {
+        if(!authToken){
+            router.push('/sign-in')
+        }else {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userID,
+                        petId: petID
+                    }),
+                });
+
+                if(response.status === 200){
+                    console.log();
+                }
+            } catch (error) {
+                console.error('Error while liking:', error.response?.data || error.message);
+            }
+        }
+    };
+
+    const handleDislike = async () => {
+        if(!authToken){
+            router.push('/sign-in')
+        }else {
+            const requestData = {
+                userId: userID,
+                petId: petID
+            };
+
+            try {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/dislike`, requestData);
+
+                if(response.status === 200){
+                    console.log();
+                }
+            } catch (error) {
+                console.error('Error while disliking:', error.response?.data || error.message);
+            }
+        }
+    };
+
     return (
         <Container
             maxWidth="xl"
@@ -195,12 +246,31 @@ export default function PetDetails() {
                     {/* Request More Info Button */}
                     <Button
                         variant="contained"
-                        color="success"
                         sx={{ mt: 2 }}
                         onClick={() => handleRequestInfo()}
                         startIcon={<PhoneForwardedIcon />}
                     >
                         Request Adoption
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="success"
+                        sx={{ mt: 2 }}
+                        onClick={() => handleLike()}
+                        startIcon={<ThumbsUpIcon />}
+                    >
+                        Like
+                    </Button>
+
+                    <Button
+                        variant="contained"
+                        color="error"
+                        sx={{ mt: 2 }}
+                        onClick={() => handleDislike()}
+                        startIcon={<ThumbsDownIcon />}
+                    >
+                        Dislike
                     </Button>
                 </Box>
             </Paper>
