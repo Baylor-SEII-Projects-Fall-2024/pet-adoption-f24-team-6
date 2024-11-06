@@ -6,8 +6,10 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
-import ThumbsUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbsDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbsUpIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbsDownIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbsUpFilledIcon from '@mui/icons-material/ThumbUp';
+import ThumbsDownFilledIcon from '@mui/icons-material/ThumbDown';
 import Cookies from "js-cookie";
 
 export default function PetDetails() {
@@ -21,6 +23,7 @@ export default function PetDetails() {
     const [error, setError] = useState(false);
     const [otherPets, setOtherPets] = useState([]);
     const [userID, setUserID] = useState(1);
+    const [clicked, setClicked] = useState();
 
     useEffect(() => {
         if (petID) {
@@ -150,7 +153,7 @@ export default function PetDetails() {
                 });
 
                 if(response.status === 200){
-                    /*router.push('/pet/requested');*/
+                    console.log();
                 }
             } catch (error) {
                 console.error('Error while liking:', error.response?.data || error.message);
@@ -171,7 +174,7 @@ export default function PetDetails() {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/dislike`, requestData);
 
                 if(response.status === 200){
-                    /*router.push('/pet/requested');*/
+                    console.log();
                 }
             } catch (error) {
                 console.error('Error while disliking:', error.response?.data || error.message);
