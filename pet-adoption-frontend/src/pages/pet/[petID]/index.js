@@ -17,6 +17,7 @@ export default function PetDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [otherPets, setOtherPets] = useState([]);
+    const [userID, setUserID] = useState(1);
 
     useEffect(() => {
         if (petID) {
@@ -32,6 +33,29 @@ export default function PetDetails() {
                 });
         }
     }, [petID]);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                if (authToken) {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        console.error('Failed to fetch user type:', response.statusText);
+                        return;
+                    }
+                    setUserID(data.userID);
+                } else {
+                    router.push('/not-authorized');
+                }
+            } catch (error) {
+                console.error("Error fetching user type:", error);
+            }
+        };
+
+        checkAuth();
+    }, []);
 
     useEffect(() => {
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/getAll`)
@@ -58,7 +82,7 @@ export default function PetDetails() {
             router.push('/sign-in')
         }
         const requestData = {
-            userId: '1',
+            userId: userID,
             petId: petID,
             adoptionCenterId: adoptionCenter.id
         };

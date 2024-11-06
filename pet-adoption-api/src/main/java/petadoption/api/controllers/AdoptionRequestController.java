@@ -68,8 +68,6 @@ public class AdoptionRequestController {
         request.setIsRead(true);
 
         return ResponseEntity.ok(adoptionRequestService.saveAdoptionRequest(request));
-
-
     }
 
 }
