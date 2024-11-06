@@ -5,17 +5,21 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
+import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
+import Cookies from "js-cookie";
 
 export default function PetDetails() {
     const router = useRouter();
     const { petID } = router.query;
+    const authToken = Cookies.get("authToken")
+    const email = 'mark_josephs1@baylor.edu'
 
     const [pet, setPet] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [otherPets, setOtherPets] = useState([]);
+    const [userID, setUserID] = useState(1);
 
-    // Fetch pet details
     useEffect(() => {
         if (petID) {
             axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/${petID}`)
@@ -31,7 +35,29 @@ export default function PetDetails() {
         }
     }, [petID]);
 
-    // Fetch top 3 pets from /api/pet/getAll
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                if (authToken) {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        console.error('Failed to fetch user type:', response.statusText);
+                        return;
+                    }
+                    setUserID(data.userID);
+                } else {
+                    router.push('/not-authorized');
+                }
+            } catch (error) {
+                console.error("Error fetching user type:", error);
+            }
+        };
+
+        checkAuth();
+    }, []);
+
     useEffect(() => {
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/getAll`)
             .then((response) => {
@@ -52,6 +78,61 @@ export default function PetDetails() {
         name, age, species, breed, size, gender, photo, color, friendliness, trainingLevel, adoptionCenter,
     } = pet;
 
+    const sendEmail = async () => {
+        try {
+            const response = await axios.post(
+                "https://api.brevo.com/v3/smtp/email",
+                {
+                    sender: { name, email },
+                    to: [{ email: "mjosephs@customsportssleeves.com", name: "Support Team" }],
+                    subject: `New Adoption Request from Customer ${userID}`,
+                    htmlContent: `
+                    <p><strong>Pet Name:</strong> ${name}</p>
+                    <p><strong>Customer:</strong> ${userID}</p>`,
+                },
+                {
+                    headers: {
+                        "api-key": "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",
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (response.status === 201) {
+                console.log("Email Sent")
+
+            } else {
+                console.error("Error sending email")
+            }
+        } catch (error) {
+            console.error("Error sending email", error)
+        }
+    }
+
+    const handleRequestInfo = async () => {
+        if(!authToken){
+            router.push('/sign-in')
+        }
+        const requestData = {
+            userId: userID,
+            petId: petID,
+            adoptionCenterId: adoptionCenter.id
+        };
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
+
+            await sendEmail()
+
+            if(response.status === 200){
+                router.push('/pet/requested');
+            }
+        } catch (error) {
+            console.error('Error while requesting adoption:', error.response?.data || error.message);
+        }
+
+    };
+
     return (
         <Container
             maxWidth="xl"
@@ -61,13 +142,12 @@ export default function PetDetails() {
             <Button
                 startIcon={<ArrowBackIcon />}
                 variant="contained"
-                sx={{ mb: 3 }}
+                sx={{ mb: 3, width: '8%' }}
                 onClick={() => router.push("/browse")}
             >
-                Back to Browse
+                Back
             </Button>
 
-            {/* Pet Details */}
             <Paper elevation={3} sx={{ p: 4, borderRadius: 3, mb: 5 }}>
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={4}>
@@ -113,6 +193,17 @@ export default function PetDetails() {
                     <Typography variant="body2">
                         <strong>Contact:</strong> {adoptionCenter.contactInfo}
                     </Typography>
+
+                    {/* Request More Info Button */}
+                    <Button
+                        variant="contained"
+                        color="success"
+                        sx={{ mt: 2 }}
+                        onClick={() => handleRequestInfo()}
+                        startIcon={<PhoneForwardedIcon />}
+                    >
+                        Request Adoption
+                    </Button>
                 </Box>
             </Paper>
 

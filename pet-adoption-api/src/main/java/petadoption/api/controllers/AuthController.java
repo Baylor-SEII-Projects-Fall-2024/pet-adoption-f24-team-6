@@ -40,7 +40,6 @@ public class AuthController {
                 registerEndpoint.getFirstName(),
                 registerEndpoint.getLastName()
         );
-        System.out.println("inside");
         return ResponseEntity.ok("User Registered");
     }
 
@@ -53,7 +52,6 @@ public class AuthController {
                 registerEndpoint.getFirstName(),
                 registerEndpoint.getLastName()
         );
-        System.out.println("inside");
         return ResponseEntity.ok("User Registered");
     }
 
@@ -86,6 +84,7 @@ public class AuthController {
             Map<String, Object> response = new HashMap<>();
             response.put("userType", user.getUserType());
             response.put("Authorized", true);
+            response.put("userID", user.getId());
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             Map<String, Boolean> response = new HashMap<>();
