@@ -47,8 +47,6 @@ export default function PetDetails() {
                         return;
                     }
                     setUserID(data.userID);
-                } else {
-                    router.push('/not-authorized');
                 }
             } catch (error) {
                 console.error("Error fetching user type:", error);
