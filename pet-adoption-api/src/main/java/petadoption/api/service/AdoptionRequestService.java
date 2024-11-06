@@ -27,5 +27,9 @@ public class AdoptionRequestService {
         return adoptionRequestRepository.save(request);
     }
 
+    public Optional<AdoptionRequest> findById(Long id) {
+        return adoptionRequestRepository.findById(id);
+    }
+
 
 }

@@ -62,4 +62,14 @@ public class AdoptionRequestController {
         return ResponseEntity.ok(requests);
     }
 
+    @PostMapping("/requestRead/{requestId}")
+    public ResponseEntity<AdoptionRequest> markRequestRead(@PathVariable Long requestId){
+        AdoptionRequest request = adoptionRequestService.findById(requestId).orElse(new AdoptionRequest());
+        request.setIsRead(true);
+
+        return ResponseEntity.ok(adoptionRequestService.saveAdoptionRequest(request));
+
+
+    }
+
 }

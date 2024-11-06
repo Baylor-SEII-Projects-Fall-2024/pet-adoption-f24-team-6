@@ -25,7 +25,7 @@ public class AdoptionRequest {
     private LocalDateTime requestDate;
 
     @Column(name = "isRead", nullable = false)
-    private boolean isRead;
+    private Boolean isRead;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
