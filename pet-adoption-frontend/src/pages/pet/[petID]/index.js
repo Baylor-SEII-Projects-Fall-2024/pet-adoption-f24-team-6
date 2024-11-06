@@ -12,6 +12,7 @@ export default function PetDetails() {
     const router = useRouter();
     const { petID } = router.query;
     const authToken = Cookies.get("authToken")
+    const email = 'mark_josephs1@baylor.edu'
 
     const [pet, setPet] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -77,6 +78,37 @@ export default function PetDetails() {
         name, age, species, breed, size, gender, photo, color, friendliness, trainingLevel, adoptionCenter,
     } = pet;
 
+    const sendEmail = async () => {
+        try {
+            const response = await axios.post(
+                "https://api.brevo.com/v3/smtp/email",
+                {
+                    sender: { name, email },
+                    to: [{ email: "mjosephs@customsportssleeves.com", name: "Support Team" }],
+                    subject: `New Adoption Request from Customer ${userID}`,
+                    htmlContent: `
+                    <p><strong>Pet Name:</strong> ${name}</p>
+                    <p><strong>Customer:</strong> ${userID}</p>`,
+                },
+                {
+                    headers: {
+                        "api-key": "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",
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (response.status === 201) {
+                console.log("Email Sent")
+
+            } else {
+                console.error("Error sending email")
+            }
+        } catch (error) {
+            console.error("Error sending email", error)
+        }
+    }
+
     const handleRequestInfo = async () => {
         if(!authToken){
             router.push('/sign-in')
@@ -89,6 +121,8 @@ export default function PetDetails() {
 
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
+
+            await sendEmail()
 
             if(response.status === 200){
                 router.push('/pet/requested');
