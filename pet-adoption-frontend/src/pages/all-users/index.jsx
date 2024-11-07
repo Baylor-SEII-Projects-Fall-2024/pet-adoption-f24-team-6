@@ -5,6 +5,7 @@ import {useRouter} from "next/router";
 import Cookies from "js-cookie";
 import {Button} from '@mui/material'
 import axios from 'axios';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function AllUsers() {
     const [users, setUsers] = useState([]);
@@ -69,9 +70,12 @@ export default function AllUsers() {
             renderCell: (params) => (
                 <Button
                     variant="outlined"
-                    startIcon={<img src="deleteIcon.png"/>}
-                    color="primary"
-                    onClick={() => handleButtonClick(params.row.id)}
+                    startIcon={<DeleteIcon />}
+                    color='error'
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        handleDeleteUser(params.row.id)
+                    }}
                 >
                     Delete
                 </Button>
@@ -79,7 +83,7 @@ export default function AllUsers() {
         },
     ];
 
-    const handleButtonClick = async (id) => {
+    const handleDeleteUser = async (id) => {
         try {
             const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/delete/${id}`, {
                 method: 'DELETE',
