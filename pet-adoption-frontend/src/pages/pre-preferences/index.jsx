@@ -17,18 +17,6 @@ export default function PrePreferences() {
     const handleSubmit = async () => {
         try {
 
-
-            const token = Cookies.get('authToken');
-            console.log("Auth Token:", token);  // Log token for debugging
-
-
-            console.log("Request Body:", {
-                breedPref,
-                speciesPref,
-                colorPref,
-            });
-
-
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/setPref`, {
                 method: 'POST', // POST for setting preferences
                 headers: {
@@ -42,10 +30,8 @@ export default function PrePreferences() {
                 }),
             });
 
-
-            console.log("Response Status:", response.status);
             const data = await response.json();
-            console.log("Response Data:", data);
+
 
 
             if (!response.ok) {
@@ -61,10 +47,12 @@ export default function PrePreferences() {
             setTimeout(() => {
                 router.push('/browse');  // Redirect after success
             }, 2000);
+
+
         } catch (error) {
             setErrorMessage('An error occurred. Please try again later.');
             setSuccess(false);
-            console.error("Error setting preferences:", error);  // Add error logging for debugging
+
         }
     };
 
