@@ -5,11 +5,6 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
-import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
-import ThumbsUpIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbsDownIcon from "@mui/icons-material/ThumbDownOffAlt";
-import ThumbsUpFilledIcon from '@mui/icons-material/ThumbUp';
-import ThumbsDownFilledIcon from '@mui/icons-material/ThumbDown';
 import Cookies from "js-cookie";
 
 export default function PetDetails() {
@@ -20,7 +15,7 @@ export default function PetDetails() {
     const [pet, setPet] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [otherPets, setOtherPets] = useState([]);
+    const [otherEvents, setOtherEvents] = useState([]);
     const [userID, setUserID] = useState(1);
 
     useEffect(() => {
@@ -62,7 +57,7 @@ export default function PetDetails() {
     useEffect(() => {
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events`)
             .then((response) => {
-                setOtherPets(response.data.slice(0, 3)); // Top 3 events
+                setOtherEvents(response.data.slice(0, 3)); // Top 3 events
             })
             .catch((err) => console.error("Failed to fetch other events", err));
     }, []);
@@ -142,29 +137,29 @@ export default function PetDetails() {
             </Paper>
 
 
-            {/*<Box sx={{ mt: 5 }}>*/}
-            {/*    <Typography variant="h5" gutterBottom>See Other Pets</Typography>*/}
-            {/*    <Grid container spacing={2}>*/}
-            {/*        {otherPets.map((otherPet) => (*/}
-            {/*            <Grid item xs={12} sm={4} key={otherPet.id}>*/}
-            {/*                <Card>*/}
-            {/*                    <CardMedia*/}
-            {/*                        component="img"*/}
-            {/*                        height="140"*/}
-            {/*                        image={otherPet.photo}*/}
-            {/*                        alt={otherPet.name}*/}
-            {/*                    />*/}
-            {/*                    <CardContent>*/}
-            {/*                        <Typography variant="h6">{otherPet.name}</Typography>*/}
-            {/*                        <Typography variant="body2" color="textSecondary">*/}
-            {/*                            {otherPet.species} • {otherPet.breed}*/}
-            {/*                        </Typography>*/}
-            {/*                    </CardContent>*/}
-            {/*                </Card>*/}
-            {/*            </Grid>*/}
-            {/*        ))}*/}
-            {/*    </Grid>*/}
-            {/*</Box>*/}
+            <Box sx={{ mt: 5 }}>
+                <Typography variant="h5" gutterBottom>See Other Events</Typography>
+                <Grid container spacing={2}>
+                    {otherEvents.map((otherPet) => (
+                        <Grid item xs={12} sm={4} key={otherEvents.id}>
+                            <Card>
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={otherEvents.photo}
+                                    alt={otherEvents.name}
+                                />
+                                <CardContent>
+                                    <Typography variant="h6">{otherEvents.name}</Typography>
+                                    <Typography variant="body2" color="textSecondary">
+                                        {otherEvents.date} • {otherEvents.address}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
         </Container>
     );
 }
