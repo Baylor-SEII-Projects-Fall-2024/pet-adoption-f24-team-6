@@ -14,7 +14,7 @@ import Cookies from "js-cookie";
 
 export default function PetDetails() {
     const router = useRouter();
-    const { petID } = router.query;
+    const { eventID } = router.query;
     const authToken = Cookies.get("authToken")
 
     const [pet, setPet] = useState(null);
@@ -24,8 +24,8 @@ export default function PetDetails() {
     const [userID, setUserID] = useState(1);
 
     useEffect(() => {
-        if (petID) {
-            axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/${petID}`)
+        if (eventID) {
+            axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/${eventID}`)
                 .then((response) => {
                     setPet(response.data);
                     setLoading(false);
@@ -36,7 +36,7 @@ export default function PetDetails() {
                     setLoading(false);
                 });
         }
-    }, [petID]);
+    }, [eventID]);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -60,11 +60,11 @@ export default function PetDetails() {
     }, []);
 
     useEffect(() => {
-        axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/getAll`)
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events`)
             .then((response) => {
-                setOtherPets(response.data.slice(0, 3)); // Top 3 pets
+                setOtherPets(response.data.slice(0, 3)); // Top 3 events
             })
-            .catch((err) => console.error("Failed to fetch other pets", err));
+            .catch((err) => console.error("Failed to fetch other events", err));
     }, []);
 
     if (loading) {
@@ -76,7 +76,7 @@ export default function PetDetails() {
     }
 
     const {
-        name, age, species, breed, size, gender, photo, color, friendliness, trainingLevel, adoptionCenter,
+        address, date, description, adoptionCenter, name, photo
     } = pet;
 
 
@@ -90,7 +90,7 @@ export default function PetDetails() {
                 startIcon={<ArrowBackIcon />}
                 variant="contained"
                 sx={{ mb: 3, width: '8%' }}
-                onClick={() => router.push("/browse")}
+                onClick={() => router.push("/events")}
             >
                 Back
             </Button>
@@ -108,20 +108,17 @@ export default function PetDetails() {
 
                     <Grid item xs={12} sm={8}>
                         <Typography variant="h4" gutterBottom>{name}</Typography>
-                        <Typography variant="body1" color="textSecondary">
-                            {species} • {breed} • {gender} • {size}
-                        </Typography>
+                        {/*<Typography variant="body1" color="textSecondary">*/}
+                        {/*    {species} • {breed} • {gender} • {size}*/}
+                        {/*</Typography>*/}
                         <Typography variant="body2" sx={{ mt: 2 }}>
-                            <strong>Age:</strong> {age} years
+                            <strong>Date:</strong> {date}
                         </Typography>
                         <Typography variant="body2">
-                            <strong>Color:</strong> {color}
+                            <strong>Address:</strong> {address}
                         </Typography>
                         <Typography variant="body2">
-                            <strong>Friendliness:</strong> {friendliness}/10
-                        </Typography>
-                        <Typography variant="body2">
-                            <strong>Training Level:</strong> {trainingLevel}/10
+                            <strong>Description:</strong> {description}
                         </Typography>
                     </Grid>
                 </Grid>

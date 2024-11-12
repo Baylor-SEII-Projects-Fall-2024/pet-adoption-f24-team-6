@@ -145,7 +145,7 @@ export default function Events() {
                         return (
                             <div key={index} style={styles.row}>
                                 {events.slice(index, index + 3).map(event => (
-                                    <div key={event.description} style={styles.box} onClick={() => router.push(`/events/${event.event_id}`)}>
+                                    <div key={event.description} style={styles.box} onClick={() => router.push(`/events/${event.id}`)}>
                                         <div>
                                             <img
                                                 src={event.photo}
