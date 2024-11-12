@@ -44,6 +44,10 @@ public class User implements UserDetails {
     @Column(name = "BREED_PREF")
     String breedPref;
 
+    @Column(name = "COLOR_PREF")
+    String colorPref;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
