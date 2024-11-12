@@ -1,13 +1,15 @@
-import {useRouter} from "next/router";
-import {Button, Paper, TextField, Typography} from "@mui/material";
-import {useEffect, useState} from "react";
+import { useRouter } from "next/router";
+import { Button, Paper, TextField, Typography, Alert } from "@mui/material";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
-export default function preferences() {
+export default function Preferences() {
     const router = useRouter();
 
     const [breedPref, setBreedPref] = useState('');
     const [speciesPref, setSpeciesPref] = useState('');
+    const [colorPref, setColorPref] = useState('')
+    const [success, setSuccess] = useState(false); // To track success status
 
     useEffect(() => {
         const getUserDetails = async () => {
@@ -26,15 +28,16 @@ export default function preferences() {
 
                 const data = await response.json();
 
-                // Assuming the response contains the fields emailAddress, firstName, and lastName
-                setBreedPref(data.breedPref);
-                setSpeciesPref(data.speciesPref);
+                // Pre-fill user preferences if available
+                setBreedPref(data.breedPref || '');
+                setSpeciesPref(data.speciesPref || '');
+                setColorPref(data.colorPref || '');
 
             } catch (error) {
                 console.error("Error during checkAuth", error);
             }
         };
-        getUserDetails()
+        getUserDetails();
     }, []);
 
     const handleSubmit = async () => {
@@ -46,15 +49,20 @@ export default function preferences() {
             },
             body: JSON.stringify({
                 breedPref: breedPref,
-                speciesPref: speciesPref
+                speciesPref: speciesPref,
+                colorPref: colorPref
             }),
         });
 
-        if (response.status === 404) {
-            console.log('Error: Not Found')
-        } else if (response.status === 400) {
-            console.error("Login failed", response.message);
-            alert(response.message || 'Login failed');
+        if (response.ok) {
+            setSuccess(true);
+            // Redirect to /account after showing success message
+            setTimeout(() => {
+                router.push('/account');
+            }, 2000);
+        } else {
+            console.error("Failed to save preferences", response.statusText);
+            alert("Failed to save preferences. Please try again.");
         }
     }
 
@@ -68,21 +76,54 @@ export default function preferences() {
         }}>
             <Paper sx={{
                 width: '500px',
-                height: '500px',
+                height: 'auto',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                gap: '16px'
+                gap: '16px',
+                padding: '2rem'
             }} elevation={4}>
-                <Typography variant="h5" sx={{marginBottom: '35px', fontWeight: 'bold'}}>Edit Preferences</Typography>
-                <TextField id="outlined-basic" label="Breed" variant="outlined" sx={{width: '50%'}} onChange={(event) => setBreedPref(event.target.value)} value={breedPref} />
-                <TextField id="outlined-basic" label="Species" variant="outlined" sx={{width: '50%'}} onChange={(event) => setSpeciesPref(event.target.value)} value={speciesPref} />
+                <Typography variant="h5" sx={{ marginBottom: '35px', fontWeight: 'bold' }}>
+                    Edit Preferences
+                </Typography>
 
-                <Button variant="outlined"
-                        size="large"
-                        onClick={() => handleSubmit()}
-                >Submit</Button>
+                {success && (
+                    <Alert severity="success" onClose={() => setSuccess(false)} style={{ marginBottom: '1rem' }}>
+                        Preferences saved! Redirecting to account...
+                    </Alert>
+                )}
+
+                <TextField
+                    label="Breed"
+                    variant="outlined"
+                    sx={{ width: '50%' }}
+                    onChange={(event) => setBreedPref(event.target.value)}
+                    value={breedPref}
+                />
+                <TextField
+                    label="Species"
+                    variant="outlined"
+                    sx={{ width: '50%' }}
+                    onChange={(event) => setSpeciesPref(event.target.value)}
+                    value={speciesPref}
+                />
+                <TextField
+                    label="Color"
+                    variant="outlined"
+                    sx={{ width: '50%' }}
+                    onChange={(event) => setColorPref(event.target.value)}
+                    value={colorPref}
+                />
+
+                <Button
+                    variant="outlined"
+                    size="large"
+                    onClick={handleSubmit}
+                    sx={{ marginTop: '16px' }}
+                >
+                    Submit
+                </Button>
             </Paper>
         </div>
     );

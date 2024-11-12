@@ -37,7 +37,25 @@ export default function signIn() {
                 console.log(data)
 
                 Cookies.set('authToken', data.authToken);
-                await router.push('/account');
+                //await router.push('/account');
+
+                // Check if user has preferences set
+                const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/getPref`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${data.authToken}`,
+                    },
+                });
+
+                const userData = await userResponse.json();
+
+                // If user preferences are not set, redirect to pre-preferences page
+                if (!userData.speciesPref || !userData.breedPref || !userData.colorPref) {
+                    await router.push('/pre-preferences');
+                } else {
+                    // Redirect to the regular account page
+                    await router.push('/account');
+                }
             }
         } catch (error) {
             console.error("Error during login", error);

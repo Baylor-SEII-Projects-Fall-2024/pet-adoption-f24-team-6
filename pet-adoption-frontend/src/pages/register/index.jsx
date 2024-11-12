@@ -2,6 +2,7 @@ import Head from "next/head";
 import React, { useState } from "react";
 import { Alert, Paper } from '@mui/material'; // Import Paper from MUI
 
+
 export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +30,8 @@ export default function Register() {
             } else {
                 setSuccess(true);
                 setErrorMessage('');
+
+
             }
         } catch (error) {
             console.error("Error during register", error);
