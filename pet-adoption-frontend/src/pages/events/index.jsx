@@ -145,8 +145,8 @@ export default function Events() {
                         return (
                             <div key={index} style={styles.row}>
                                 {events.slice(index, index + 3).map(event => (
-                                    <div key={event.description} style={styles.box}>
-                                        <Link style={styles.imageContainer} href={`events/${event.event_id}`}>
+                                    <div key={event.description} style={styles.box} onClick={() => router.push(`/events/${event.event_id}`)}>
+                                        <div>
                                             <img
                                                 src={event.photo}
                                                 alt={event.name}
@@ -157,7 +157,7 @@ export default function Events() {
                                                     borderRadius: '8px',
                                                 }}
                                             />
-                                        </Link>
+                                        </div>
                                         <div style={styles.textContainer}>
                                             <p>{event.name}</p>
                                             <p>Location: {event.address}</p>
