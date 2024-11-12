@@ -177,7 +177,7 @@ export default function Events() {
                     Add a new event
                 </Button>
             )}
-            <Footer />
+            {/*<Footer />*/}
         </>
     );
 }
