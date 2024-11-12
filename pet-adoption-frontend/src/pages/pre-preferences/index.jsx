@@ -50,7 +50,6 @@ export default function PrePreferences() {
         } catch (error) {
             setErrorMessage('An error occurred. Please try again later.');
             setSuccess(false);
-            console.error("Error setting preferences:", error);  // Add error logging for debugging
         }
     };
 
