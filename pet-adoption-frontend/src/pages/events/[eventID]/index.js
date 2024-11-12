@@ -11,8 +11,9 @@ export default function PetDetails() {
     const router = useRouter();
     const { eventID } = router.query;
     const authToken = Cookies.get("authToken")
+    const todayDate = Date();
 
-    const [pet, setPet] = useState(null);
+    const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [otherEvents, setOtherEvents] = useState([]);
@@ -22,7 +23,7 @@ export default function PetDetails() {
         if (eventID) {
             axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/${eventID}`)
                 .then((response) => {
-                    setPet(response.data);
+                    setEvent(response.data);
                     setLoading(false);
                 })
                 .catch((err) => {
@@ -66,14 +67,17 @@ export default function PetDetails() {
         return <CircularProgress sx={{ mt: 5, display: 'block', mx: 'auto' }} />;
     }
 
-    if (error || !pet) {
+    if (error || !event) {
         return <Alert severity="error" sx={{ mt: 2 }}>Failed to load pet details.</Alert>;
     }
 
     const {
         address, date, description, adoptionCenter, name, photo
-    } = pet;
+    } = event;
 
+    if (todayDate > date) {
+        let pastFlag = 1;
+    }
 
     return (
         <Container
