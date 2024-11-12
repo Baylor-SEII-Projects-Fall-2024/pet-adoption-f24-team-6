@@ -113,6 +113,7 @@ public class AuthController {
             userDetails.put("userType", user.getUserType().toString());
             userDetails.put("breedPref", user.getBreedPref());
             userDetails.put("speciesPref", user.getSpeciesPref());
+            userDetails.put("colorPref", user.getColorPref());
 
             return ResponseEntity.ok(userDetails);
         } catch (Exception e) {
@@ -172,6 +173,80 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update user: " + e.getMessage());
         }
     }
+
+    @PostMapping("/setPref")
+    public ResponseEntity<?> setPreferences(@RequestHeader("Authorization") String authToken, @RequestBody UpdateUser updateUser) {
+        try {
+            // Clean the token by removing "Bearer " prefix if it exists
+            String token = authToken.replace("Bearer ", "");
+
+
+            // Extract the username from the token (email address in this case)
+            String currentUserEmail = authService.extractUsername(token);
+
+
+            // Retrieve the user by email
+            User user = userService.findUserByEmail(currentUserEmail);
+
+
+            // Validate the token
+            if (!authService.isTokenValid(token, user)) {
+                throw new IllegalStateException("Invalid or expired token");
+            }
+
+
+            // Call service to update user preferences
+            User updatedUser = userService.setPreferences(currentUserEmail, updateUser);
+
+
+            // Return the updated user details in response
+            return ResponseEntity.ok(updatedUser);
+        } catch(IllegalArgumentException e) {
+            // In case preferences are already set
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Preferences are already set for this user.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update preferences: " + e.getMessage());
+        }
+    }
+
+
+
+
+    // Getting User Preferences
+    @GetMapping("/getPref")
+    public ResponseEntity<?> getPreferences(@RequestHeader("Authorization") String authToken) {
+        try {
+            // Remove "Bearer " prefix from token
+            String token = authToken.replace("Bearer ", "");
+
+
+            // Extract email from token
+            String currentUserEmail = authService.extractUsername(token);
+
+
+            // Retrieve user by email
+            User user = userService.findUserByEmail(currentUserEmail);
+
+
+            // Validate the token
+            if (!authService.isTokenValid(token, user)) {
+                throw new IllegalStateException("Invalid or expired token");
+            }
+
+
+            // Prepare the user preferences response
+            Map<String, String> preferences = new HashMap<>();
+            preferences.put("breedPref", user.getBreedPref());
+            preferences.put("speciesPref", user.getSpeciesPref());
+            preferences.put("colorPref", user.getColorPref());
+
+
+            return ResponseEntity.ok(preferences);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to retrieve preferences: " + e.getMessage());
+        }
+    }
+
 
     @GetMapping("/getNames")
     public ResponseEntity<?> getNames(@RequestParam String authToken) {

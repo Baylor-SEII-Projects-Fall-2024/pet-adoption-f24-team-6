@@ -5,17 +5,21 @@ import {useRouter} from "next/router";
 import Cookies from 'js-cookie';
 import {Alert} from "@mui/material";
 
+
 export default function signIn() {
+
 
     const router = useRouter();
     const handleSubmit = async (e) => {
         e.preventDefault()
 
 
+
         if (!username || !password) {
             alert('Please enter both username and password');
             return;
         }
+
 
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/login`, {
@@ -25,6 +29,7 @@ export default function signIn() {
                 },
                 body: JSON.stringify({ emailAddress: username, password: password }),
             });
+
 
             if (response.status === 404) {
                 seterrorMessage("Invalid Credentials");
@@ -36,8 +41,29 @@ export default function signIn() {
                 const data = await response.json()
                 console.log(data)
 
+
                 Cookies.set('authToken', data.authToken);
-                await router.push('/account');
+
+
+                // Check if user has preferences set
+                const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/getPref`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${data.authToken}`,
+                    },
+                });
+
+
+                const userData = await userResponse.json();
+
+                // If user preferences are not set, redirect to pre-preferences page
+                if (!userData.speciesPref || !userData.breedPref || !userData.colorPref) {
+                    await router.push('/pre-preferences');
+                } else {
+                    // Redirect to the regular account page
+                    await router.push('/account');
+                }
+
             }
         } catch (error) {
             console.error("Error during login", error);
@@ -45,15 +71,18 @@ export default function signIn() {
         }
     }
 
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, seterrorMessage] = useState('');
+
 
     return (
         <>
             <Head>
                 <title>Sign In | Furever Homes</title>
             </Head>
+
 
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'Center', height: '50vh'}}>
                 <div style={{textAlign: 'center'}}>
@@ -64,7 +93,9 @@ export default function signIn() {
                         </Alert>
                     )}
 
+
                     <form style={{display: 'flex', flexDirection: 'column', width: '300px', margin: '0 auto'}}>
+
 
                         <input
                             type="email"
@@ -81,6 +112,7 @@ export default function signIn() {
                             onChange={(event) => setPassword(event.target.value)}
                         />
 
+
                         <button
                             style={{
                                 padding: '10px',
@@ -92,7 +124,7 @@ export default function signIn() {
                                 cursor: 'pointer'
                             }}
                             onClick={handleSubmit}
-                            >
+                        >
                             Sign In
                         </button>
                     </form>
