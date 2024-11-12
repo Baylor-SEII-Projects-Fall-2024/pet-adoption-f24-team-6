@@ -47,9 +47,12 @@ export default function PrePreferences() {
             setTimeout(() => {
                 router.push('/browse');  // Redirect after success
             }, 2000);
+
+
         } catch (error) {
             setErrorMessage('An error occurred. Please try again later.');
             setSuccess(false);
+
         }
     };
 
