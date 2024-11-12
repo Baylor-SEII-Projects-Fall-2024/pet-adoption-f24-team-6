@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Paper, Button, CircularProgress } from '@mui/material';
+import Cookies from "js-cookie";
+import {useRouter} from "next/router";
 
 const PetCard = ({ pet, handleLike, handleDislike }) => (
     <Paper
@@ -33,9 +35,15 @@ const ForYouPage = () => {
     const startY = useRef(0); // Track initial touch Y position
     const scrollTimeout = useRef(null);
     const lastScrollTime = useRef(0); // Keep track of the last scroll event
+    const authToken = Cookies.get('authToken');
+    const router = useRouter();
 
-    // Fetch pets initially
     useEffect(() => {
+        if( !authToken ){
+            // user not logged in
+            router.push('/sign-in');
+            return;
+        }
         const fetchPets = async () => {
             setLoading(true);
             try {
