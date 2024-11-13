@@ -24,6 +24,9 @@ public class UserInteractionController {
     private UserInteractionService recommendationService;
 
     @Autowired
+    private petadoption.api.service.recommendationEngineService recommendationEngineService;
+
+    @Autowired
     private UserInteractionRepository userInteractionRepo;
 
     @Autowired
@@ -34,7 +37,7 @@ public class UserInteractionController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Pet>> getPersonalizedRecommendations(@PathVariable Long userId) {
-        List<Pet> recommendedPets = recommendationService.getPersonalizedRecommendations(userId);
+        List<Pet> recommendedPets = recommendationEngineService.getPersonalizedRecommendations(userId);
         return ResponseEntity.ok(recommendedPets);
     }
 
