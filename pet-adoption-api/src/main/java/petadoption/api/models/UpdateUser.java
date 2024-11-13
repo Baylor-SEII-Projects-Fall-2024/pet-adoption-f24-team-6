@@ -7,6 +7,7 @@ public class UpdateUser {
     private String lastName;
     private String breedPref;
     private String speciesPref;
+    private String colorPref;
 
     // Getters and setters
     public String getEmailAddress() {
@@ -48,4 +49,9 @@ public class UpdateUser {
     public String getSpeciesPref() {return speciesPref;}
 
     public void setSpeciesPref(String speciesPref) {this.speciesPref = speciesPref;}
+
+    public String getColorPref() {return colorPref;}
+
+    public void setColorPref(String colorPref) {this.colorPref = colorPref;}
+
 }

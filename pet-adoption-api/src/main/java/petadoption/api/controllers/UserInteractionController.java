@@ -8,6 +8,7 @@ import petadoption.api.models.INTERACTION_TYPE;
 import petadoption.api.repositories.PetRepository;
 import petadoption.api.repositories.UserInteractionRepository;
 import petadoption.api.repositories.UserRepository;
+import petadoption.api.service.RecommendationEngineService;
 import petadoption.api.service.UserInteractionService;
 import petadoption.api.tables.Pet;
 import petadoption.api.tables.User;
@@ -21,7 +22,7 @@ import java.util.List;
 public class UserInteractionController {
 
     @Autowired
-    private UserInteractionService recommendationService;
+    private RecommendationEngineService recommendationService;
 
     @Autowired
     private UserInteractionRepository userInteractionRepo;

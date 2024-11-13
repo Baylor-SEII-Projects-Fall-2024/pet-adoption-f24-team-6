@@ -117,42 +117,46 @@ export default function browse() {
                 </Box>
             )}
 
-            <div style={styles.container}>
-                {pets.map((pet, index) => {
-                    if (index % 3 === 0) {
-                        return (
-                            <div key={index} style={styles.row}>
-                                {pets.slice(index, index + 3).map(pet => (
-                                    <div key={pet.name} style={styles.box} onClick={() => router.push(`/pet/${pet.id}`)}>
+            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                <div style={{ flexGrow: 1, paddingBottom: '20px' }}>
+                    <div style={styles.container}>
+                        {pets.map((pet, index) => {
+                            if (index % 3 === 0) {
+                                return (
+                                    <div key={index} style={styles.row}>
+                                        {pets.slice(index, index + 3).map(pet => (
+                                            <div key={pet.name} style={styles.box} onClick={() => router.push(`/pet/${pet.id}`)}>
 
-                                        <div style={styles.imageContainer}>
-                                            <img
-                                                src={pet.photo}
-                                                alt={pet.name}
-                                                style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'cover',
-                                                    borderRadius: '8px',
-                                                }}
-                                            />
-                                        </div>
+                                                <div style={styles.imageContainer}>
+                                                    <img
+                                                        src={pet.photo}
+                                                        alt={pet.name}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            objectFit: 'cover',
+                                                            borderRadius: '8px',
+                                                        }}
+                                                    />
+                                                </div>
 
-                                        <div style={styles.textContainer}>
-                                            <p>Breed: {pet.breed}</p>
-                                            <p>Age: {pet.age}</p>
-                                            <p>Name: {pet.name}</p>
-                                        </div>
+                                                <div style={styles.textContainer}>
+                                                    <p>Breed: {pet.breed}</p>
+                                                    <p>Age: {pet.age}</p>
+                                                    <p>Name: {pet.name}</p>
+                                                </div>
 
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
+                                );
+                            }
+                            return null;
+                        })}
+                    </div>
+                </div>
             </div>
-            <Footer />
+            {/*<Footer />*/}
         </>
     )
 }
