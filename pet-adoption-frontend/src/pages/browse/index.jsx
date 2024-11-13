@@ -60,6 +60,7 @@ export default function browse() {
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
+    const [interactions, setInteractions] = useState([]);
     const router = useRouter();
     const authToken = Cookies.get("authToken")
 
