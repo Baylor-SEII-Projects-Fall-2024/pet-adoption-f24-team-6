@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { Provider as ReduxProvider } from 'react-redux';
 import { useRouter } from 'next/router';
+import { styled } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
 
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';
 import {
@@ -29,13 +31,48 @@ import Cookies from "js-cookie";
 let initialState = {};
 let reduxStore = buildStore(initialState);
 
+
 export default function App({ Component, pageProps }) {
+
+    const StyledBadge = styled(Badge)(({ theme }) => ({
+        '& .MuiBadge-badge': {
+            backgroundColor: '#d50010',
+            color: '#d50010',
+            boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+            marginTop: '2.90rem',
+            marginRight: '1.35rem',
+            '&::after': {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%',
+                animation: 'ripple 1.2s infinite ease-in-out',
+                border: '1px solid currentColor',
+                content: '""',
+            },
+        },
+        '@keyframes ripple': {
+            '0%': {
+                transform: 'scale(.8)',
+                opacity: 1,
+            },
+            '100%': {
+                transform: 'scale(2.4)',
+                opacity: 0,
+            },
+        },
+    }));
 
   const [value, setValue] = React.useState('');
   const [initials, setInitials] = React.useState('');
   const [userType, setUserType] = React.useState('');
   const [loadingAuth, setLoadingAuth] = React.useState(true);
   const [loadingInitials, setLoadingInitials] = React.useState(true);
+  const [loadingMessages, setLoadingMessages] = React.useState(true);
+  const [userID, setUserID] = React.useState(-1);
+  const [messageCount, setMessageCount] = React.useState(-1)
 
   const token = Cookies.get('authToken');
 
@@ -59,6 +96,7 @@ export default function App({ Component, pageProps }) {
                     console.error('Authentication failed', response.statusText);
                 }
                 setUserType(data?.userType)
+                setUserID(data?.userID)
                 setLoadingAuth(false);
             } catch (error) {
                 console.error("Error during checkAuth", error);
@@ -70,6 +108,38 @@ export default function App({ Component, pageProps }) {
             getInitials()
         }
     }, [token]);
+
+    useEffect(() => {
+        // Run getMessages only when userID is set
+        if (userID !== -1) {
+            getMessages();
+        }
+    }, [userID, token]);
+
+    const getMessages = async () => {
+        if(token){
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/messages/received/${userID}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                data = await response.json()
+
+                if (!response.ok) {
+                    console.error('Error', response.statusText);
+                } else {
+                    console.log("messages", data.length)
+                    setMessageCount(data?.length);
+                    setLoadingMessages(false)
+                }
+            } catch (error) {
+                console.error("Error during getNames", error);
+            }
+        }
+    }
 
     const getInitials = async () => {
         if(token){
@@ -105,7 +175,7 @@ export default function App({ Component, pageProps }) {
         setAnchorEl(null);
     };
 
-    if(token !== undefined && (loadingAuth || loadingInitials)) {
+    if(token !== undefined && (loadingAuth || loadingInitials || loadingMessages)) {
         return (
             <div className={styles.loadingContainer}>
                 <img
@@ -227,13 +297,31 @@ export default function App({ Component, pageProps }) {
 
               {(token && !data?.Authorized) && (
                   <>
-                      <Avatar
-                          sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}
-                          onMouseEnter={handleAvatarHover}
-                          onClick={() => router.push('/account')}
-                      >
-                          {initials}
-                      </Avatar>
+                      {messageCount > 0 && (
+                          <StyledBadge
+                              overlap="circular"
+                              //anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                              variant="dot"
+                          >
+                              <Avatar
+                                  sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}
+                                  onMouseEnter={handleAvatarHover}
+                                  onClick={() => router.push('/account')}
+                              >
+                                  {initials}
+                              </Avatar>
+                          </StyledBadge>
+
+                      )}
+                      {messageCount == 0 && (
+                          <Avatar
+                              sx={{ marginRight: '1.5rem', marginTop: '1.75rem' }}
+                              onMouseEnter={handleAvatarHover}
+                              onClick={() => router.push('/account')}
+                          >
+                              {initials}
+                          </Avatar>
+                      )}
 
                       <Menu
                           anchorEl={anchorEl}
