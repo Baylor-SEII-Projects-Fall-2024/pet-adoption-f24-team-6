@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface UserInteractionRepository extends JpaRepository<UserInteraction, Long> {
 
-    @Query("SELECT i FROM UserInteraction i WHERE i.user.id = :userId AND i.pet.id = :petId")
+    @Query("SELECT DISTINCT i FROM UserInteraction i WHERE i.user.id = :userId AND i.pet.id = :petId")
     Optional<UserInteraction> findInteraction(@Param("userId") Long userId, @Param("petId") Long petId);
 
     @Query("SELECT i.pet.id FROM UserInteraction i " +
