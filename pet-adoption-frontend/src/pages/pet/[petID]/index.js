@@ -279,7 +279,6 @@ export default function PetDetails() {
                         <strong>Contact:</strong> {adoptionCenter.contactInfo}
                     </Typography>
 
-                    {/* Request More Info Button */}
                     <Button
                         variant="contained"
                         sx={{ mt: 2 }}
