@@ -24,6 +24,11 @@ public interface UserInteractionRepository extends JpaRepository<UserInteraction
     List<Long> findSimilarUsers(@Param("petIds") List<Long> petIds,
                                 @Param("userId") Long userId);
 
+    //This is being used for viewing Feature
+    @Query("SELECT i.pet.id FROM UserInteraction i WHERE i.user.id = :userId AND i.interactionType = 'VIEW'")
+    List<Long> findViewedPets(@Param("userId") Long userId);
+
+
     @Query("SELECT DISTINCT i.pet.id FROM UserInteraction i " +
             "WHERE i.user.id IN :userIds AND i.pet.id NOT IN :excludedPetIds")
     List<Long> findRecommendedPets(@Param("userIds") List<Long> userIds,
