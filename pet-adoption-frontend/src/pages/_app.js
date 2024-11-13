@@ -132,7 +132,6 @@ export default function App({ Component, pageProps }) {
                 if (!response.ok) {
                     console.error('Error', response.statusText);
                 } else {
-                    console.log("messages", data)
                     setMessageCount(data);
                     setLoadingMessages(false)
                 }
