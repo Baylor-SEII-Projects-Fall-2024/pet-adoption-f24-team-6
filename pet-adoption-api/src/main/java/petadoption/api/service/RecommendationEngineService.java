@@ -79,7 +79,7 @@ public class RecommendationEngineService {
     // Part 2 - Find the most similar users based on likes (similarity score)
     public List<Long> findMostSimilarUsers(Long userId, List<Long> interactedPetIds) {
         // Find all users who interacted with at least one of the user's pets
-        List<Long> similarUserIds = interactionRepository.findSimilarUsers(interactedPetIds, userId);
+        List<Long> similarUserIds = interactionRepository.findUsersByPetInteractions(interactedPetIds, userId);
 
         // Calculate similarity based on common likes
         Map<Long, Integer> userLikeCount = new HashMap<>();
