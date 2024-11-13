@@ -54,6 +54,7 @@ const styles = {
 export default function browse() {
 
     const [pets, setPets] = useState([]);
+    const [userID, setUserID] = useState([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     const authToken = Cookies.get("authToken")
@@ -125,7 +126,7 @@ export default function browse() {
                     },
                     body: JSON.stringify({
                         userId: userID,
-                        petId: petID
+                        petId: x
                     }),
                 });
 
@@ -197,7 +198,6 @@ export default function browse() {
                                     <div key={index} style={styles.row}>
                                         {pets.slice(index, index + 3).map(pet => (
                                             <div key={pet.name} style={styles.box}>
-
                                                 <div style={styles.imageContainer} onClick={() => router.push(`/pet/${pet.id}`)}>
                                                     <img
                                                         src={pet.photo}
