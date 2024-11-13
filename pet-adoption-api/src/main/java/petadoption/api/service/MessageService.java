@@ -41,4 +41,8 @@ public class MessageService {
             messageRepository.save(m);
         });
     }
+
+    public long countUnreadMessages(Long receiverId) {
+        return messageRepository.countByReceiverIdAndIsReadFalse(receiverId);
+    }
 }
