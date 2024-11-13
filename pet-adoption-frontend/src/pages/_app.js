@@ -22,6 +22,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import HelpIcon from '@mui/icons-material/Help';
 import styles from '../styles/Loading.module.css';
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 
 import '@/styles/globals.css'
 import Cookies from "js-cookie";
@@ -169,6 +170,9 @@ export default function App({ Component, pageProps }) {
                           case 3:
                               router.push('/FAQ'); // Route to /faq
                               break;
+                          case 4:
+                              router.push('fyp');
+                              break;
                           default:
                               break;
                       }
@@ -179,6 +183,7 @@ export default function App({ Component, pageProps }) {
                 <BottomNavigationAction label="Events" icon={<HomeIcon />} />
                 <BottomNavigationAction label="Contact Us" icon={<PersonIcon />} />
                 <BottomNavigationAction label="FAQ" icon={<HelpIcon />} />
+                <BottomNavigationAction label="For You" icon={<AllInclusiveIcon />} />
               </BottomNavigation>
             </Box>
 
