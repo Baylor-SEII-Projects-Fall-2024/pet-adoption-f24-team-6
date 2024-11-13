@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.Random;
 
 @Service
-public class recommendationEngineService {
+public class RecommendationEngineService {
 
     @Autowired
     private UserInteractionRepository interactionRepository;
