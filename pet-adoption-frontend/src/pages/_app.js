@@ -366,6 +366,11 @@ export default function App({ Component, pageProps }) {
                           )}
 
                           <MenuItem onClick={() => {
+                              router.push('/myMessages');
+                              setValue('');
+                          }}>My Messages</MenuItem>
+
+                          <MenuItem onClick={() => {
                               Cookies.remove('authToken');
                               router.push('/');
                               setValue('');

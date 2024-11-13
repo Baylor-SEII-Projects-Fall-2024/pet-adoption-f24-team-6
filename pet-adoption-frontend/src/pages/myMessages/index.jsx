@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from "@mui/material";
+import {useRouter} from "next/router";
 
 export default function MyMessages() {
     const authToken = Cookies.get('authToken');
@@ -12,10 +13,14 @@ export default function MyMessages() {
     const [open, setOpen] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [replyText, setReplyText] = useState("");
+    const router = useRouter()
 
     useEffect(() => {
         const checkAuth = async () => {
-            if (!authToken) return;
+            if (!authToken){
+                router.push('/not-authorized')
+                return;
+            }
 
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`, {
@@ -54,9 +59,22 @@ export default function MyMessages() {
         }
     }, [userID]);
 
-    const handleRowClick = (params) => {
-        setSelectedMessage(params.row);
+    const handleRowClick = async (params) => {
+        const message = params.row;
+        setSelectedMessage(message);
         setOpen(true);
+
+        try {
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/messages/read/${message.id}`);
+            // Update the message status locally
+            setMessages((prevMessages) =>
+                prevMessages.map((msg) =>
+                    msg.id === message.id ? { ...msg, read: true } : msg
+                )
+            );
+        } catch (error) {
+            console.error("Error marking message as read:", error);
+        }
     };
 
     const handleClose = () => {
