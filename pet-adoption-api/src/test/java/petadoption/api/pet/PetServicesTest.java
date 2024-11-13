@@ -1,10 +1,12 @@
 package petadoption.api.pet;
 
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import petadoption.api.repositories.UserInteractionRepository;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.tables.Pet;
 import petadoption.api.repositories.AdoptionCenterRepository;
@@ -25,6 +27,9 @@ class PetServicesTest {
     private PetService petService;
 
     @Autowired
+    private UserInteractionRepository interactionRepository;
+
+    @Autowired
     private PetRepository petRepository;
 
     @Autowired
@@ -34,6 +39,8 @@ class PetServicesTest {
 
     @BeforeEach
     void setUp() {
+        interactionRepository.deleteAll();
+        petRepository.deleteAll();
         adoptionCenter = new AdoptionCenter();
         adoptionCenter.setName("Test Adoption Center");
         adoptionCenter = adoptionCenterRepository.save(adoptionCenter);

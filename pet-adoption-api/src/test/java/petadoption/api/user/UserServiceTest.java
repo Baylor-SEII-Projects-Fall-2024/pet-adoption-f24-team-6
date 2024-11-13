@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import petadoption.api.models.USER_TYPE;
 import petadoption.api.models.UpdateUser;
+import petadoption.api.repositories.UserInteractionRepository;
 import petadoption.api.tables.User;
 import petadoption.api.repositories.UserRepository;
 import petadoption.api.service.UserService;
@@ -21,6 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserServiceTest {
 
     @Autowired
+    private UserInteractionRepository interactionRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -28,6 +32,7 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
+        interactionRepository.deleteAll();
         userRepository.deleteAll();
     }
 
