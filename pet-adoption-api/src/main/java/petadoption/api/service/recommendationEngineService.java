@@ -77,7 +77,7 @@ public class recommendationEngineService {
 
 
     // Part 2 - Find the most similar users based on likes (similarity score)
-    private List<Long> findMostSimilarUsers(Long userId, List<Long> interactedPetIds) {
+    public List<Long> findMostSimilarUsers(Long userId, List<Long> interactedPetIds) {
         // Find all users who interacted with at least one of the user's pets
         List<Long> similarUserIds = interactionRepository.findSimilarUsers(interactedPetIds, userId);
 
@@ -98,7 +98,7 @@ public class recommendationEngineService {
     }
 
     // Part 3 - Calculate relevance score for a pet
-    private double calculateRelevanceScore(Pet pet, Long userId, List<Long> interactedPetIds) {
+    public double calculateRelevanceScore(Pet pet, Long userId, List<Long> interactedPetIds) {
         double score = 0.0;
 
         // Step 1: Handle likes/dislikes normalization
@@ -119,7 +119,7 @@ public class recommendationEngineService {
     }
 
     // New Method - Calculate bonus for matching user preferences (species, breed, color)
-    private double calculatePreferenceMatchBonus(Pet pet, Long userId) {
+    public double calculatePreferenceMatchBonus(Pet pet, Long userId) {
         double bonus = 0.0;
 
         // Fetch user preferences from the repository
