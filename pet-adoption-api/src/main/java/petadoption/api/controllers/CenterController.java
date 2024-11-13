@@ -69,6 +69,7 @@ public class CenterController {
             newUser.setFirstName(input.getOwnerFirstName());
             newUser.setLastName(input.getOwnerLastName());
             newUser.setPassword(input.getPassword());
+            newAdoptionCenter.setUser(newUser);
             userService.saveUser(newUser);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCenter);
