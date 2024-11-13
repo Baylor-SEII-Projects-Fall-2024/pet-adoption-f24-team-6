@@ -8,6 +8,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import ThumbsUpIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbsDownIcon from "@mui/icons-material/ThumbDownOffAlt";
+import ThumbsUpFilledIcon from "@mui/icons-material/ThumbUp";
+import ThumbsDownFilledIcon from "@mui/icons-material/ThumbDown";
 
 const styles = {
     container: {
@@ -56,6 +58,8 @@ export default function browse() {
     const [pets, setPets] = useState([]);
     const [userID, setUserID] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isLiked, setIsLiked] = useState(false);
+    const [isDisliked, setIsDisliked] = useState(false);
     const router = useRouter();
     const authToken = Cookies.get("authToken")
 
@@ -114,7 +118,7 @@ export default function browse() {
         );
     }
 
-    const handleLike = async (x) => {
+    const handleLike = async (petId) => {
         if(!authToken){
             router.push('/sign-in')
         }else {
@@ -126,12 +130,16 @@ export default function browse() {
                     },
                     body: JSON.stringify({
                         userId: userID,
-                        petId: x
+                        petId
                     }),
                 });
 
                 if(response.status === 200){
                     console.log();
+                    setIsLiked((prev) => ({
+                        ...prev,
+                        [petId]: !prev[petId]
+                    }));
                 }
             } catch (error) {
                 console.error('Error while liking:', error.response?.data || error.message);
@@ -139,13 +147,13 @@ export default function browse() {
         }
     };
 
-    const handleDislike = async (petID) => {
+    const handleDislike = async (petId) => {
         if(!authToken){
             router.push('/sign-in')
         }else {
             const requestData = {
                 userId: userID,
-                petId: petID
+                petId
             };
 
             try {
@@ -153,6 +161,10 @@ export default function browse() {
 
                 if(response.status === 200){
                     console.log();
+                    setIsDisliked((prev) => ({
+                        ...prev,
+                        [petId]: !prev[petId]
+                    }));
                 }
             } catch (error) {
                 console.error('Error while disliking:', error.response?.data || error.message);
@@ -218,18 +230,18 @@ export default function browse() {
                                                     <Button
                                                         variant="contained"
                                                         color="success"
-                                                        // sx={{ mt: 2 }}
+                                                        sx={{ mt: 2 }}
                                                         onClick={() => handleLike(pet.id)}
-                                                        startIcon={<ThumbsUpIcon />}
+                                                        startIcon={isLiked[pet.id] ? <ThumbsUpFilledIcon /> : <ThumbsUpIcon/>}
                                                     >
                                                     </Button>
 
                                                     <Button
                                                         variant="contained"
                                                         color="error"
-                                                        // sx={{ mt: 2 }}
+                                                        sx={{ mt: 2 }}
                                                         onClick={() => handleDislike(pet.id)}
-                                                        startIcon={<ThumbsDownIcon />}
+                                                        startIcon={isDisliked[pet.id] ? <ThumbsDownFilledIcon /> : <ThumbsDownIcon />}
                                                     >
                                                     </Button>
                                                 </div>
