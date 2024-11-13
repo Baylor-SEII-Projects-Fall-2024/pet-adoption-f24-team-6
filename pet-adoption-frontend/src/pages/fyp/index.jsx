@@ -8,7 +8,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 let userId;
 
-const PetCard = ({ pet, router }) => (
+const PetCard = ({ pet, router, userId }) => (
     <Paper
         style={{
             height: '80vh',
@@ -20,33 +20,34 @@ const PetCard = ({ pet, router }) => (
             marginBottom: '10px',
             width: '35%'
         }}
-        onClick={() => router.push(`/pet/${pet.id}`)}
+
     >
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <img
-                src={pet.photo}
-                alt={pet.name}
+                src={pet?.photo}
+                alt={pet?.name}
                 style={{
                     width: '80%',
                     height: '40%',
                     objectFit: 'cover',
                     marginBottom: '10px',
                 }}
+                onClick={() => router.push(`/pet/${pet?.id}`)}
             />
-            <h3 style={{ margin: 0 }}>{pet.name}</h3>
+            <h3 style={{ margin: 0 }}>{pet?.name}</h3>
         </div>
         <div style={{display: 'flex', flexDirection: 'column'}}>
-            <IconButton color="success" onClick={() => HandleLike(pet.id)}>
+            <IconButton color="success" onClick={() => HandleLike(pet?.id, userId)}>
                 <ThumbUpIcon />
             </IconButton>
-            <IconButton color="error" onClick={() => HandleDisLike(pet.id)}>
+            <IconButton color="error" onClick={() => HandleDisLike(pet?.id, userId)}>
                 <ThumbDownIcon />
             </IconButton>
         </div>
     </Paper>
 );
 
-const HandleLike = async (id) => {
+const HandleLike = async (id, userId) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/like`, {
             method: 'POST',
@@ -64,7 +65,7 @@ const HandleLike = async (id) => {
     }
 };
 
-const HandleDisLike = async (id) => {
+const HandleDisLike = async (id, userId) => {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/dislike`, {
             method: 'POST',
@@ -85,13 +86,14 @@ const ForYouPage = () => {
     const [pets, setPets] = useState([]);
     const [currentPetIndex, setCurrentPetIndex] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [userKey, setUserKey] = useState(null);
     const startY = useRef(0);
     const scrollTimeout = useRef(null);
     const lastScrollTime = useRef(0);
     const authToken = Cookies.get('authToken');
     const [viewCount, setViewCount] = useState(0);
     const router = useRouter();
+    const [userId, setUserId] = useState(-1);
+
 
     useEffect(() => {
         if( !authToken ){
@@ -99,10 +101,6 @@ const ForYouPage = () => {
             router.push('/sign-in');
             return;
         }
-        fetchPets();
-    }, []);
-
-    useEffect(() => {
         const checkAuth = async () => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
@@ -112,28 +110,29 @@ const ForYouPage = () => {
                     console.error('Failed to fetch user type:', response.statusText);
                     return;
                 }
-                userId = data.userID
+                setUserId(data.userID)
             } catch (error) {
                 console.error("Error fetching user type:", error);
             }
         };
 
         checkAuth();
+        fetchPets()
     }, [authToken, router]);
 
-    const fetchPets = async () => {
-        if(userId){
+    const fetchPets = useCallback(async () => {
+        if (!userId) return;
+        try {
             setLoading(true);
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userId}`); // Fetch a batch of pets
-                const data = await response.json();
-                setPets((prevPets) => [...prevPets, ...data])
-            } catch (error) {
-                console.error("Failed to fetch pets", error);
-            }
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userId}`);
+            const data = await response.json();
+            setPets((prevPets) => [...prevPets, ...data]);
+        } catch (error) {
+            console.error("Failed to fetch pets:", error);
+        } finally {
             setLoading(false);
         }
-    };
+    }, [userId]);
 
     const goToNextPet = useCallback(() => {
         if (currentPetIndex < pets.length - 1) {
@@ -213,6 +212,7 @@ const ForYouPage = () => {
                     <PetCard
                         pet={pets[currentPetIndex]}
                         router={router}
+                        userId={userId}
                     />
                 </div>
             )}
