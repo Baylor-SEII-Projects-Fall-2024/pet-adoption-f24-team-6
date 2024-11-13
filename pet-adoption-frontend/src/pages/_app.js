@@ -120,7 +120,7 @@ export default function App({ Component, pageProps }) {
     const getMessages = async () => {
         if(token){
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/messages/received/${userID}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/messages/unread/count/${userID}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -132,8 +132,8 @@ export default function App({ Component, pageProps }) {
                 if (!response.ok) {
                     console.error('Error', response.statusText);
                 } else {
-                    console.log("messages", data.length)
-                    setMessageCount(data?.length);
+                    console.log("messages", data)
+                    setMessageCount(data);
                     setLoadingMessages(false)
                 }
             } catch (error) {
