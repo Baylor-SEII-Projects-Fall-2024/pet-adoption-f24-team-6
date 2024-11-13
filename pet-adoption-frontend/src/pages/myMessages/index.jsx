@@ -139,6 +139,9 @@ export default function MyMessages() {
                         value={replyText}
                         onChange={handleReplyChange}
                         variant="outlined"
+                        sx={{
+                            marginTop: '10px'
+                        }}
                     />
                 </DialogContent>
                 <DialogActions>
