@@ -33,5 +33,8 @@ public class AdoptionCenter {
     @Column(name = "LIKES")
     Integer likes;
 
+    @OneToOne
+    @JoinColumn(name = "CENTER_ID", referencedColumnName = "USER_ID")
+    private User user;
 
 }

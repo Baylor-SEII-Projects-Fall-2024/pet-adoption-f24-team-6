@@ -69,6 +69,7 @@ public class CenterController {
             newUser.setFirstName(input.getOwnerFirstName());
             newUser.setLastName(input.getOwnerLastName());
             newUser.setPassword(input.getPassword());
+            newAdoptionCenter.setUser(newUser);
             userService.saveUser(newUser);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCenter);
@@ -117,6 +118,17 @@ public class CenterController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(events);
+        }
+    }
+
+    @GetMapping("/{centerId}/user")
+    public ResponseEntity<?> getUserByCenterId(@PathVariable Long centerId) {
+        Optional<User> user = adoptionCenterService.getUserByCenterId(centerId);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No user found for Adoption Center ID: " + centerId);
         }
     }
 }
