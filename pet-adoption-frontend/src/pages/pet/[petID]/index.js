@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
-    Container, Paper, Typography, Box, Grid, Avatar, CircularProgress, Alert, Button, Stack, Card, CardMedia, CardContent
+    Container,
+    Paper,
+    Typography,
+    Box,
+    Grid,
+    Avatar,
+    CircularProgress,
+    Alert,
+    Button,
+    Stack,
+    Card,
+    CardMedia,
+    CardContent,
+    DialogTitle, TextField, DialogActions, Dialog, DialogContent
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import PhoneForwardedIcon from '@mui/icons-material/PhoneForwarded';
 import ThumbsUpIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbsDownIcon from "@mui/icons-material/ThumbDownOffAlt";
-import ThumbsUpFilledIcon from '@mui/icons-material/ThumbUp';
+import SendIcon from '@mui/icons-material/Send';
 import ThumbsDownFilledIcon from '@mui/icons-material/ThumbDown';
 import Cookies from "js-cookie";
 
@@ -24,6 +37,8 @@ export default function PetDetails() {
     const [otherPets, setOtherPets] = useState([]);
     const [userID, setUserID] = useState(1);
     const [clicked, setClicked] = useState();
+    const [messageOpen, setMessageOpen] = useState(false);
+    const [messageText, setMessageText] = useState("");
 
     useEffect(() => {
         if (petID) {
@@ -182,6 +197,27 @@ export default function PetDetails() {
         }
     };
 
+    const handleSendMessage = async () => {
+        const payload = {
+            senderId: userID,
+            receiverId: pet.adoptionCenter.id,
+            content: messageText
+        };
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/messages/send`, payload);
+            if (response.status === 200) {
+                console.log("Message sent successfully!");
+                setMessageOpen(false);
+                setMessageText("");
+            } else {
+                console.error("Failed to send message:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error sending message:", error);
+        }
+    };
+
     return (
         <Container
             maxWidth="xl"
@@ -243,7 +279,6 @@ export default function PetDetails() {
                         <strong>Contact:</strong> {adoptionCenter.contactInfo}
                     </Typography>
 
-                    {/* Request More Info Button */}
                     <Button
                         variant="contained"
                         sx={{ mt: 2 }}
@@ -272,8 +307,38 @@ export default function PetDetails() {
                     >
                         Dislike
                     </Button>
+
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 2 }}
+                        onClick={() => setMessageOpen(true)}
+                        startIcon={<SendIcon />}
+                    >
+                        Send Message
+                    </Button>
                 </Box>
             </Paper>
+
+            <Dialog open={messageOpen} onClose={() => setMessageOpen(false)}>
+                <DialogTitle>Send Message to {pet.adoptionCenter.name}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        fullWidth
+                        label="Message"
+                        multiline
+                        rows={4}
+                        value={messageText}
+                        onChange={(e) => setMessageText(e.target.value)}
+                        variant="outlined"
+                        sx={{ mt: 2 }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setMessageOpen(false)} color="secondary">Cancel</Button>
+                    <Button onClick={handleSendMessage} color="primary">Send Message</Button>
+                </DialogActions>
+            </Dialog>
 
 
             <Box sx={{ mt: 5 }}>

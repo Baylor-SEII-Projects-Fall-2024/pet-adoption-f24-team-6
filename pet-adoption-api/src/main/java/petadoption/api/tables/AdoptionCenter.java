@@ -34,7 +34,7 @@ public class AdoptionCenter {
     Integer likes;
 
     @OneToOne
-    @JoinColumn(name = "CENTER_ID", referencedColumnName = "USER_ID")
-    private User user;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+    User user;
 
 }
