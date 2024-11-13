@@ -12,6 +12,7 @@ import {
     Typography
 } from '@mui/material';
 import { useRouter } from "next/router";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function MyPets() {
     const router = useRouter();
@@ -68,6 +69,25 @@ export default function MyPets() {
         }
     }, [authToken, pets.length, router]);
 
+    const handleDelete = async (petId) => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/delete/${petId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete pet');
+            }
+
+            setPets((prevPets) => prevPets.filter((pet) => pet.id !== petId));
+        } catch (error) {
+            console.error('Error deleting pet:', error);
+        }
+    };
+
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         { field: 'name', headerName: 'Name', width: 150 },
@@ -82,6 +102,24 @@ export default function MyPets() {
             width: 150,
             renderCell: (params) => (
                 <img src={params.value} alt={params.row.name} style={{ width: '50px', height: '50px', borderRadius: '4px' }} />
+            ),
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            width: 150,
+            renderCell: (params) => (
+                <Button
+                    variant="outlined"
+                    startIcon={<DeleteIcon />}
+                    color='error'
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        handleDelete(params.row.id)
+                    }}
+                >
+                    Delete
+                </Button>
             ),
         },
     ];
