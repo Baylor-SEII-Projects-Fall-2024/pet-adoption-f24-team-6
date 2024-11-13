@@ -6,6 +6,7 @@ import petadoption.api.repositories.PetRepository;
 import petadoption.api.repositories.UserInteractionRepository;
 import petadoption.api.repositories.UserRepository;
 import petadoption.api.tables.Pet;
+import petadoption.api.tables.User;
 import petadoption.api.tables.UserInteraction;
 import petadoption.api.models.INTERACTION_TYPE;
 
@@ -111,8 +112,40 @@ public class recommendationEngineService {
         // Step 3: Apply additional factors based on pet attributes (e.g., age, training)
         score += ATTRIBUTE_BONUS_WEIGHT * calculatePetAttributesBonus(pet);
 
+        // Step 4: Apply bonuses for matching user preferences (species, breed, color)
+        score += calculatePreferenceMatchBonus(pet, userId);
+
         return score;
     }
+
+    // New Method - Calculate bonus for matching user preferences (species, breed, color)
+    private double calculatePreferenceMatchBonus(Pet pet, Long userId) {
+        double bonus = 0.0;
+
+        // Fetch user preferences from the repository
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) return bonus; // No preferences found
+
+        User user = userOpt.get();
+
+        // Apply bonus for species match
+        if (user.getSpeciesPref() != null && user.getSpeciesPref().equalsIgnoreCase(pet.getSpecies())) {
+            bonus += 15; // Adjusted species match bonus
+        }
+
+        // Apply bonus for breed match
+        if (user.getBreedPref() != null && user.getBreedPref().equalsIgnoreCase(pet.getBreed())) {
+            bonus += 7; // Adjusted breed match bonus
+        }
+
+        // Apply bonus for color match
+        if (user.getColorPref() != null && user.getColorPref().equalsIgnoreCase(pet.getColor())) {
+            bonus += 5; // Adjusted color match bonus
+        }
+
+        return bonus;
+    }
+
 
     //Stuff that is used for Calculation \/
 
