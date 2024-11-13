@@ -9,11 +9,9 @@ import petadoption.api.tables.Pet;
 import petadoption.api.tables.UserInteraction;
 import petadoption.api.models.INTERACTION_TYPE;
 
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Comparator;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.Random;
 
 @Service
 public class recommendationEngineService {
@@ -27,11 +25,8 @@ public class recommendationEngineService {
     @Autowired
     private UserRepository userRepository;
 
-    // Constants for the scoring system
-    private static final double LIKE_WEIGHT = 1.0;
-    private static final double DISLIKE_WEIGHT = -2.0;
+    // Constants for the scoring system - how important are likes and dislikes
     private static final double LIKE_DISLIKE_SCALE = 20.0;
-
     private static final double MAX_LIKES = 10.0;
     private static final double MAX_DISLIKES = -10.0;
 
@@ -40,20 +35,47 @@ public class recommendationEngineService {
     private static final double SIMILARITY_WEIGHT = 1.5;
     private static final double ATTRIBUTE_BONUS_WEIGHT = 1.0;
 
+    // Constant for the threshold of viewed pets
+    private static final int VIEWED_THRESHOLD = 3;
+
+
+
+
+    //Part 1 Get all the pets that should be shown.
     public List<Pet> getPersonalizedRecommendations(Long userId) {
-        // Step 1: Get pets the user has interacted with
+        // Step 1: Get pets the user has interacted with, including viewed pets
         List<Long> interactedPetIds = interactionRepository.findPetsInteractedByUser(userId);
+
+        // Get all the pets the user has already viewed
+        List<Long> viewedPetIds = interactionRepository.findViewedPets(userId);
+
+        // Check if the number of viewed pets exceeds the limit
+        if (viewedPetIds.size() > VIEWED_THRESHOLD) {
+            // Randomly select one pet to delete its interaction (unviewed)
+            Random random = new Random();
+            Long petToDeleteId = viewedPetIds.get(random.nextInt(viewedPetIds.size()));
+
+            // Find the UserInteraction entry for this pet
+            UserInteraction interaction = interactionRepository.findInteraction(userId, petToDeleteId).orElse(null);
+            if (interaction != null) {
+                // Delete the interaction record from the database
+                interactionRepository.delete(interaction);  // Delete interaction from the DB
+                viewedPetIds.remove(petToDeleteId);  // Remove the deleted pet from the list
+            }
+        }
 
         // Step 2: Retrieve all pets (without limiting to similar users)
         List<Pet> allPets = petRepository.findAll();
 
-        // Step 3: Calculate relevance score for each pet
+        // Step 3: Calculate relevance score for each pet and exclude viewed pets
         return allPets.stream()
+                .filter(pet -> !viewedPetIds.contains(pet.getId())) // Exclude viewed pets
                 .sorted(Comparator.comparingDouble(pet -> -calculateRelevanceScore(pet, userId, interactedPetIds)))
                 .collect(Collectors.toList());
     }
 
-    // Step 2 - Find the most similar users based on likes (similarity score)
+
+    // Part 2 - Find the most similar users based on likes (similarity score)
     private List<Long> findMostSimilarUsers(Long userId, List<Long> interactedPetIds) {
         // Find all users who interacted with at least one of the user's pets
         List<Long> similarUserIds = interactionRepository.findSimilarUsers(interactedPetIds, userId);
@@ -74,7 +96,7 @@ public class recommendationEngineService {
                 .collect(Collectors.toList());
     }
 
-    // Step 3 - Calculate relevance score for a pet
+    // Part 3 - Calculate relevance score for a pet
     private double calculateRelevanceScore(Pet pet, Long userId, List<Long> interactedPetIds) {
         double score = 0.0;
 
@@ -91,6 +113,8 @@ public class recommendationEngineService {
 
         return score;
     }
+
+    //Stuff that is used for Calculation \/
 
     // Normalizes likes and dislikes to a range of -10 to 10
     private double normalizeLikesAndDislikes(Integer likes, Integer dislikes) {
