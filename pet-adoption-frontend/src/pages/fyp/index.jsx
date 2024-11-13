@@ -1,40 +1,100 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Paper, Button, CircularProgress } from '@mui/material';
+import {Paper, CircularProgress, IconButton} from '@mui/material';
 import Cookies from "js-cookie";
 import {useRouter} from "next/router";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
-const PetCard = ({ pet, handleLike, handleDislike }) => (
+
+let userId;
+
+const PetCard = ({ pet }) => (
     <Paper
         style={{
-            height: '100vh',
+            height: '80vh',
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
+            flexDirection: 'row',
             alignItems: 'center',
             padding: '16px',
             boxSizing: 'border-box',
+            marginBottom: '10px',
+            width: '35%'
         }}
     >
-        <img
-            src={pet.photo}
-            alt={pet.name}
-            style={{ width: '100%', height: '80%', objectFit: 'cover' }}
-        />
-        <h3>{pet.name}</h3>
-        <div>
-            <Button onClick={() => handleLike(pet.id)}>Like</Button>
-            <Button onClick={() => handleDislike(pet.id)}>Dislike</Button>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <img
+                src={pet.photo}
+                alt={pet.name}
+                style={{
+                    width: '80%',
+                    height: '40%',
+                    objectFit: 'cover',
+                    marginBottom: '10px',
+                }}
+            />
+            <h3 style={{ margin: 0 }}>{pet.name}</h3>
+        </div>
+        <div style={{display: 'flex', flexDirection: 'column'}}>
+            <IconButton color="success" onClick={() => HandleLike(pet.id)}>
+                <ThumbUpIcon />
+            </IconButton>
+            <IconButton color="error" onClick={() => HandleDisLike(pet.id)}>
+                <ThumbDownIcon />
+            </IconButton>
         </div>
     </Paper>
 );
+
+const HandleLike = async (id) => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/like`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                petId: id
+            }),
+        });
+
+        if(response.status === 200){
+            console.log();
+        }
+    } catch (error) {
+        console.error('Error while liking:', error.response?.data || error.message);
+    }
+};
+
+const HandleDisLike = async (id) => {
+    try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/dislike`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                petId: id
+            }),
+        });
+
+        if(response.status === 200){
+            console.log();
+        }
+    } catch (error) {
+        console.error('Error while liking:', error.response?.data || error.message);
+    }
+};
 
 const ForYouPage = () => {
     const [pets, setPets] = useState([]);
     const [currentPetIndex, setCurrentPetIndex] = useState(0);
     const [loading, setLoading] = useState(true);
-    const startY = useRef(0); // Track initial touch Y position
+    const [userKey, setUserKey] = useState(null);
+    const startY = useRef(0);
     const scrollTimeout = useRef(null);
-    const lastScrollTime = useRef(0); // Keep track of the last scroll event
+    const lastScrollTime = useRef(0);
     const authToken = Cookies.get('authToken');
     const router = useRouter();
 
@@ -49,6 +109,7 @@ const ForYouPage = () => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/getAll`); // Fetch a batch of pets
                 const data = await response.json();
+                console.log(data)
                 setPets(data);
             } catch (error) {
                 console.error("Failed to fetch pets", error);
@@ -58,7 +119,25 @@ const ForYouPage = () => {
         fetchPets();
     }, []);
 
-    // Scroll or Arrow Key Navigation Function
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error('Failed to fetch user type:', response.statusText);
+                    return;
+                }
+                userId = data.userID
+            } catch (error) {
+                console.error("Error fetching user type:", error);
+            }
+        };
+
+        checkAuth();
+    }, [authToken, router]);
+
     const goToNextPet = useCallback(() => {
         if (currentPetIndex < pets.length - 1) {
             setCurrentPetIndex((prevIndex) => prevIndex + 1);
@@ -71,7 +150,6 @@ const ForYouPage = () => {
         }
     }, [currentPetIndex]);
 
-    // Handle Arrow Key Events
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowDown') goToNextPet();
         if (e.key === 'ArrowUp') goToPreviousPet();
@@ -82,11 +160,9 @@ const ForYouPage = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    // Handle Wheel Events for Scroll Navigation
     const handleWheel = useCallback((e) => {
         const now = new Date().getTime();
 
-        // Only proceed if the scroll event is far enough apart to avoid rapid changes
         if (now - lastScrollTime.current > 1500) {
             if (e.deltaY > 0) {
                 goToNextPet();
@@ -102,7 +178,6 @@ const ForYouPage = () => {
         return () => window.removeEventListener('wheel', handleWheel);
     }, [handleWheel]);
 
-    // Handle Touch Events for Mobile
     const handleTouchStart = (e) => {
         startY.current = e.touches[0].clientY;
     };
@@ -113,16 +188,6 @@ const ForYouPage = () => {
         if (deltaY > 50) goToNextPet();
         else if (deltaY < -50) goToPreviousPet();
         startY.current = 0;
-    };
-
-    const handleLike = (id) => {
-        console.log("Liked pet with ID:", id);
-        // Implement like logic here
-    };
-
-    const handleDislike = (id) => {
-        console.log("Disliked pet with ID:", id);
-        // Implement dislike logic here
     };
 
     return (
@@ -141,8 +206,6 @@ const ForYouPage = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <PetCard
                         pet={pets[currentPetIndex]}
-                        handleLike={handleLike}
-                        handleDislike={handleDislike}
                     />
                 </div>
             )}
