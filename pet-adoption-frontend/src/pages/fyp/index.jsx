@@ -8,7 +8,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 let userId;
 
-const PetCard = ({ pet }) => (
+const PetCard = ({ pet, router }) => (
     <Paper
         style={{
             height: '80vh',
@@ -20,6 +20,7 @@ const PetCard = ({ pet }) => (
             marginBottom: '10px',
             width: '35%'
         }}
+        onClick={() => router.push(`/pet/${pet.id}`)}
     >
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <img
@@ -58,9 +59,6 @@ const HandleLike = async (id) => {
             }),
         });
 
-        if(response.status === 200){
-            console.log();
-        }
     } catch (error) {
         console.error('Error while liking:', error.response?.data || error.message);
     }
@@ -78,10 +76,6 @@ const HandleDisLike = async (id) => {
                 petId: id
             }),
         });
-
-        if(response.status === 200){
-            console.log();
-        }
     } catch (error) {
         console.error('Error while liking:', error.response?.data || error.message);
     }
@@ -96,6 +90,7 @@ const ForYouPage = () => {
     const scrollTimeout = useRef(null);
     const lastScrollTime = useRef(0);
     const authToken = Cookies.get('authToken');
+    const [viewCount, setViewCount] = useState(0);
     const router = useRouter();
 
     useEffect(() => {
@@ -104,18 +99,6 @@ const ForYouPage = () => {
             router.push('/sign-in');
             return;
         }
-        const fetchPets = async () => {
-            setLoading(true);
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/getAll`); // Fetch a batch of pets
-                const data = await response.json();
-                console.log(data)
-                setPets(data);
-            } catch (error) {
-                console.error("Failed to fetch pets", error);
-            }
-            setLoading(false);
-        };
         fetchPets();
     }, []);
 
@@ -138,9 +121,25 @@ const ForYouPage = () => {
         checkAuth();
     }, [authToken, router]);
 
+    const fetchPets = async () => {
+        if(userId){
+            setLoading(true);
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userId}`); // Fetch a batch of pets
+                const data = await response.json();
+                setPets((prevPets) => [...prevPets, ...data])
+            } catch (error) {
+                console.error("Failed to fetch pets", error);
+            }
+            setLoading(false);
+        }
+    };
+
     const goToNextPet = useCallback(() => {
         if (currentPetIndex < pets.length - 1) {
             setCurrentPetIndex((prevIndex) => prevIndex + 1);
+            setViewCount((prevCount) => prevCount + 1);
+
         }
     }, [currentPetIndex, pets]);
 
@@ -190,6 +189,13 @@ const ForYouPage = () => {
         startY.current = 0;
     };
 
+    useEffect(() => {
+        if (viewCount === 3) {
+            fetchPets();
+            setViewCount(0); // Reset the count after fetching new pets
+        }
+    }, [viewCount]);
+
     return (
         <div
             onTouchStart={handleTouchStart}
@@ -206,6 +212,7 @@ const ForYouPage = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <PetCard
                         pet={pets[currentPetIndex]}
+                        router={router}
                     />
                 </div>
             )}
