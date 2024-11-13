@@ -103,6 +103,7 @@ export default function browse() {
         checkAuth();
     }, []);
 
+
     //get interactions
     // useEffect(() => {
     //     // Fetch interaction data when component mounts
