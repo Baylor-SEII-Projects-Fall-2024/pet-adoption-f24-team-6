@@ -120,4 +120,15 @@ public class CenterController {
             return ResponseEntity.ok(events);
         }
     }
+
+    @GetMapping("/{centerId}/user")
+    public ResponseEntity<?> getUserByCenterId(@PathVariable Long centerId) {
+        Optional<User> user = adoptionCenterService.getUserByCenterId(centerId);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No user found for Adoption Center ID: " + centerId);
+        }
+    }
 }
