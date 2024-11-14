@@ -56,14 +56,15 @@ public class RecommendationEngineService {
             Random random = new Random();
             Long petToDeleteId = viewedPetIds.get(random.nextInt(viewedPetIds.size()));
 
-            // Find the UserInteraction entry for this pet
-            UserInteraction interaction = interactionRepository.findInteraction(userId, petToDeleteId).orElse(null);
+            // Find the 'View' interaction entry for this pet
+            UserInteraction interaction = interactionRepository.findInteractionByType(userId, petToDeleteId, INTERACTION_TYPE.VIEW).orElse(null);
             if (interaction != null) {
                 // Delete the interaction record from the database
                 interactionRepository.delete(interaction);  // Delete interaction from the DB
                 viewedPetIds.remove(petToDeleteId);  // Remove the deleted pet from the list
             }
         }
+
 
         // Step 2: Retrieve all pets (without limiting to similar users)
         List<Pet> allPets = petRepository.findAll();
@@ -161,7 +162,9 @@ public class RecommendationEngineService {
         double similarityScore = 0.0;
 
         for (Long userId : similarUserIds) {
-            UserInteraction interaction = interactionRepository.findInteraction(userId, pet.getId()).orElse(null);
+            // Fetch interactions of type LIKE or DISLIKE only
+            UserInteraction interaction = interactionRepository.findInteractionByTypes(userId, pet.getId(),
+                    Arrays.asList(INTERACTION_TYPE.LIKE, INTERACTION_TYPE.DISLIKE)).orElse(null);
             if (interaction != null) {
                 if (interaction.getInteractionType() == INTERACTION_TYPE.LIKE) {
                     similarityScore += 1.0; // +1 for like
@@ -172,6 +175,7 @@ public class RecommendationEngineService {
         }
         return similarityScore;
     }
+
 
     // Training-AGE Bonus
     private double calculatePetAttributesBonus(Pet pet) {
