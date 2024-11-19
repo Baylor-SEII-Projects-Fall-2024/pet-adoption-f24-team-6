@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.repositories.AdoptionCenterRepository;
+import petadoption.api.tables.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,11 @@ public class AdoptionCenterService {
         } else {
             throw new RuntimeException("Adoption Center not found");
         }
+    }
+
+    public Optional<User> getUserByCenterId(Long centerId) {
+        Optional<AdoptionCenter> center = adoptionCenterRepository.findById(centerId);
+        return center.map(AdoptionCenter::getUser);
     }
 
 
