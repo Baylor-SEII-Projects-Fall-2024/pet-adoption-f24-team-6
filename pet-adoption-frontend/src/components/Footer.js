@@ -53,7 +53,7 @@ function Footer() {
             </Grid>
 
             <Typography variant="body2" sx={{ textAlign: 'right', marginTop: '1rem' }}>
-                &copy; {new Date().getFullYear()} Baylor Furries. All rights reserved.
+                &copy; {new Date().getFullYear()} Furever Homes. All rights reserved.
             </Typography>
         </Box>
     );

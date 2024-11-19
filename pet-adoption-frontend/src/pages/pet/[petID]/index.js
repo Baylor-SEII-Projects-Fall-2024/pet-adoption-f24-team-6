@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
     Container,
@@ -37,6 +37,8 @@ export default function PetDetails() {
     const [otherPets, setOtherPets] = useState([]);
     const [userID, setUserID] = useState(1);
     const [clicked, setClicked] = useState();
+    const [isLiked, setIsLiked] = useState(false);
+    const [isDisliked, setIsDisliked] = useState(false);
     const [messageOpen, setMessageOpen] = useState(false);
     const [messageText, setMessageText] = useState("");
 
@@ -152,7 +154,7 @@ export default function PetDetails() {
                 });
 
                 if(response.status === 200){
-                    console.log();
+                    setIsLiked((prev) => !prev);
                 }
             } catch (error) {
                 console.error('Error while liking:', error.response?.data || error.message);
@@ -174,6 +176,7 @@ export default function PetDetails() {
 
                 if(response.status === 200){
                     console.log();
+                    setIsDisliked((prev) => !prev);
                 }
             } catch (error) {
                 console.error('Error while disliking:', error.response?.data || error.message);
@@ -295,7 +298,7 @@ export default function PetDetails() {
                         color="success"
                         sx={{ mt: 2 }}
                         onClick={() => handleLike()}
-                        startIcon={<ThumbsUpIcon />}
+                        startIcon={isLiked ? <ThumbsUpFilledIcon /> : <ThumbsUpIcon/>}
                     >
                         Like
                     </Button>
@@ -305,7 +308,7 @@ export default function PetDetails() {
                         color="error"
                         sx={{ mt: 2 }}
                         onClick={() => handleDislike()}
-                        startIcon={<ThumbsDownIcon />}
+                        startIcon={isDisliked ? <ThumbsDownFilledIcon /> : <ThumbsDownIcon />}
                     >
                         Dislike
                     </Button>

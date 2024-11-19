@@ -65,7 +65,7 @@ export default function ContactUs() {
     return (
         <>
             <Head>
-                <title>Contact Us | Baylor Furries</title>
+                <title>Contact Us | Furever Homes</title>
             </Head>
 
 

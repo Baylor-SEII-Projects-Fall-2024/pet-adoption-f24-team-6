@@ -65,7 +65,7 @@ export default function Account() {
     return (
         <>
             <Head>
-                <title>Account | Baylor Furries</title>
+                <title>Account | Furever Homes</title>
             </Head>
 
             <Typography variant="h4" align="center" sx={{ mt: 5 }}>

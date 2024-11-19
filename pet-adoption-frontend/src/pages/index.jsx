@@ -51,7 +51,7 @@ export default function HomePage() {
   return (
       <>
           <Head>
-              <title>Home Page | Baylor Furries</title>
+              <title>Home Page | Furever Homes</title>
           </Head>
 
           <Box sx={{height: "20px"}}></Box>
