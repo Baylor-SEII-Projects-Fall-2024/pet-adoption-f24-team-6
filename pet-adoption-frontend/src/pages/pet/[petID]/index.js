@@ -131,23 +131,7 @@ export default function PetDetails() {
         if(!authToken){
             router.push('/sign-in')
         }else {
-            const requestData = {
-                userId: userID,
-                petId: petID,
-                adoptionCenterId: adoptionCenter.id
-            };
-
-            try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
-
-                await sendEmail()
-
-                if(response.status === 200){
-                    router.push('/pet/requested');
-                }
-            } catch (error) {
-                console.error('Error while requesting adoption:', error.response?.data || error.message);
-            }
+            setMessageOpen(true);
         }
     };
 
@@ -215,6 +199,24 @@ export default function PetDetails() {
             }
         } catch (error) {
             console.error("Error sending message:", error);
+        }
+
+        const requestData = {
+            userId: userID,
+            petId: petID,
+            adoptionCenterId: adoptionCenter.id
+        };
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
+
+            await sendEmail()
+
+            if(response.status === 200){
+                router.push('/pet/requested');
+            }
+        } catch (error) {
+            console.error('Error while requesting adoption:', error.response?.data || error.message);
         }
     };
 
@@ -321,7 +323,7 @@ export default function PetDetails() {
             </Paper>
 
             <Dialog open={messageOpen} onClose={() => setMessageOpen(false)}>
-                <DialogTitle>Send Message to {pet.adoptionCenter.name}</DialogTitle>
+                <DialogTitle>Send Message</DialogTitle>
                 <DialogContent>
                     <TextField
                         fullWidth

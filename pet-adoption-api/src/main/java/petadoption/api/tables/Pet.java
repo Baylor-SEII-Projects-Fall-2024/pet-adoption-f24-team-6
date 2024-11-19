@@ -56,7 +56,7 @@ public class Pet {
     @Column(name = "VIEWS")
     Integer views = 0;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")
     private AdoptionCenter adoptionCenter;
 }
