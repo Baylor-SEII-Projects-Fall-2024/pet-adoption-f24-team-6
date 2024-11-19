@@ -83,7 +83,7 @@ public class CenterEventService {
     }
 
     private double[] geocodeAddress(String address) {
-        String apiKey = "YOUR_GOOGLE_API_KEY"; // Replace with your API key
+        String apiKey = "KEY"; // add env for this later idk how
         String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + apiKey;
 
         RestTemplate restTemplate = new RestTemplate();
