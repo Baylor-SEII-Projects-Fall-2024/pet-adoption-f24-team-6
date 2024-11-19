@@ -2,6 +2,8 @@ package petadoption.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import petadoption.api.models.GeocodingResponse;
 import petadoption.api.models.USER_TYPE;
 import petadoption.api.models.UpdateUser;
 import petadoption.api.repositories.UserRepository;
@@ -46,6 +48,23 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    private double[] geocodeAddress(String address) {
+        String apiKey = "YOUR_GOOGLE_API_KEY"; // Replace with your API key
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + apiKey;
+
+        RestTemplate restTemplate = new RestTemplate();
+        GeocodingResponse response = restTemplate.getForObject(url, GeocodingResponse.class);
+
+        if (!"OK".equals(response.getStatus()) || response.getResults().isEmpty()) {
+            throw new IllegalStateException("Unable to geocode address: " + response.getStatus());
+        }
+
+        GeocodingResponse.Location location = response.getResults().get(0).getGeometry().getLocation();
+        return new double[]{location.getLat(), location.getLng()};
+    }
+
+
 
     public User updateUser(String email, UpdateUser updateUser, String currentUserEmail) {
         User existingUser = userRepository.findByEmailAddress(email);
