@@ -27,15 +27,15 @@ public class AdoptionRequest {
     @Column(name = "isRead", nullable = false)
     private Boolean isRead;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "pet_id", referencedColumnName = "PET_ID")
     private Pet pet;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")
     private AdoptionCenter adoptionCenter;
 
