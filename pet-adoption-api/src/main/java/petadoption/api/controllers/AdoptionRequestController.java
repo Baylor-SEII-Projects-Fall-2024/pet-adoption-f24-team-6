@@ -70,4 +70,10 @@ public class AdoptionRequestController {
         return ResponseEntity.ok(adoptionRequestService.saveAdoptionRequest(request));
     }
 
+    @DeleteMapping("/delete/{requestId}")
+    public ResponseEntity<String> deleteRequest(@PathVariable Long requestId){
+        adoptionRequestService.deleteById(requestId);
+        return ResponseEntity.ok("Request Deleted");
+    }
+
 }

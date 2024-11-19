@@ -37,8 +37,12 @@ public class UserService {
         user.setUserType(userType);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setBreedPref("N/A");
-        user.setSpeciesPref("N/A");
+
+        // Setting the default preferences of the User
+        user.setBreedPref(null);
+        user.setSpeciesPref(null);
+        user.setColorPref(null);
+
 
         return userRepository.save(user);
     }
@@ -101,6 +105,21 @@ public class UserService {
 
         return userRepository.save(existingUser);
     }
+
+    public User setPreferences(String email, UpdateUser updateUser) {
+        User user = findUserByEmail(email);
+
+
+        if (user.getBreedPref() == null && user.getSpeciesPref() == null && user.getColorPref() == null) {
+            user.setBreedPref(updateUser.getBreedPref());
+            user.setSpeciesPref(updateUser.getSpeciesPref());
+            user.setColorPref(updateUser.getColorPref());
+            return userRepository.save(user);  // Save the updated user with initial preferences
+        } else {
+            throw new IllegalStateException("Preferences are already set for this user.");
+        }
+    }
+
 
 
 

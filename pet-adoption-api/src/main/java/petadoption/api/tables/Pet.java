@@ -48,15 +48,15 @@ public class Pet {
     Integer trainingLevel;
 
     @Column(name = "LIKES")
-    Integer likes;
+    Integer likes = 0;
 
     @Column(name = "DISLIKES")
-    Integer dislikes;
+    Integer dislikes = 0;
 
     @Column(name = "VIEWS")
-    Integer views;
+    Integer views = 0;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "CENTER_ID", referencedColumnName = "CENTER_ID")
     private AdoptionCenter adoptionCenter;
 }

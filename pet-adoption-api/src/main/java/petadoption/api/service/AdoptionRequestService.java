@@ -31,5 +31,9 @@ public class AdoptionRequestService {
         return adoptionRequestRepository.findById(id);
     }
 
+    public void deleteById(Long id){
+        adoptionRequestRepository.deleteById(id);
+    }
+
 
 }
