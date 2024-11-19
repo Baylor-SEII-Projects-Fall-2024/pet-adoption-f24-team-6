@@ -30,6 +30,12 @@ public class CenterEvent {
     @Column(name = "DATE")
     String date;
 
+    @Column(name = "LATITUDE", nullable = true)
+    Double latitude;
+
+    @Column(name = "LONGITUDE", nullable = true)
+    Double longitude;
+
     @Column(name = "PHOTO", columnDefinition = "TEXT")
     @Lob
     String photo;

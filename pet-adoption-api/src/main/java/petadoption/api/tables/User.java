@@ -47,6 +47,13 @@ public class User implements UserDetails {
     @Column(name = "COLOR_PREF")
     String colorPref;
 
+    @Column(name = "LATITUDE", nullable = true)
+    Double latitude;
+
+    @Column(name = "LONGITUDE", nullable = true)
+    Double longitude;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
