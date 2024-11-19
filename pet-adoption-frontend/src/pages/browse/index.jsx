@@ -105,36 +105,36 @@ export default function browse() {
 
 
     //get interactions
-    // useEffect(() => {
-    //     // Fetch interaction data when component mounts
-    //     const fetchInteractions = async () => {
-    //         if (authToken) {
-    //             try {
-    //                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userID}`, {
-    //                     method: 'GET',
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                     },
-    //                 });
-    //                 if (response.ok) {
-    //                     const data = await response.json();
-    //                     // Process data to set initial liked state
-    //                     const initialLikes = {};
-    //                     data.forEach(interaction => {
-    //                         if (interaction.interaction_type === 'like') {
-    //                             initialLikes[interaction.petId] = true;
-    //                         }
-    //                     });
-    //                     setIsLiked(initialLikes);
-    //                 }
-    //             } catch (error) {
-    //                 console.error('Error fetching interactions:', error.message);
-    //             }
-    //         }
-    //     };
-    //
-    //     fetchInteractions();
-    // }, [authToken]);
+    useEffect(() => {
+        // Fetch interaction data when component mounts
+        const fetchInteractions = async () => {
+            if (authToken) {
+                try {
+                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userID}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Process data to set initial liked state
+                        const initialLikes = {};
+                        data.forEach(interaction => {
+                            if (interaction.interaction_type === 'like') {
+                                initialLikes[interaction.petId] = true;
+                            }
+                        });
+                        setIsLiked(initialLikes);
+                    }
+                } catch (error) {
+                    console.error('Error fetching interactions:', error.message);
+                }
+            }
+        };
+
+        fetchInteractions();
+    }, [authToken]);
 
     if (loading) {
         return (

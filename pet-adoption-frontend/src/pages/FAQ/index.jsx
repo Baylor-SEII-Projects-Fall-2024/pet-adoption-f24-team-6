@@ -31,7 +31,7 @@ export default function FAQ() {
     return (
         <>
             <Head>
-                <title>FAQ | Baylor Furries</title>
+                <title>FAQ | Furever Homes</title>
             </Head>
 
             <Box sx={{ maxWidth: '600px', margin: '0 auto', height: '80vh'}}>
