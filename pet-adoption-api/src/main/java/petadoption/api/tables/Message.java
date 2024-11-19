@@ -17,11 +17,11 @@ public class Message {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "SENDER_ID", referencedColumnName = "USER_ID", nullable = false)
+    @JoinColumn(name = "SENDER_ID", referencedColumnName = "USER_ID")
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "RECEIVER_ID", referencedColumnName = "USER_ID", nullable = false)
+    @JoinColumn(name = "RECEIVER_ID", referencedColumnName = "USER_ID")
     private User receiver;
 
     @Column(name = "CONTENT", columnDefinition = "TEXT", nullable = false)

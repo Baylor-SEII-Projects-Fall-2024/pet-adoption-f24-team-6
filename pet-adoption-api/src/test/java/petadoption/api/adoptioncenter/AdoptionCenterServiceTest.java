@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import petadoption.api.repositories.UserInteractionRepository;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.repositories.PetRepository;
 import petadoption.api.repositories.AdoptionCenterRepository;
@@ -28,8 +29,12 @@ class AdoptionCenterServiceTest {
     @Autowired
     private PetRepository petRepository;
 
+    @Autowired
+    private UserInteractionRepository interactionRepository;
+
     @BeforeEach
     void setUp() {
+        interactionRepository.deleteAll();
         petRepository.deleteAll();
         adoptionCenterRepository.deleteAll();
     }
