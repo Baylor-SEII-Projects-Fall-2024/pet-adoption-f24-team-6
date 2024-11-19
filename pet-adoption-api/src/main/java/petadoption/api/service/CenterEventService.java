@@ -8,9 +8,10 @@ import org.springframework.web.client.RestTemplate;
 import petadoption.api.models.GeocodingResponse;
 import petadoption.api.tables.CenterEvent;
 import petadoption.api.repositories.CenterEventRepository;
+import petadoption.api.utils.GeoUtils;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CenterEventService {
@@ -35,7 +36,7 @@ public class CenterEventService {
     }
 
     public CenterEvent saveCenterEvent(CenterEvent centerEvent) {
-        setCoordinates(centerEvent); // Set coordinates on creation
+        setCoordinates(centerEvent);
         return centerEventRepository.save(centerEvent);
     }
 
@@ -49,17 +50,15 @@ public class CenterEventService {
         if (existingCenterEvent.isPresent()) {
             CenterEvent updatedEvent = existingCenterEvent.get();
 
-            // Update fields
             updatedEvent.setDescription(centerEvent.getDescription());
             updatedEvent.setDate(centerEvent.getDate());
             updatedEvent.setAdoptionCenter(centerEvent.getAdoptionCenter());
             updatedEvent.setName(centerEvent.getName());
             updatedEvent.setPhoto(centerEvent.getPhoto());
 
-            // Only geocode if the address has changed
             if (!updatedEvent.getAddress().equals(centerEvent.getAddress())) {
                 updatedEvent.setAddress(centerEvent.getAddress());
-                setCoordinates(updatedEvent); // Re-set coordinates if the address changes
+                setCoordinates(updatedEvent);
             }
 
             return centerEventRepository.save(updatedEvent);
@@ -80,6 +79,38 @@ public class CenterEventService {
         } catch (Exception e) {
             throw new IllegalStateException("Failed to set coordinates for address: " + centerEvent.getAddress(), e);
         }
+    }
+
+    public List<CenterEvent> getClosestEvents(double userLat, double userLon, int limit) {
+        List<CenterEvent> allEvents = centerEventRepository.findAll();
+
+        List<CenterEvent> sortedEvents = sortEventsByDistance(allEvents, userLat, userLon);
+
+        return getLimitedEvents(sortedEvents, limit);
+    }
+
+    private List<CenterEvent> sortEventsByDistance(List<CenterEvent> events, double userLat, double userLon) {
+        List<CenterEvent> sortedEvents = new ArrayList<>(events);
+
+        sortedEvents.sort(new Comparator<CenterEvent>() {
+            @Override
+            public int compare(CenterEvent event1, CenterEvent event2) {
+                double distance1 = calculateEventDistance(event1, userLat, userLon);
+                double distance2 = calculateEventDistance(event2, userLat, userLon);
+                return Double.compare(distance1, distance2);
+            }
+        });
+
+        return sortedEvents;
+    }
+
+    private List<CenterEvent> getLimitedEvents(List<CenterEvent> events, int limit) {
+        int actualLimit = Math.min(limit, events.size());
+        return events.subList(0, actualLimit);
+    }
+
+    private double calculateEventDistance(CenterEvent event, double userLat, double userLon) {
+        return GeoUtils.calculateDistance(userLat, userLon, event.getLatitude(), event.getLongitude());
     }
 
     private double[] geocodeAddress(String address) {

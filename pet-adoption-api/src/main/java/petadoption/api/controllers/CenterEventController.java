@@ -38,6 +38,15 @@ public class CenterEventController {
         }
     }
 
+    @GetMapping("/closest")
+    public ResponseEntity<List<CenterEvent>> getClosestEvents(
+            @RequestParam double latitude,
+            @RequestParam double longitude,
+            @RequestParam(defaultValue = "5") int limit) {
+        List<CenterEvent> closestEvents = centerEventService.getClosestEvents(latitude, longitude, limit);
+        return ResponseEntity.ok(closestEvents);
+    }
+
     // Get events by adoption center ID
     @GetMapping("/center/{centerId}")
     public List<CenterEvent> getEventsByAdoptionCenter(@PathVariable Long centerId) {
