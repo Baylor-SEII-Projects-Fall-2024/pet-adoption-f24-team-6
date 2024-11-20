@@ -357,6 +357,11 @@ export default function App({ Component, pageProps }) {
                                   handleMenuClose();
                               }}>Preferences</MenuItem>
                           )}
+                          <MenuItem onClick={() => {
+                              router.push('/recommendations');
+                              handleMenuClose();
+
+                          }}>Recommendations</MenuItem>
 
                           <MenuItem onClick={() => {
                               router.push('/account');
