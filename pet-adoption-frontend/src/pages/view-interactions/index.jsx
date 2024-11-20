@@ -3,7 +3,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Paper, Typography, CircularProgress } from '@mui/material';
 import {useRouter} from "next/router";
 import Cookies from "js-cookie";
-import axios from 'axios';
 
 export default function ViewInteractions() {
     const [interactions, setInteractions] = useState([]);
