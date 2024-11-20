@@ -32,11 +32,11 @@ const styles = {
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        height: "300px", // height of box, adjust if needed
+        height: "400px", // height of box, adjust if needed
         width: "30%" // Take up 1/3 of the row, so that here is 3 per row
     },
     imageContainer: {
-        height: "50%", // image takes 2/3 of box
+        height: "60%", // image takes 2/3 of box
         backgroundColor: "#ccc"
     },
     img: {
@@ -45,7 +45,7 @@ const styles = {
         objectFit: "cover"
     },
     textContainer: {
-        height: "50%", // text takes 1/3 of the box
+        height: "40%", // text takes 1/3 of the box
         padding: "10px",
         textAlign: "center",
         backgroundColor: "#fff"
@@ -257,24 +257,25 @@ export default function browse() {
                                                 </div>
 
                                                 <div style={styles.textContainer}>
+                                                    <p>Name: {pet.name} (ID #{pet.id})</p>
+                                                    <p>Animal type: {pet.species}</p>
                                                     <p>Breed: {pet.breed}</p>
                                                     <p>Age: {pet.age}</p>
-                                                    <p>Name: {pet.name}</p>
                                                     <Button
                                                         variant="contained"
                                                         color="success"
-                                                        sx={{ mt: 2 }}
                                                         onClick={() => handleLike(pet.id)}
-                                                        startIcon={isLiked[pet.id] ? <ThumbsUpFilledIcon /> : <ThumbsUpIcon/>}
+                                                        startIcon={isLiked[pet.id] ? <ThumbsUpFilledIcon/> :
+                                                            <ThumbsUpIcon/>}
                                                     >
                                                     </Button>
 
                                                     <Button
                                                         variant="contained"
                                                         color="error"
-                                                        sx={{ mt: 2 }}
                                                         onClick={() => handleDislike(pet.id)}
-                                                        startIcon={isDisliked[pet.id] ? <ThumbsDownFilledIcon /> : <ThumbsDownIcon />}
+                                                        startIcon={isDisliked[pet.id] ? <ThumbsDownFilledIcon/> :
+                                                            <ThumbsDownIcon/>}
                                                     >
                                                     </Button>
                                                 </div>
