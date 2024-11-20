@@ -1,6 +1,7 @@
 package petadoption.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import petadoption.api.models.GeocodingResponse;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+
     @Autowired
     private UserRepository userRepository;
 
@@ -27,7 +29,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User registerUser(String email, String password, USER_TYPE userType, String firstName, String lastName) {
+    public User registerUser(String email, String password, USER_TYPE userType, String firstName, String lastName, String address) {
         User existingUser = userRepository.findByEmailAddress(email);
         if (existingUser != null) {
             throw new IllegalStateException("Email is already registered");
@@ -39,6 +41,11 @@ public class UserService {
         user.setUserType(userType);
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setAddress(address);
+
+        double[] coordinates = geocodeAddress(address);
+        user.setLatitude(coordinates[0]);
+        user.setLongitude(coordinates[1]);
 
         // Setting the default preferences of the User
         user.setBreedPref(null);
@@ -50,7 +57,7 @@ public class UserService {
     }
 
     private double[] geocodeAddress(String address) {
-        String apiKey = "env"; // add key to env thing idk how
+        String apiKey = "AIzaSyArMWipIBs5IlbXso04b5qwnx_Uu0xhVIM";
         String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + apiKey;
 
         RestTemplate restTemplate = new RestTemplate();

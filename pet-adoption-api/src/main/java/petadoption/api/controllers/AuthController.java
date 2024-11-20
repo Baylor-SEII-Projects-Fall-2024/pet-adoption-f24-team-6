@@ -38,7 +38,8 @@ public class AuthController {
                 registerEndpoint.getPassword(),
                 registerEndpoint.getUserType(),
                 registerEndpoint.getFirstName(),
-                registerEndpoint.getLastName()
+                registerEndpoint.getLastName(),
+                registerEndpoint.getAddress()
         );
         return ResponseEntity.ok("User Registered");
     }

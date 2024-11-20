@@ -3,6 +3,7 @@ package petadoption.api.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import petadoption.api.models.GeocodingResponse;
@@ -114,7 +115,7 @@ public class CenterEventService {
     }
 
     private double[] geocodeAddress(String address) {
-        String apiKey = "KEY"; // add env for this later idk how
+        String apiKey = "AIzaSyArMWipIBs5IlbXso04b5qwnx_Uu0xhVIM";
         String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + apiKey;
 
         RestTemplate restTemplate = new RestTemplate();
