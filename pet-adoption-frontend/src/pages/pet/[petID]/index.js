@@ -317,7 +317,12 @@ export default function PetDetails() {
                         variant="contained"
                         color="primary"
                         sx={{ mt: 2 }}
-                        onClick={() => setMessageOpen(true)}
+                        onClick={() => {
+                            if(!authToken) {
+                                router.push('/sign-in')
+                            }
+                            setMessageOpen(true)
+                        }}
                         startIcon={<SendIcon />}
                     >
                         Send Message
