@@ -356,7 +356,7 @@ export default function PetDetails() {
                 <Grid container spacing={2}>
                     {otherPets.map((otherPet) => (
                         <Grid item xs={12} sm={4} key={otherPet.id}>
-                            <Card>
+                            <Card onClick={() => router.push(`/pet/${otherPet.id}`)}>
                                 <CardMedia
                                     component="img"
                                     height="140"
