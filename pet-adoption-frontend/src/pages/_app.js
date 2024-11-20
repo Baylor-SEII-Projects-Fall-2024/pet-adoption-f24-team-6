@@ -360,6 +360,7 @@ export default function App({ Component, pageProps }) {
                           <MenuItem onClick={() => {
                               router.push('/recommendations');
                               handleMenuClose();
+
                           }}>Recommendations</MenuItem>
 
                           <MenuItem onClick={() => {

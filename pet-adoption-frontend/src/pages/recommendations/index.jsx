@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {Box, Button, CircularProgress, Typography} from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import {useRouter} from "next/router";
-import Footer from "@/components/Footer";
 import axios from "axios";
 import Cookies from "js-cookie";
 import ThumbsUpIcon from '@mui/icons-material/ThumbUpOffAlt';
