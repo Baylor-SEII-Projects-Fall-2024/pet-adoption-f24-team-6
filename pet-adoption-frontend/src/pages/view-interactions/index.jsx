@@ -3,35 +3,45 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Paper, Typography, CircularProgress } from '@mui/material';
 import {useRouter} from "next/router";
 import Cookies from "js-cookie";
-import {Button} from '@mui/material'
 import axios from 'axios';
 
 export default function ViewInteractions() {
     const [interactions, setInteractions] = useState([]);
     const [userID, setUserID] = useState([]);
     const [loading, setLoading] = useState(true);
-    const authToken = Cookies.get("authToken")
-    const router = useRouter();
+    const authToken = Cookies.get('authToken');
+    const router = useRouter()
 
     useEffect(() => {
 
         const checkAuth = async () => {
-            try {
-                if (authToken) {
-                    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`);
-                    const data = await response.json();
+            if (!authToken){
+                router.push('/not-authorized')
+                return;
+            }
 
-                    if (!response.ok) {
-                        console.error('Failed to fetch user type:', response.statusText);
-                        return;
-                    }
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/checkAuth?authToken=${authToken}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                const data = await response.json();
+
+                if (response.ok && data?.userID) {
                     setUserID(data.userID);
+                } else {
+                    console.error('Authentication failed', response.statusText);
                 }
             } catch (error) {
-                console.error("Error fetching user type:", error);
+                console.error("Error during checkAuth", error);
             }
         };
 
+        checkAuth();
+    }, [authToken]);
+
+
+    useEffect( () => {
         const fetchInteractions = async () => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userID}`, {
@@ -54,10 +64,8 @@ export default function ViewInteractions() {
                 setLoading(false);
             }
         };
-
-        checkAuth();
         fetchInteractions();
-    }, []);
+    });
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
