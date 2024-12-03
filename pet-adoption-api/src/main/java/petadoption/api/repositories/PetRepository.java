@@ -31,20 +31,41 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
             "WHERE p.id NOT IN :viewedPetIds " +
             "AND (" +
             "   (COALESCE(:speciesPref, '') = '' OR p.species = :speciesPref) AND " +
-            "   (COALESCE(:breedPref, '') = '' OR p.breed = :breedPref) AND " +
-            "   (COALESCE(:colorPref, '') = '' OR p.color = :colorPref)" +
+            "   (COALESCE(:breedPref, '') = '' OR p.breed = :breedPref)" +
+            //"   (COALESCE(:colorPref, '') = '' OR p.color = :colorPref)" +
             ") " +
             "ORDER BY (" +
             "   COALESCE(p.likes, 0) - COALESCE(p.dislikes, 0) + " +
             "   CASE WHEN p.species = :speciesPref THEN 15.0 ELSE 0 END + " +
-            "   CASE WHEN p.breed = :breedPref THEN 7.0 ELSE 0 END + " +
-            "   CASE WHEN p.color = :colorPref THEN 5.0 ELSE 0 END" +
+            "   CASE WHEN p.breed = :breedPref THEN 7.0 ELSE 0 END" +
+            //"   CASE WHEN p.color = :colorPref THEN 5.0 ELSE 0 END" +
             ") DESC")
-    List<Pet> findPersonalizedRecommendations(
+    List<Pet> findPersonalizedRecommendationsSpeciesAndBreed(
             @Param("viewedPetIds") List<Long> viewedPetIds,
             @Param("speciesPref") String speciesPref,
             @Param("breedPref") String breedPref,
-            @Param("colorPref") String colorPref,
+            //@Param("colorPref") String colorPref,
+            Pageable pageable
+    );
+
+    @Query("SELECT p FROM Pet p " +
+            "WHERE p.id NOT IN :viewedPetIds " +
+            "AND (" +
+            "   (COALESCE(:speciesPref, '') = '' OR p.species = :speciesPref)" +
+            //"   (COALESCE(:breedPref, '') = '' OR p.breed = :breedPref)" +
+            //"   (COALESCE(:colorPref, '') = '' OR p.color = :colorPref)" +
+            ") " +
+            "ORDER BY (" +
+            "   COALESCE(p.likes, 0) - COALESCE(p.dislikes, 0) + " +
+            "   CASE WHEN p.species = :speciesPref THEN 15.0 ELSE 0 END" +
+            //"   CASE WHEN p.breed = :breedPref THEN 7.0 ELSE 0 END + " +
+            //"   CASE WHEN p.color = :colorPref THEN 5.0 ELSE 0 END" +
+            ") DESC")
+    List<Pet> findPersonalizedRecommendationsSpecies(
+            @Param("viewedPetIds") List<Long> viewedPetIds,
+            @Param("speciesPref") String speciesPref,
+            //@Param("breedPref") String breedPref,
+            //@Param("colorPref") String colorPref,
             Pageable pageable
     );
 

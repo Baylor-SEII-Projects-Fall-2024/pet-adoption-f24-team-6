@@ -31,15 +31,28 @@ public class RecommendationEngineService {
     public List<Pet> getPersonalizedRecommendations(Long userId) {
         User user = userRepository.findById(userId).orElse(new User());
         List<Long> viewedPetIds = petRepository.findViewedPetIds(userId);
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(0, 5);
 
-        return petRepository.findPersonalizedRecommendations(
+        List<Pet> reccommendations = petRepository.findPersonalizedRecommendationsSpeciesAndBreed(
                 viewedPetIds,
                 user.getSpeciesPref(),
                 user.getBreedPref(),
-                user.getColorPref(),
                 pageable
         );
+
+        if (reccommendations.size() < 5){
+            List<Pet> moreReccs = petRepository.findPersonalizedRecommendationsSpecies(
+                    viewedPetIds,
+                    user.getSpeciesPref(),
+                    //user.getBreedPref(),
+                    //user.getColorPref(),
+                    PageRequest.of(0, 3)
+            );
+
+            reccommendations.addAll(moreReccs);
+        }
+
+        return reccommendations;
     }
 
 
