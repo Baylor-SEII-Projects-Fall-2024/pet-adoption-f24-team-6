@@ -85,4 +85,6 @@ public class UserInteractionController {
         userInteractionRepo.save(interaction);
         return ResponseEntity.ok("Pet viewed successfully");
     }
+
+
 }

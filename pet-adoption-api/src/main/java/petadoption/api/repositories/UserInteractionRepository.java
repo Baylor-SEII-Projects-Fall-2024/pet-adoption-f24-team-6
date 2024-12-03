@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import petadoption.api.models.INTERACTION_TYPE;
 import petadoption.api.tables.UserInteraction;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +53,16 @@ public interface UserInteractionRepository extends JpaRepository<UserInteraction
             "WHERE i.user.id IN :userIds AND i.pet.id NOT IN :excludedPetIds")
     List<Long> findRecommendedPets(@Param("userIds") List<Long> userIds,
                                    @Param("excludedPetIds") List<Long> excludedPetIds);
+
+//    @Query("SELECT DISTINCT ui.pet.id FROM UserInteraction ui " +
+//            "WHERE ui.user.id = :userId AND ui.interactionType IN ('LIKE', 'FAVORITE')")
+//    List<Long> findInteractedPetIds(@Param("userId") Long userId);
+//
+//    @Query("SELECT COUNT(ui) FROM UserInteraction ui " +
+//            "WHERE ui.user.id = :userId AND ui.interactionType = 'VIEW' ")
+//    long countRecentViews(
+//            @Param("userId") Long userId,
+//            @Param("thresholdDate") LocalDateTime thresholdDate
+//    );
 
 }
