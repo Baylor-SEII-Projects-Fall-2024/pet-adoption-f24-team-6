@@ -147,7 +147,7 @@ export default function PrePreferences() {
                 padding: '2rem'
             }} elevation={4}>
                 <Typography variant="h5" sx={{ marginBottom: '35px', fontWeight: 'bold' }}>
-                    {step === 0 ? "Welcome!" : `Step ${step}: ${step === 1 ? 'Preferred Breed' : step === 2 ? 'Preferred Species' : 'Preferred Color'}`}
+                    {step === 0 ? "Welcome!" : `Step ${step}: ${step === 1 ? 'Preferred Species' : step === 2 ? 'Preferred Breed' : 'Preferred Color'}`}
                 </Typography>
 
                 {success && (
