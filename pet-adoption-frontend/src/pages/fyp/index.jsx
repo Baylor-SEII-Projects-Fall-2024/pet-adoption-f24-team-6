@@ -293,4 +293,5 @@ const ForYouPage = () => {
     );
 };
 
+
 export default ForYouPage;
