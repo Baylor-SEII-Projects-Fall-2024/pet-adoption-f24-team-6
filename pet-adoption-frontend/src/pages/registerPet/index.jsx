@@ -22,7 +22,12 @@ export default function RegisterPet() {
         trainingLevel: 10,
     });
 
-    const colors = ['Black', 'White', 'Brown', 'Golden', 'Mixed'];
+    const COLOR_CHOICES = [
+        'RED', 'BLUE', 'GREEN', 'YELLOW', 'ORANGE', 'PURPLE', 'PINK', 'BROWN',
+        'BLACK', 'WHITE', 'GRAY', 'CYAN', 'MAGENTA', 'BEIGE', 'TEAL', 'MAROON',
+        'NAVY', 'LIME', 'CORAL', 'LAVENDER', 'GOLD', 'SILVER', 'BRONZE', 'PEACH',
+        'MINT', 'TURQUOISE', 'INDIGO', 'CREAM', 'OCHRE', 'MUSTARD'
+    ];
     const sizes = ['Puppy', 'Adult', 'Senior'];
     const speciesList = ['Dog', 'Cat', 'Bird', 'Rabbit'];
 
@@ -161,6 +166,11 @@ export default function RegisterPet() {
         router.push('/');
     };
 
+    const handleColorChange = (e) => {
+        // Update color directly in petData
+        setPetData((prev) => ({ ...prev, color: e.target.value }));
+    };
+
     return (
         <Grid container justifyContent="center" sx={{ mt: 5 }}>
             <Paper elevation={3} sx={{ p: 4, width: '100%', maxWidth: 600 }}>
@@ -236,9 +246,9 @@ export default function RegisterPet() {
                         <Select
                             name="color"
                             value={petData.color}
-                            onChange={handleChange}
+                            onChange={handleColorChange}
                         >
-                            {colors.map((color) => (
+                            {COLOR_CHOICES.map((color) => (
                                 <MenuItem key={color} value={color}>
                                     {color}
                                 </MenuItem>

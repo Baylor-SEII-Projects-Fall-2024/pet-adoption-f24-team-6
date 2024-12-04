@@ -1,27 +1,31 @@
 import { useRouter } from "next/router";
-import { Button, Paper, TextField, Typography, Alert, Box } from "@mui/material";
+import { Button, Paper, TextField, Typography, Alert, Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { useState } from "react";
 import Cookies from "js-cookie";
-
 
 export default function PrePreferences() {
     const router = useRouter();
     const [breedPref, setBreedPref] = useState('');
     const [speciesPref, setSpeciesPref] = useState('');
     const [colorPref, setColorPref] = useState('');
-    const [step, setStep] = useState(0); // Start at step 0 for the welcome message, adjust as needed
-    const [success, setSuccess] = useState(false); // To track success
-    const [errorMessage, setErrorMessage] = useState(''); // For error messages
+    const [step, setStep] = useState(0);
+    const [success, setSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
+    const COLOR_CHOICES = [
+        'RED', 'BLUE', 'GREEN', 'YELLOW', 'ORANGE', 'PURPLE', 'PINK', 'BROWN',
+        'BLACK', 'WHITE', 'GRAY', 'CYAN', 'MAGENTA', 'BEIGE', 'TEAL', 'MAROON',
+        'NAVY', 'LIME', 'CORAL', 'LAVENDER', 'GOLD', 'SILVER', 'BRONZE', 'PEACH',
+        'MINT', 'TURQUOISE', 'INDIGO', 'CREAM', 'OCHRE', 'MUSTARD'
+    ];
 
     const handleSubmit = async () => {
         try {
-
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/setPref`, {
-                method: 'POST', // POST for setting preferences
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': Cookies.get('authToken'), // Ensure token is correctly passed with "Bearer "
+                    'Authorization': Cookies.get('authToken'),
                 },
                 body: JSON.stringify({
                     breedPref,
@@ -32,46 +36,37 @@ export default function PrePreferences() {
 
             const data = await response.json();
 
-
-
             if (!response.ok) {
-                // Check for unsuccessful responses and handle them
                 setErrorMessage(data.message || 'Failed to set preferences');
                 setSuccess(false);
                 return;
             }
 
-
             setSuccess(true);
             setErrorMessage('');
             setTimeout(() => {
-                router.push('/browse');  // Redirect after success
+                router.push('/browse');
             }, 2000);
-
 
         } catch (error) {
             setErrorMessage('An error occurred. Please try again later.');
             setSuccess(false);
-
         }
     };
-
 
     const handleNext = () => {
-        if (step < 3) { // Go to the next step
+        if (step < 3) {
             setStep(step + 1);
         } else {
-            handleSubmit(); // Submit preferences when on the last step
+            handleSubmit();
         }
     };
 
-
     const handleBack = () => {
-        if (step > 0) { // Go back to the previous step
+        if (step > 0) {
             setStep(step - 1);
         }
     };
-
 
     const renderStepContent = () => {
         switch (step) {
@@ -103,19 +98,25 @@ export default function PrePreferences() {
                 );
             case 3:
                 return (
-                    <TextField
-                        label="Preferred Color"
-                        variant="outlined"
-                        sx={{ width: '80%' }}
-                        onChange={(event) => setColorPref(event.target.value)}
-                        value={colorPref}
-                    />
+                    <FormControl variant="outlined" sx={{ width: '80%' }}>
+                        <InputLabel>Preferred Color</InputLabel>
+                        <Select
+                            value={colorPref}
+                            onChange={(event) => setColorPref(event.target.value)}
+                            label="Preferred Color"
+                        >
+                            {COLOR_CHOICES.map((color) => (
+                                <MenuItem key={color} value={color}>
+                                    {color}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 );
             default:
                 return null;
         }
     };
-
 
     return (
         <div style={{
@@ -138,20 +139,17 @@ export default function PrePreferences() {
                     {step === 0 ? "Welcome!" : `Step ${step}: ${step === 1 ? 'Preferred Breed' : step === 2 ? 'Preferred Species' : 'Preferred Color'}`}
                 </Typography>
 
-
                 {success && (
                     <Alert severity="success" onClose={() => setSuccess(false)} style={{ marginBottom: '1rem' }}>
                         Preferences updated successfully! Redirecting...
                     </Alert>
                 )}
 
-
                 {errorMessage && (
                     <Alert severity="error" onClose={() => setErrorMessage('')} style={{ marginBottom: '1rem' }}>
                         {errorMessage}
                     </Alert>
                 )}
-
 
                 {renderStepContent()}
                 <Box display="flex" justifyContent="space-between" width="80%" mt={2}>
