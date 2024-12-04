@@ -41,14 +41,10 @@ const PetCard = ({ pet, router, userId, handleRequestAdoption }) => (
             <IconButton color="error" onClick={() => HandleDisLike(pet?.id, userId)}>
                 <ThumbDownIcon />
             </IconButton>
-            <Button
-                variant="contained"
-                sx={{ mt: 2 }}
-                onClick={() => handleRequestAdoption(pet)}
-                startIcon={<PhoneForwardedIcon />}
-            >
-                Request Adoption
-            </Button>
+
+            <IconButton color='primary' onClick={() => handleRequestAdoption(pet)}>
+                <PhoneForwardedIcon />
+            </IconButton>
         </div>
     </Paper>
 );
