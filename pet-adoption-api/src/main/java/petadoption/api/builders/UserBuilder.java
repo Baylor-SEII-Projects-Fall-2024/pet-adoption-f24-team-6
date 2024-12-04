@@ -38,9 +38,9 @@ public class UserBuilder implements Builder<User> {
         user.setUserType(USER_TYPE.CUSTOMER);
         user.setFirstName(generateString(4, 12));
         user.setLastName(generateString(4, 12));
-        user.setSpeciesPref(species.get(rand.nextInt(species.size())));
-        user.setBreedPref(breeds.get(rand.nextInt(breeds.size())));
-        user.setColorPref(colors.get(rand.nextInt(colors.size())));
+//        user.setSpeciesPref(species.get(rand.nextInt(species.size())));
+//        user.setBreedPref(breeds.get(rand.nextInt(breeds.size())));
+//        user.setColorPref(colors.get(rand.nextInt(colors.size())));
 
         return user;
     }

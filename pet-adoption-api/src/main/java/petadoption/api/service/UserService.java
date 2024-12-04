@@ -95,7 +95,7 @@ public class UserService {
             existingUser.setBreedPref(updateUser.getBreedPref());
         }
 
-        if (updateUser.getSpeciesPref() != null && !updateUser.getSpeciesPref().isEmpty()) {
+        if (updateUser.getSpeciesPref() != null) {
             existingUser.setSpeciesPref(updateUser.getSpeciesPref());
         }
 

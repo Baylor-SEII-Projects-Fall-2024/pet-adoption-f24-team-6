@@ -228,9 +228,34 @@ const ForYouPage = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
+    const handleWheel = useCallback((e) => {
+        const now = new Date().getTime();
+
+        if (now - lastScrollTime.current > 1500) {
+            if (e.deltaY > 0) {
+                goToNextPet();
+            } else if (e.deltaY < 0) {
+                goToPreviousPet();
+            }
+            lastScrollTime.current = now;
+        }
+    }, [goToNextPet, goToPreviousPet]);
+
+    useEffect(() => {
+        window.addEventListener('wheel', handleWheel);
+        return () => window.removeEventListener('wheel', handleWheel);
+    }, [handleWheel]);
+
     const handleTouchStart = (e) => {
         startY.current = e.touches[0].clientY;
     };
+
+    useEffect(() => {
+        if (viewCount === 3) {
+            fetchPets();
+            setViewCount(0); // Reset the count after fetching new pets
+        }
+    }, [viewCount]);
 
     const handleTouchMove = (e) => {
         if (!startY.current) return;

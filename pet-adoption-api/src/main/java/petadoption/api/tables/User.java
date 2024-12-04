@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import petadoption.api.models.COLOR_TYPE;
+import petadoption.api.models.SPECIES_TYPE;
 import petadoption.api.models.USER_TYPE;
 
 import java.util.Collection;
@@ -39,13 +41,13 @@ public class User implements UserDetails {
     String lastName;
 
     @Column(name = "SPECIES_PREF")
-    String speciesPref;
+    SPECIES_TYPE speciesPref;
 
     @Column(name = "BREED_PREF")
     String breedPref;
 
     @Column(name = "COLOR_PREF")
-    String colorPref;
+    COLOR_TYPE colorPref;
 
 
     @Override
