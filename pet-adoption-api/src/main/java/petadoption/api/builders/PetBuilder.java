@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import petadoption.api.models.COLOR_TYPE;
 import petadoption.api.models.GENDER_TYPE;
+import petadoption.api.models.SPECIES_TYPE;
 import petadoption.api.repositories.AdoptionCenterRepository;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.tables.Pet;
@@ -20,7 +21,9 @@ public class PetBuilder implements Builder<Pet> {
     private AdoptionCenterRepository adoptionCenterRepository;
 
     List<String> names = new ArrayList<>(Arrays.asList("Buddy", "Luna", "Max", "Bella", "Charlie", "Daisy", "Rocky", "Molly", "Cooper", "Lucy", "Bailey", "Sadie", "Tucker", "Ruby", "Bentley", "Chloe", "Jack", "Sophie", "Milo", "Lily", "Finn", "Rosie", "Bear", "Coco", "Oliver", "Nala", "Duke", "Penny", "Zeus", "Ellie", "Oscar", "Ginger", "Leo", "Maggie", "Hunter", "Misty", "Harley", "Jasper", "Willow", "Simba", "Holly", "Toby", "Pepper", "Riley", "Hazel", "Murphy", "Zoe", "Archie", "Maple", "Shadow", "Sunny"));
-    List<String> species = new ArrayList<>(Arrays.asList("Dog", "Cat", "Fish", "Bird", "Hamster", "Rabbit", "Lizard", "Turtle", "Guinea Pig", "Snake"));
+    List<SPECIES_TYPE> species = new ArrayList<>(Arrays.asList(SPECIES_TYPE.Dog, SPECIES_TYPE.Cat, SPECIES_TYPE.Fish,
+            SPECIES_TYPE.Bird, SPECIES_TYPE.Hamster, SPECIES_TYPE.Rabbit, SPECIES_TYPE.Lizard,
+            SPECIES_TYPE.Turtle, SPECIES_TYPE.GuineaPig, SPECIES_TYPE.Snake));
     List<String> breeds = new ArrayList<>(Arrays.asList("Golden Retriever", "Persian Cat", "Betta Fish", "Cockatiel", "Syrian Hamster", "Holland Lop Rabbit", "Bearded Dragon", "Box Turtle", "Labrador Retriever", "Maine Coon", "Parakeet", "Dwarf Hamster", "Chihuahua", "Siberian Husky", "Corgi", "Leopard Gecko", "African Grey Parrot", "Ragdoll Cat", "French Bulldog", "Yorkshire Terrier"));
     List<String> sizes = new ArrayList<>(Arrays.asList("Tiny", "Small", "Medium", "Large", "Big", "Huge"));
     List<COLOR_TYPE> colors = new ArrayList<>(Arrays.asList(COLOR_TYPE.RED, COLOR_TYPE.BLUE, COLOR_TYPE.GREEN,

@@ -2,6 +2,7 @@ package petadoption.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import petadoption.api.models.SPECIES_TYPE;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.models.GENDER_TYPE;
 import petadoption.api.models.COLOR_TYPE;
@@ -29,7 +30,7 @@ public class PetService {
         return petRepository.save(pet);
     }
 
-    public Pet registerPet(String name, Integer age, String species, String breed, String size, GENDER_TYPE gender, String photo, COLOR_TYPE color, Integer friendliness, Integer trainingLevel, Long centerId) {
+    public Pet registerPet(String name, Integer age, SPECIES_TYPE species, String breed, String size, GENDER_TYPE gender, String photo, COLOR_TYPE color, Integer friendliness, Integer trainingLevel, Long centerId) {
         Pet pet = new Pet();
         pet.setName(name);
         pet.setAge(age);
@@ -70,7 +71,7 @@ public class PetService {
             existingPet.setAge(updatedPet.getAge());
         }
 
-        if (updatedPet.getSpecies() != null && !updatedPet.getSpecies().isEmpty()) {
+        if (updatedPet.getSpecies() != null) {
             existingPet.setSpecies(updatedPet.getSpecies());
         }
 

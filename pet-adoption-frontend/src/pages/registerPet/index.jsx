@@ -29,7 +29,7 @@ export default function RegisterPet() {
         'MINT', 'TURQUOISE', 'INDIGO', 'CREAM', 'OCHRE', 'MUSTARD'
     ];
     const sizes = ['Puppy', 'Adult', 'Senior'];
-    const speciesList = ['Dog', 'Cat', 'Bird', 'Rabbit'];
+    const speciesList = ['Dog', 'Cat', 'Fish', 'Bird', 'Hamster', 'Rabbit', 'Lizard', 'Turtle', 'GuineaPig', 'Snake'];
 
     const [file, setFile] = useState(null);
     let photoUrl = null;

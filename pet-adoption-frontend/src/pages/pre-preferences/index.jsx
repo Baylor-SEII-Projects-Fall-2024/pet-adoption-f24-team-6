@@ -12,6 +12,10 @@ export default function PrePreferences() {
     const [success, setSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+    const SPECIES_CHOICES = [
+        'Dog', 'Cat', 'Fish', 'Bird', 'Hamster', 'Rabbit', 'Lizard', 'Turtle', 'GuineaPig', 'Snake'
+    ];
+
     const COLOR_CHOICES = [
         'RED', 'BLUE', 'GREEN', 'YELLOW', 'ORANGE', 'PURPLE', 'PINK', 'BROWN',
         'BLACK', 'WHITE', 'GRAY', 'CYAN', 'MAGENTA', 'BEIGE', 'TEAL', 'MAROON',
@@ -78,22 +82,29 @@ export default function PrePreferences() {
                 );
             case 1:
                 return (
+                    <FormControl variant="outlined" sx={{ width: '80%' }}>
+                        <InputLabel>Preferred Species</InputLabel>
+                        <Select
+                            value={speciesPref}
+                            onChange={(event) => setSpeciesPref(event.target.value)}
+                            label="Preferred Species"
+                        >
+                            {SPECIES_CHOICES.map((species) => (
+                                <MenuItem key={species} value={species}>
+                                    {species}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                );
+            case 2:
+                return (
                     <TextField
                         label="Preferred Breed"
                         variant="outlined"
                         sx={{ width: '80%' }}
                         onChange={(event) => setBreedPref(event.target.value)}
                         value={breedPref}
-                    />
-                );
-            case 2:
-                return (
-                    <TextField
-                        label="Preferred Species"
-                        variant="outlined"
-                        sx={{ width: '80%' }}
-                        onChange={(event) => setSpeciesPref(event.target.value)}
-                        value={speciesPref}
                     />
                 );
             case 3:

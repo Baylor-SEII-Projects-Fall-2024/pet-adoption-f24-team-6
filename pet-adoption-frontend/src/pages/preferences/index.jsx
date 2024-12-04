@@ -13,6 +13,10 @@ export default function Preferences() {
     const [colorPref, setColorPref] = useState('')
     const [success, setSuccess] = useState(false); // To track success status
 
+    const SPECIES_CHOICES = [
+        'Dog', 'Cat', 'Fish', 'Bird', 'Hamster', 'Rabbit', 'Lizard', 'Turtle', 'GuineaPig', 'Snake'
+    ];
+
     const COLOR_CHOICES = [
         'RED', 'BLUE', 'GREEN', 'YELLOW', 'ORANGE', 'PURPLE', 'PINK', 'BROWN',
         'BLACK', 'WHITE', 'GRAY', 'CYAN', 'MAGENTA', 'BEIGE', 'TEAL', 'MAROON',
@@ -112,19 +116,26 @@ export default function Preferences() {
                 )}
 
 
+                <FormControl variant="outlined" sx={{ width: '80%' }}>
+                    <InputLabel>Preferred Species</InputLabel>
+                    <Select
+                        value={speciesPref}
+                        onChange={(event) => setSpeciesPref(event.target.value)}
+                        label="Preferred Species"
+                    >
+                        {SPECIES_CHOICES.map((species) => (
+                            <MenuItem key={species} value={species}>
+                                {species}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <TextField
                     label="Breed"
                     variant="outlined"
                     sx={{ width: '50%' }}
                     onChange={(event) => setBreedPref(event.target.value)}
                     value={breedPref}
-                />
-                <TextField
-                    label="Species"
-                    variant="outlined"
-                    sx={{ width: '50%' }}
-                    onChange={(event) => setSpeciesPref(event.target.value)}
-                    value={speciesPref}
                 />
                 <FormControl variant="outlined" sx={{ width: '80%' }}>
                     <InputLabel>Preferred Color</InputLabel>

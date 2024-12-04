@@ -3,7 +3,7 @@ package petadoption.api.models;
 public class RegisterPet {
     private String name;
     private Integer age;
-    private String species;
+    private SPECIES_TYPE species;
     private String breed;
     private String size;
     private GENDER_TYPE gender;
@@ -30,11 +30,11 @@ public class RegisterPet {
         this.age = age;
     }
 
-    public String getSpecies() {
+    public SPECIES_TYPE getSpecies() {
         return species;
     }
 
-    public void setSpecies(String species) {
+    public void setSpecies(SPECIES_TYPE species) {
         this.species = species;
     }
 

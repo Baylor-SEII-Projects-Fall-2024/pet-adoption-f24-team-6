@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import petadoption.api.models.COLOR_TYPE;
 import petadoption.api.models.GENDER_TYPE;
+import petadoption.api.models.SPECIES_TYPE;
 
 @Data
 @Entity
@@ -23,7 +24,8 @@ public class Pet {
     Integer age;
 
     @Column(name = "SPECIES")
-    String species;
+    @Enumerated(EnumType.STRING)
+    SPECIES_TYPE species;
 
     @Column(name = "BREED")
     String breed;
