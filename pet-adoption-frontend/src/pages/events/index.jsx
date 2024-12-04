@@ -173,7 +173,7 @@ export default function Events() {
             </div>
 
             {isAdoptionCenter && (
-                <Button variant="contained" color="primary" style={styles.addButton} onClick={() => router.push('/add-event')}>
+                <Button variant="contained" color="primary" style={styles.addButton} onClick={() => router.push('/registerEvents')}>
                     Add a new event
                 </Button>
             )}

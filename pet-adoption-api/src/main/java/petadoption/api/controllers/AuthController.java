@@ -108,7 +108,7 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
             }
 
-            Map<String, String> userDetails = new HashMap<>();
+            Map<String, Object> userDetails = new HashMap<>();
             userDetails.put("emailAddress", user.getEmailAddress());
             userDetails.put("firstName", user.getFirstName());
             userDetails.put("lastName", user.getLastName());
@@ -237,7 +237,7 @@ public class AuthController {
 
 
             // Prepare the user preferences response
-            Map<String, String> preferences = new HashMap<>();
+            Map<String, Object> preferences = new HashMap<>();
             preferences.put("breedPref", user.getBreedPref());
             preferences.put("speciesPref", user.getSpeciesPref());
             preferences.put("colorPref", user.getColorPref());

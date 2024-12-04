@@ -15,8 +15,8 @@ spring:
     gcp:
       storage:
         credentials:
-          location: file:src/main/resources/advance-sonar-434701-g4-174f26b320fc.json
-        bucket: pet-adoption-images-sw2
+          location: file:src/main/resources/esoteric-parsec-443418-j9-332ce794dc3f.json
+        bucket: sw2-pet-adoption
   servlet:
     multipart:
       max-file-size: 10MB

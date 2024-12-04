@@ -6,9 +6,8 @@ public class UpdateUser {
     private String firstName;
     private String lastName;
     private String breedPref;
-    private String speciesPref;
-    private String colorPref;
-    private String address; // New field for address
+    private SPECIES_TYPE speciesPref;
+    private COLOR_TYPE colorPref;
 
     // Getters and setters
     public String getEmailAddress() {
@@ -43,35 +42,16 @@ public class UpdateUser {
         this.lastName = lastName;
     }
 
-    public String getBreedPref() {
-        return breedPref;
-    }
+    public String getBreedPref() {return breedPref;}
 
-    public void setBreedPref(String breedPref) {
-        this.breedPref = breedPref;
-    }
+    public void setBreedPref(String breedPref) {this.breedPref = breedPref;}
 
-    public String getSpeciesPref() {
-        return speciesPref;
-    }
+    public SPECIES_TYPE getSpeciesPref() {return speciesPref;}
 
-    public void setSpeciesPref(String speciesPref) {
-        this.speciesPref = speciesPref;
-    }
+    public void setSpeciesPref(SPECIES_TYPE speciesPref) {this.speciesPref = speciesPref;}
 
-    public String getColorPref() {
-        return colorPref;
-    }
+    public COLOR_TYPE getColorPref() {return colorPref;}
 
-    public void setColorPref(String colorPref) {
-        this.colorPref = colorPref;
-    }
+    public void setColorPref(COLOR_TYPE colorPref) {this.colorPref = colorPref;}
 
-    public String getAddress() { // Getter for address
-        return address;
-    }
-
-    public void setAddress(String address) { // Setter for address
-        this.address = address;
-    }
 }

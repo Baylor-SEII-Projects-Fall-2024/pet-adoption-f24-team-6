@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import petadoption.api.models.SPECIES_TYPE;
 import petadoption.api.tables.Pet;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
             ") DESC")
     List<Pet> findPersonalizedRecommendationsSpeciesAndBreed(
             @Param("viewedPetIds") List<Long> viewedPetIds,
-            @Param("speciesPref") String speciesPref,
+            @Param("speciesPref") SPECIES_TYPE speciesPref,
             @Param("breedPref") String breedPref,
             //@Param("colorPref") String colorPref,
             Pageable pageable
@@ -63,7 +64,7 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
             ") DESC")
     List<Pet> findPersonalizedRecommendationsSpecies(
             @Param("viewedPetIds") List<Long> viewedPetIds,
-            @Param("speciesPref") String speciesPref,
+            @Param("speciesPref") SPECIES_TYPE speciesPref,
             //@Param("breedPref") String breedPref,
             //@Param("colorPref") String colorPref,
             Pageable pageable
