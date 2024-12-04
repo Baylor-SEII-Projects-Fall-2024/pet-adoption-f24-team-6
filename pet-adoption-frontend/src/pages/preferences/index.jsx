@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { Button, Paper, TextField, Typography, Alert } from "@mui/material";
+import { Button, Paper, TextField, Typography, Alert, Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
@@ -13,6 +13,16 @@ export default function Preferences() {
     const [colorPref, setColorPref] = useState('')
     const [success, setSuccess] = useState(false); // To track success status
 
+    const SPECIES_CHOICES = [
+        'Dog', 'Cat', 'Fish', 'Bird', 'Hamster', 'Rabbit', 'Lizard', 'Turtle', 'GuineaPig', 'Snake'
+    ];
+
+    const COLOR_CHOICES = [
+        'RED', 'BLUE', 'GREEN', 'YELLOW', 'ORANGE', 'PURPLE', 'PINK', 'BROWN',
+        'BLACK', 'WHITE', 'GRAY', 'CYAN', 'MAGENTA', 'BEIGE', 'TEAL', 'MAROON',
+        'NAVY', 'LIME', 'CORAL', 'LAVENDER', 'GOLD', 'SILVER', 'BRONZE', 'PEACH',
+        'MINT', 'TURQUOISE', 'INDIGO', 'CREAM', 'OCHRE', 'MUSTARD'
+    ];
 
     useEffect(() => {
         const getUserDetails = async () => {
@@ -106,6 +116,20 @@ export default function Preferences() {
                 )}
 
 
+                <FormControl variant="outlined" sx={{ width: '80%' }}>
+                    <InputLabel>Preferred Species</InputLabel>
+                    <Select
+                        value={speciesPref}
+                        onChange={(event) => setSpeciesPref(event.target.value)}
+                        label="Preferred Species"
+                    >
+                        {SPECIES_CHOICES.map((species) => (
+                            <MenuItem key={species} value={species}>
+                                {species}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <TextField
                     label="Breed"
                     variant="outlined"
@@ -113,20 +137,20 @@ export default function Preferences() {
                     onChange={(event) => setBreedPref(event.target.value)}
                     value={breedPref}
                 />
-                <TextField
-                    label="Species"
-                    variant="outlined"
-                    sx={{ width: '50%' }}
-                    onChange={(event) => setSpeciesPref(event.target.value)}
-                    value={speciesPref}
-                />
-                <TextField
-                    label="Color"
-                    variant="outlined"
-                    sx={{ width: '50%' }}
-                    onChange={(event) => setColorPref(event.target.value)}
-                    value={colorPref}
-                />
+                <FormControl variant="outlined" sx={{ width: '80%' }}>
+                    <InputLabel>Preferred Color</InputLabel>
+                    <Select
+                        value={colorPref}
+                        onChange={(event) => setColorPref(event.target.value)}
+                        label="Preferred Color"
+                    >
+                        {COLOR_CHOICES.map((color) => (
+                            <MenuItem key={color} value={color}>
+                                {color}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
 
 
                 <Button

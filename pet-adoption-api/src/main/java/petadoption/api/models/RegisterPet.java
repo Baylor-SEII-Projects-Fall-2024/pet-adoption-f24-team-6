@@ -3,12 +3,12 @@ package petadoption.api.models;
 public class RegisterPet {
     private String name;
     private Integer age;
-    private String species;
+    private SPECIES_TYPE species;
     private String breed;
     private String size;
     private GENDER_TYPE gender;
     private String photo;
-    private String color;
+    private COLOR_TYPE color;
     private Integer friendliness;
     private Integer trainingLevel;
     private Long centerId;
@@ -30,11 +30,11 @@ public class RegisterPet {
         this.age = age;
     }
 
-    public String getSpecies() {
+    public SPECIES_TYPE getSpecies() {
         return species;
     }
 
-    public void setSpecies(String species) {
+    public void setSpecies(SPECIES_TYPE species) {
         this.species = species;
     }
 
@@ -70,11 +70,9 @@ public class RegisterPet {
         this.photo = photo;
     }
 
-    public String getColor() {
-        return color;
-    }
+    public COLOR_TYPE getColor() { return color; }
 
-    public void setColor(String color) {
+    public void setColor(COLOR_TYPE color) {
         this.color = color;
     }
 

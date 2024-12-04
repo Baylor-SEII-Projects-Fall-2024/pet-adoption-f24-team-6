@@ -2,7 +2,9 @@ package petadoption.api.tables;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import petadoption.api.models.COLOR_TYPE;
 import petadoption.api.models.GENDER_TYPE;
+import petadoption.api.models.SPECIES_TYPE;
 
 @Data
 @Entity
@@ -22,7 +24,8 @@ public class Pet {
     Integer age;
 
     @Column(name = "SPECIES")
-    String species;
+    @Enumerated(EnumType.STRING)
+    SPECIES_TYPE species;
 
     @Column(name = "BREED")
     String breed;
@@ -39,7 +42,8 @@ public class Pet {
     String photo;
 
     @Column(name = "COLOR")
-    String color;
+    @Enumerated(EnumType.STRING)
+    COLOR_TYPE color;
 
     @Column(name = "FRIENDLINESS")
     Integer friendliness;
