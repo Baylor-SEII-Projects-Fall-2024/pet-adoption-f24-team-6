@@ -8,7 +8,7 @@ public class RegisterPet {
     private String size;
     private GENDER_TYPE gender;
     private String photo;
-    private String color;
+    private COLOR_TYPE color;
     private Integer friendliness;
     private Integer trainingLevel;
     private Long centerId;
@@ -70,11 +70,9 @@ public class RegisterPet {
         this.photo = photo;
     }
 
-    public String getColor() {
-        return color;
-    }
+    public COLOR_TYPE getColor() { return color; }
 
-    public void setColor(String color) {
+    public void setColor(COLOR_TYPE color) {
         this.color = color;
     }
 

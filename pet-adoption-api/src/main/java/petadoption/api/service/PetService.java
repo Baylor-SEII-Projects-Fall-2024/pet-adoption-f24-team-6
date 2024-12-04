@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.models.GENDER_TYPE;
+import petadoption.api.models.COLOR_TYPE;
 import petadoption.api.tables.Pet;
 import petadoption.api.repositories.AdoptionCenterRepository;
 import petadoption.api.repositories.PetRepository;
@@ -28,7 +29,7 @@ public class PetService {
         return petRepository.save(pet);
     }
 
-    public Pet registerPet(String name, Integer age, String species, String breed, String size, GENDER_TYPE gender, String photo, String color, Integer friendliness, Integer trainingLevel, Long centerId) {
+    public Pet registerPet(String name, Integer age, String species, String breed, String size, GENDER_TYPE gender, String photo, COLOR_TYPE color, Integer friendliness, Integer trainingLevel, Long centerId) {
         Pet pet = new Pet();
         pet.setName(name);
         pet.setAge(age);
@@ -89,7 +90,7 @@ public class PetService {
             existingPet.setPhoto(updatedPet.getPhoto());
         }
 
-        if (updatedPet.getColor() != null && !updatedPet.getColor().isEmpty()) {
+        if (updatedPet.getColor() != null) {
             existingPet.setColor(updatedPet.getColor());
         }
 

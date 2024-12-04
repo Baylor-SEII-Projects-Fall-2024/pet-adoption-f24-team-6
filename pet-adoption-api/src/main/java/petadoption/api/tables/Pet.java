@@ -2,6 +2,7 @@ package petadoption.api.tables;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import petadoption.api.models.COLOR_TYPE;
 import petadoption.api.models.GENDER_TYPE;
 
 @Data
@@ -39,7 +40,8 @@ public class Pet {
     String photo;
 
     @Column(name = "COLOR")
-    String color;
+    @Enumerated(EnumType.STRING)
+    COLOR_TYPE color;
 
     @Column(name = "FRIENDLINESS")
     Integer friendliness;
