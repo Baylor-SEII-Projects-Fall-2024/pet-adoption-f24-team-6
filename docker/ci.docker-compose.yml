@@ -31,7 +31,7 @@ services:
       - '8080:8080'
     environment:
       MYSQL_HOST: 10.128.0.2
-      PUBLIC_IP: 34.172.241.48
+      PUBLIC_IP: 104.154.249.120
 
 volumes:
   mysql-data:
