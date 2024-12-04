@@ -33,7 +33,7 @@ public class AdoptionCenter {
     @Column(name = "LIKES")
     Integer likes;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     User user;
 

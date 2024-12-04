@@ -19,6 +19,15 @@ export default function PetDetails() {
     const [otherEvents, setOtherEvents] = useState([]);
     const [userID, setUserID] = useState(1);
 
+    //for other events
+    useEffect(() => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events`)
+            .then((response) => {
+                setOtherEvents(response.data.slice(0, 3)); // Top 3 pets
+            })
+            .catch((err) => console.error("Failed to fetch other events", err));
+    }, []);
+
     useEffect(() => {
         if (eventID) {
             axios.get(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/${eventID}`)
@@ -144,19 +153,19 @@ export default function PetDetails() {
             <Box sx={{ mt: 5 }}>
                 <Typography variant="h5" gutterBottom>See Other Events</Typography>
                 <Grid container spacing={2}>
-                    {otherEvents.map((otherPet) => (
-                        <Grid item xs={12} sm={4} key={otherEvents.id}>
+                    {otherEvents.map((otherEvent) => (
+                        <Grid item xs={12} sm={4} key={otherEvent.id}>
                             <Card>
                                 <CardMedia
                                     component="img"
                                     height="140"
-                                    image={otherEvents.photo}
-                                    alt={otherEvents.name}
+                                    image={otherEvent.photo}
+                                    alt={otherEvent.name}
                                 />
                                 <CardContent>
-                                    <Typography variant="h6">{otherEvents.name}</Typography>
+                                    <Typography variant="h6">{otherEvent.name}</Typography>
                                     <Typography variant="body2" color="textSecondary">
-                                        {otherEvents.date} • {otherEvents.address}
+                                        {otherEvent.date} • {otherEvent.address}
                                     </Typography>
                                 </CardContent>
                             </Card>

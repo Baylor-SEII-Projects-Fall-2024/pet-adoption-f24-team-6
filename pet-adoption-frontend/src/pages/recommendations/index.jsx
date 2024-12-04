@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {Box, Button, CircularProgress, Typography} from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import {useRouter} from "next/router";
-import Footer from "@/components/Footer";
 import axios from "axios";
 import Cookies from "js-cookie";
 import ThumbsUpIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -56,7 +55,7 @@ const styles = {
 export default function browse() {
 
     const [pets, setPets] = useState([]);
-    const [userID, setUserID] = useState([]);
+    const [userID, setUserID] = useState(-1);
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
     const [isDisliked, setIsDisliked] = useState(false);
@@ -66,7 +65,7 @@ export default function browse() {
 
     // useEffect to fetch data on component mount
     useEffect(() => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/pet/getAll`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userID}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

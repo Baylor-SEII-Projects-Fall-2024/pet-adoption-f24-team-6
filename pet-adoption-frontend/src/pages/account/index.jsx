@@ -8,6 +8,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PetsIcon from '@mui/icons-material/Pets';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PeopleIcon from '@mui/icons-material/People';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Footer from "@/components/Footer";
 
 export default function Account() {
@@ -65,7 +66,7 @@ export default function Account() {
     return (
         <>
             <Head>
-                <title>Account | Baylor Furries</title>
+                <title>Account | Furever Homes</title>
             </Head>
 
             <Typography variant="h4" align="center" sx={{ mt: 5 }}>
@@ -90,6 +91,14 @@ export default function Account() {
                                         <AccountCircleIcon fontSize="large" />
                                     </IconButton>
                                     <Typography variant="h6">My Account</Typography>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <Paper elevation={3} sx={{ padding: 2, textAlign: 'center' }}>
+                                    <IconButton onClick={() => router.push('/view-interactions')}>
+                                        <BookmarkIcon fontSize="large" />
+                                    </IconButton>
+                                    <Typography variant="h6">View Interactions</Typography>
                                 </Paper>
                             </Grid>
                             <Grid item xs={12} sm={4}>

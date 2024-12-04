@@ -117,13 +117,17 @@ const ForYouPage = () => {
         };
 
         checkAuth();
-        fetchPets()
     }, [authToken, router]);
 
-    const fetchPets = useCallback(async () => {
-        if (!userId) return;
+    useEffect(() => {
+        if(userId !== -1){
+            fetchPets()
+        }
+    }, [userId])
+
+    const fetchPets = async () => {
+        setLoading(true);
         try {
-            setLoading(true);
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/interaction/user/${userId}`);
             const data = await response.json();
             setPets((prevPets) => [...prevPets, ...data]);
@@ -132,7 +136,7 @@ const ForYouPage = () => {
         } finally {
             setLoading(false);
         }
-    }, [userId]);
+    };
 
     const goToNextPet = useCallback(() => {
         if (currentPetIndex < pets.length - 1) {
