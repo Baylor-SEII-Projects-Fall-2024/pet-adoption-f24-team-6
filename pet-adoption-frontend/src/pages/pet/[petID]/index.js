@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
     Container,
@@ -37,6 +37,8 @@ export default function PetDetails() {
     const [otherPets, setOtherPets] = useState([]);
     const [userID, setUserID] = useState(1);
     const [clicked, setClicked] = useState();
+    const [isLiked, setIsLiked] = useState(false);
+    const [isDisliked, setIsDisliked] = useState(false);
     const [messageOpen, setMessageOpen] = useState(false);
     const [messageText, setMessageText] = useState("");
 
@@ -131,23 +133,7 @@ export default function PetDetails() {
         if(!authToken){
             router.push('/sign-in')
         }else {
-            const requestData = {
-                userId: userID,
-                petId: petID,
-                adoptionCenterId: adoptionCenter.id
-            };
-
-            try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
-
-                await sendEmail()
-
-                if(response.status === 200){
-                    router.push('/pet/requested');
-                }
-            } catch (error) {
-                console.error('Error while requesting adoption:', error.response?.data || error.message);
-            }
+            setMessageOpen(true);
         }
     };
 
@@ -168,7 +154,7 @@ export default function PetDetails() {
                 });
 
                 if(response.status === 200){
-                    console.log();
+                    setIsLiked((prev) => !prev);
                 }
             } catch (error) {
                 console.error('Error while liking:', error.response?.data || error.message);
@@ -190,6 +176,7 @@ export default function PetDetails() {
 
                 if(response.status === 200){
                     console.log();
+                    setIsDisliked((prev) => !prev);
                 }
             } catch (error) {
                 console.error('Error while disliking:', error.response?.data || error.message);
@@ -215,6 +202,24 @@ export default function PetDetails() {
             }
         } catch (error) {
             console.error("Error sending message:", error);
+        }
+
+        const requestData = {
+            userId: userID,
+            petId: petID,
+            adoptionCenterId: adoptionCenter.id
+        };
+
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/adoptionRequest/request`, requestData);
+
+            await sendEmail()
+
+            if(response.status === 200){
+                router.push('/pet/requested');
+            }
+        } catch (error) {
+            console.error('Error while requesting adoption:', error.response?.data || error.message);
         }
     };
 
@@ -293,7 +298,7 @@ export default function PetDetails() {
                         color="success"
                         sx={{ mt: 2 }}
                         onClick={() => handleLike()}
-                        startIcon={<ThumbsUpIcon />}
+                        startIcon={isLiked ? <ThumbsUpFilledIcon /> : <ThumbsUpIcon/>}
                     >
                         Like
                     </Button>
@@ -303,7 +308,7 @@ export default function PetDetails() {
                         color="error"
                         sx={{ mt: 2 }}
                         onClick={() => handleDislike()}
-                        startIcon={<ThumbsDownIcon />}
+                        startIcon={isDisliked ? <ThumbsDownFilledIcon /> : <ThumbsDownIcon />}
                     >
                         Dislike
                     </Button>
@@ -312,7 +317,12 @@ export default function PetDetails() {
                         variant="contained"
                         color="primary"
                         sx={{ mt: 2 }}
-                        onClick={() => setMessageOpen(true)}
+                        onClick={() => {
+                            if(!authToken) {
+                                router.push('/sign-in')
+                            }
+                            setMessageOpen(true)
+                        }}
                         startIcon={<SendIcon />}
                     >
                         Send Message
@@ -321,7 +331,7 @@ export default function PetDetails() {
             </Paper>
 
             <Dialog open={messageOpen} onClose={() => setMessageOpen(false)}>
-                <DialogTitle>Send Message to {pet.adoptionCenter.name}</DialogTitle>
+                <DialogTitle>Send Message</DialogTitle>
                 <DialogContent>
                     <TextField
                         fullWidth
@@ -346,7 +356,7 @@ export default function PetDetails() {
                 <Grid container spacing={2}>
                     {otherPets.map((otherPet) => (
                         <Grid item xs={12} sm={4} key={otherPet.id}>
-                            <Card>
+                            <Card onClick={() => router.push(`/pet/${otherPet.id}`)}>
                                 <CardMedia
                                     component="img"
                                     height="140"

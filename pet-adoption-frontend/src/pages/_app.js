@@ -4,7 +4,6 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { useRouter } from 'next/router';
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
-
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';
 import {
     Avatar,
@@ -16,7 +15,6 @@ import {
     Menu,
     MenuItem,
 } from '@mui/material';
-
 import { PetAdoptionThemeProvider } from '@/utils/theme';
 import { buildStore } from '@/utils/redux';
 import SearchIcon from '@mui/icons-material/Search';
@@ -25,13 +23,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import HelpIcon from '@mui/icons-material/Help';
 import styles from '../styles/Loading.module.css';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
-
 import '@/styles/globals.css'
 import Cookies from "js-cookie";
 
 let initialState = {};
 let reduxStore = buildStore(initialState);
-
 
 export default function App({ Component, pageProps }) {
 
@@ -76,9 +72,7 @@ export default function App({ Component, pageProps }) {
   const [messageCount, setMessageCount] = React.useState(-1)
 
   const token = Cookies.get('authToken');
-
   const router = useRouter();
-
   let data = null;
 
     useEffect(() => {
@@ -179,7 +173,7 @@ export default function App({ Component, pageProps }) {
         return (
             <div className={styles.loadingContainer}>
                 <img
-                    src="/dog-loading.png" // Replace with your image path
+                    src="/dog-loading.png"
                     alt="Loading..."
                     className={styles.loadingImage}
                 />
@@ -304,7 +298,6 @@ export default function App({ Component, pageProps }) {
                       {messageCount > 0 && (
                           <StyledBadge
                               overlap="circular"
-                              //anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                               variant="dot"
                           >
                               <Avatar
@@ -335,10 +328,6 @@ export default function App({ Component, pageProps }) {
                               onMouseLeave: handleMenuClose
                           }}
                       >
-                          <MenuItem onClick={() => {
-                              router.push('/account-details');
-                              handleMenuClose();
-                          }}>Account Details</MenuItem>
 
                           {userType === 'ADMIN' &&(
                               <MenuItem onClick={() => {
@@ -368,6 +357,16 @@ export default function App({ Component, pageProps }) {
                                   handleMenuClose();
                               }}>Preferences</MenuItem>
                           )}
+                          <MenuItem onClick={() => {
+                              router.push('/recommendations');
+                              handleMenuClose();
+
+                          }}>Recommendations</MenuItem>
+
+                          <MenuItem onClick={() => {
+                              router.push('/account');
+                              handleMenuClose();
+                          }}>Account Details</MenuItem>
 
                           <MenuItem onClick={() => {
                               router.push('/myMessages');
