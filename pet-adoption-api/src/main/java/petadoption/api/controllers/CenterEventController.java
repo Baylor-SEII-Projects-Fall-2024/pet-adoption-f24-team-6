@@ -92,7 +92,7 @@ public class CenterEventController {
     }
 
     private double[] geocodeAddress(String address) {
-        String apiKey = "AIzaSyArMWipIBs5IlbXsoO4b5qwnx_Uu0xhVIM";
+        String apiKey = "AIzaSyC9TTghzDIAuRpkSRuEVtlVgLPBXV_dQEQ";
         String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + apiKey;
 
         RestTemplate restTemplate = new RestTemplate();
