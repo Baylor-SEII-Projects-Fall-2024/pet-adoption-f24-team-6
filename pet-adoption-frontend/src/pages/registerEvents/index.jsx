@@ -3,6 +3,7 @@ import { Alert, Button, Container, TextField, Typography, Paper } from "@mui/mat
 import Head from "next/head";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function RegisterEvent() {
     const [name, setName] = useState('');
@@ -15,12 +16,38 @@ export default function RegisterEvent() {
     const router = useRouter();
     //const [photoUrl, setPhotoUrl] = useState('');
     let photoUrl = '';
+    const authToken = Cookies.get('authToken');
+
+    const getCenterId = async (e) => {
+
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/auth/getCenterID?authToken=${authToken}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setSuccess(false);
+                setErrorMessage('Registration Failed');
+            } else {
+                return data?.centerID
+            }
+        } catch (error) {
+            console.error("Error during register", error);
+            alert('An error occurred. Please try again.');
+        }
+    };
 
     const uploadFile = async () => {
         if (!file) {
             return;
         }
 
+        const centerID = await getCenterId();
         try {
             const formData = new FormData();
             formData.append('file', file);
@@ -37,6 +64,7 @@ export default function RegisterEvent() {
                 console.log('Uploaded photo URL:', response.data);
             }
 
+
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/create`, {
                     method: 'POST',
@@ -47,6 +75,7 @@ export default function RegisterEvent() {
                         address: address,
                         date: date,
                         photo: photoUrl,
+                        centerId: centerID,
                     }),
                 });
 
