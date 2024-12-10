@@ -40,6 +40,16 @@ public class CenterEventController {
         }
     }
 
+    @GetMapping("/closest/user/{userId}")
+    public ResponseEntity<List<CenterEvent>> getClosestEventsToUser(@PathVariable int userId) {
+        try {
+            List<CenterEvent> closestEvents = centerEventService.getClosestEventsToUser(userId);
+            return ResponseEntity.ok(closestEvents);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/closest/{address}")
     public ResponseEntity<List<CenterEvent>> getClosestEvents(
             @PathVariable String address,

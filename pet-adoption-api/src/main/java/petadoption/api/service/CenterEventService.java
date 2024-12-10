@@ -9,6 +9,8 @@ import org.springframework.web.client.RestTemplate;
 import petadoption.api.models.GeocodingResponse;
 import petadoption.api.tables.CenterEvent;
 import petadoption.api.repositories.CenterEventRepository;
+import petadoption.api.repositories.UserRepository;
+import petadoption.api.tables.User;
 import petadoption.api.utils.GeoUtils;
 
 import java.util.*;
@@ -18,11 +20,14 @@ import java.util.stream.Collectors;
 public class CenterEventService {
 
     private final CenterEventRepository centerEventRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CenterEventService(CenterEventRepository centerEventRepository) {
+    public CenterEventService(CenterEventRepository centerEventRepository, UserRepository userRepository) {
         this.centerEventRepository = centerEventRepository;
+        this.userRepository = userRepository;
     }
+
 
     public List<CenterEvent> getAllCenterEvents() {
         return centerEventRepository.findAll();
@@ -88,6 +93,17 @@ public class CenterEventService {
         List<CenterEvent> sortedEvents = sortEventsByDistance(allEvents, userLat, userLon);
 
         return getLimitedEvents(sortedEvents, limit);
+    }
+
+    public List<CenterEvent> getClosestEventsToUser(long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        double userLat = user.getLatitude();
+        double userLon = user.getLongitude();
+        int limit = 5; // You can set a default limit or pass it as a parameter
+
+        return getClosestEvents(userLat, userLon, limit);
     }
 
     private List<CenterEvent> sortEventsByDistance(List<CenterEvent> events, double userLat, double userLon) {
