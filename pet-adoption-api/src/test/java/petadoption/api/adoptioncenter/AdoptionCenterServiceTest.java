@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import petadoption.api.repositories.*;
+import petadoption.api.service.CenterEventService;
 import petadoption.api.tables.AdoptionCenter;
-import petadoption.api.repositories.PetRepository;
-import petadoption.api.repositories.AdoptionCenterRepository;
 import petadoption.api.service.AdoptionCenterService;
 
 import java.util.List;
@@ -27,10 +27,25 @@ class AdoptionCenterServiceTest {
 
     @Autowired
     private PetRepository petRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private AdoptionRequestRepository adoptionRequestRepository;
+    @Autowired
+    private UserInteractionRepository userInteractionRepository;
+    @Autowired
+    private CenterEventRepository centerEventRepository;
 
     @BeforeEach
     void setUp() {
         petRepository.deleteAll();
+        userInteractionRepository.deleteAll();
+        userRepository.deleteAll();
+        messageRepository.deleteAll();
+        adoptionRequestRepository.deleteAll();
+        centerEventRepository.deleteAll();
         adoptionCenterRepository.deleteAll();
     }
 
