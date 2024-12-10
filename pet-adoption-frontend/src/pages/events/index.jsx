@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Box, CircularProgress, Link, Typography, Button } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import Footer from "@/components/Footer";
+import Cookies from "js-cookie";git 
 
 const styles = {
     container: {
@@ -54,6 +53,7 @@ export default function Events() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAdoptionCenter, setIsAdoptionCenter] = useState(false);
+    const [userID, setUserID] = useState('')
     const authToken = Cookies.get("authToken")
     const router = useRouter();
 
@@ -69,6 +69,7 @@ export default function Events() {
 
             if (response.ok && data.userType === "ADOPTION_CENTER") {
                 setIsAdoptionCenter(true); // User is an adoption center
+                setUserID(data.userID)
             }
         } catch (error) {
             console.error("Auth check failed", error);
@@ -95,6 +96,27 @@ export default function Events() {
                 setLoading(false);
             });
     }, []);
+
+    const filterDistance = () => {
+        setLoading(true)
+        setEvents([])
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/closest/${userID}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setEvents(data); // store the fetched events in data
+                setLoading(false); // loading = false (once data is fetched)
+            })
+            .catch(error => {
+                console.error('Error fetching events:', error);
+                setLoading(false);
+            });
+    }
 
     if (loading) {
         return (
@@ -138,6 +160,26 @@ export default function Events() {
                     </Typography>
                 </Box>
             )}
+
+            {
+                authToken && events.length !== 0 &&(
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            marginBottom: 2,
+                            marginRight: 1
+                        }}
+                    >
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                        >
+                            Filter by Distance
+                        </Button>
+                    </Box>
+                )
+            }
 
             <div style={styles.container}>
                 {events.map((event, index) => {
