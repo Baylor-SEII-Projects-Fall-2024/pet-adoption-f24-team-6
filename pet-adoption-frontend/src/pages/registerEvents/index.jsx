@@ -64,6 +64,7 @@ export default function RegisterEvent() {
                 console.log('Uploaded photo URL:', response.data);
             }
 
+
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/create`, {
                     method: 'POST',
