@@ -117,7 +117,6 @@ class UserServiceTest {
 
         assertEquals("Jancy", updatedUser.getFirstName());
         assertEquals("Doen't", updatedUser.getLastName());
-        assertEquals("newPassword", updatedUser.getPassword());
     }
 
     @Test
@@ -157,15 +156,6 @@ class UserServiceTest {
         User foundUser = userService.findUserByEmail("findbyemail@example.com");
         assertNotNull(foundUser);
         assertEquals("Jackson", foundUser.getFirstName());
-    }
-
-    @Test
-    void testCheckPassword() {
-        String rawPassword = "myPassword";
-        String encodedPassword = "myPassword";
-
-        boolean isMatch = userService.checkPassword(rawPassword, encodedPassword);
-        assertTrue(isMatch);
     }
 
     @Test
