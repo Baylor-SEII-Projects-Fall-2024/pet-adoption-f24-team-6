@@ -1,6 +1,7 @@
 package petadoption.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -8,7 +9,6 @@ import petadoption.api.models.GeocodingResponse;
 import petadoption.api.models.USER_TYPE;
 import petadoption.api.models.UpdateUser;
 import petadoption.api.repositories.UserRepository;
-import petadoption.api.tables.Pet;
 import petadoption.api.tables.User;
 
 import java.util.List;
@@ -21,6 +21,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;  // Injected password encoder
+
     public Optional<User> findUser(Long userId) {
         return userRepository.findById(userId);
     }
@@ -29,15 +32,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User registerUser(String email, String password, USER_TYPE userType, String firstName, String lastName, String address) {
+    public User registerUser(String email, String rawPassword, USER_TYPE userType, String firstName, String lastName, String address) {
         User existingUser = userRepository.findByEmailAddress(email);
         if (existingUser != null) {
             throw new IllegalStateException("Email is already registered");
         }
 
+        // Encode the raw password before saving
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+
         User user = new User();
         user.setEmailAddress(email);
-        user.setPassword(password);
+        user.setPassword(encodedPassword);
         user.setUserType(userType);
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -51,7 +57,6 @@ public class UserService {
         user.setBreedPref(null);
         user.setSpeciesPref(null);
         user.setColorPref(null);
-
 
         return userRepository.save(user);
     }
@@ -92,7 +97,7 @@ public class UserService {
         }
 
         if (updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
-            existingUser.setPassword(updateUser.getPassword());
+            existingUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         }
 
         if (updateUser.getEmailAddress() != null && !updateUser.getEmailAddress().isEmpty()) {
@@ -126,7 +131,7 @@ public class UserService {
         }
 
         if (updateUser.getPassword() != null && !updateUser.getPassword().isEmpty()) {
-            existingUser.setPassword(updateUser.getPassword());
+            existingUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         }
 
         return userRepository.save(existingUser);
@@ -134,7 +139,6 @@ public class UserService {
 
     public User setPreferences(String email, UpdateUser updateUser) {
         User user = findUserByEmail(email);
-
 
         if (user.getBreedPref() == null && user.getSpeciesPref() == null && user.getColorPref() == null) {
             user.setBreedPref(updateUser.getBreedPref());
@@ -146,15 +150,12 @@ public class UserService {
         }
     }
 
-
-
-
     public User findUserByEmail(String email) {
         return userRepository.findByEmailAddress(email);
     }
 
     public boolean checkPassword(String rawPassword, String encodedPassword) {
-        return rawPassword.equals(encodedPassword);
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     public List<User> getAllUsers() {

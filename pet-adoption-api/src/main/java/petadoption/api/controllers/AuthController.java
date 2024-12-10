@@ -74,7 +74,8 @@ public class AuthController {
         return ResponseEntity.badRequest().body("Invalid Credentials");
     }
 
-    @GetMapping("/checkAuth")
+
+@GetMapping("/checkAuth")
     public ResponseEntity<?> checkAuthentication(@RequestParam String authToken) {
         try {
             String test = authService.extractUsername(authToken);
