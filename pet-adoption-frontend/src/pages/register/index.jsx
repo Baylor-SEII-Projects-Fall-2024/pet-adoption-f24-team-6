@@ -17,7 +17,8 @@ export default function Register() {
                     password: password,
                     userType: 'CUSTOMER',
                     firstName: firstName,
-                    lastName: lastName
+                    lastName: lastName,
+                    address: address
                 }),
             });
 
@@ -42,6 +43,7 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [success, setSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [address, setAddress] = useState('')
 
     return (
         <>
@@ -65,32 +67,39 @@ export default function Register() {
                         </Alert>
                     )}
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
                         <input
                             type="text"
                             placeholder="First Name"
-                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
+                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
                             required
                             onChange={(e) => setfirstName(e.target.value)}
                         />
                         <input
                             type="text"
                             placeholder="Last Name"
-                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
+                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
                             required
                             onChange={(e) => setlastName(e.target.value)}
                         />
                         <input
                             type="email"
                             placeholder="Email"
-                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
+                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
                             required
                             onChange={(e) => setEmailAddress(e.target.value)}
                         />
                         <input
+                            type="adddress"
+                            placeholder="Address"
+                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
+                            required
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                        <input
                             type="password"
                             placeholder="Password"
-                            style={{ padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc' }}
+                            style={{padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid #ccc'}}
                             required
                             onChange={(e) => setPassword(e.target.value)}
                         />
