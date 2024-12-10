@@ -8,8 +8,13 @@ import {Alert} from "@mui/material";
 
 export default function signIn() {
 
-
+    const token = Cookies.get('authToken');
     const router = useRouter();
+
+    if(token){
+        router.push('/account-details')
+        return;
+    }
     const handleSubmit = async (e) => {
         e.preventDefault()
 
