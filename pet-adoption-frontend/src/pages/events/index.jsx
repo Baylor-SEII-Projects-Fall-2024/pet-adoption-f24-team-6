@@ -174,6 +174,7 @@ export default function Events() {
                         <Button
                             color="primary"
                             variant="outlined"
+                            onClick={() => filterDistance()}
                         >
                             Filter by Distance
                         </Button>
