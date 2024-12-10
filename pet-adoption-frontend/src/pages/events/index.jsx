@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Box, CircularProgress, Link, Typography, Button } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";git 
+import Cookies from "js-cookie";
 
 const styles = {
     container: {
