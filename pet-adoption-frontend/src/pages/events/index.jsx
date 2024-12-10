@@ -77,9 +77,12 @@ export default function Events() {
         }
     };
 
+    useEffect( () => {
+        checkAuth();
+
+    }, []);
     // Fetch events and check authentication on mount
     useEffect(() => {
-        checkAuth(); // Check if user is an adoption center
         fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events`)
             .then(response => {
                 if (!response.ok) {
@@ -95,7 +98,7 @@ export default function Events() {
                 console.error('Error fetching events:', error);
                 setLoading(false);
             });
-    }, []);
+    }, [userID]);
 
     const filterDistance = () => {
         setLoading(true)
