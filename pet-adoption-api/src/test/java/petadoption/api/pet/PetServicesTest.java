@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import petadoption.api.models.COLOR_TYPE;
+import petadoption.api.models.SPECIES_TYPE;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.tables.Pet;
 import petadoption.api.repositories.AdoptionCenterRepository;
@@ -43,7 +45,7 @@ class PetServicesTest {
     void testSavePet() {
         Pet pet = new Pet();
         pet.setName("TestDog1");
-        pet.setSpecies("Dog");
+        pet.setSpecies(SPECIES_TYPE.Dog);
 
         Pet savedPet = petService.savePet(pet);
         assertNotNull(savedPet.getId());
@@ -54,7 +56,7 @@ class PetServicesTest {
     void testFindPet() {
         Pet pet = new Pet();
         pet.setName("TestDog2");
-        pet.setSpecies("Dog");
+        pet.setSpecies(SPECIES_TYPE.Dog);
         pet = petRepository.save(pet);
 
         Optional<Pet> foundPet = petService.findPet(pet.getId());
@@ -64,8 +66,8 @@ class PetServicesTest {
 
     @Test
     void testRegisterPetWithValidCenter() {
-        Pet registeredPet = petService.registerPet("TestDog3", 2, "Dog", "Labrador", "Large",
-                GENDER_TYPE.MALE, "photoUrl", "Black", 8, 7, adoptionCenter.getId());
+        Pet registeredPet = petService.registerPet("TestDog3", 2, SPECIES_TYPE.Dog, "Labrador", "Large",
+                GENDER_TYPE.MALE, "photoUrl", COLOR_TYPE.BLACK, 8, 7, adoptionCenter.getId());
 
         assertNotNull(registeredPet.getId());
         assertEquals("TestDog3", registeredPet.getName());
@@ -77,8 +79,8 @@ class PetServicesTest {
         Long invalidCenterId = (long) -999999L;
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-            petService.registerPet("TestDog4", 3, "Dog", "Beagle", "Medium",
-                    GENDER_TYPE.FEMALE, "photoUrl", "Brown", 9, 6, invalidCenterId);
+            petService.registerPet("TestDog4", 3, SPECIES_TYPE.Dog, "Beagle", "Medium",
+                    GENDER_TYPE.FEMALE, "photoUrl", COLOR_TYPE.BROWN, 9, 6, invalidCenterId);
         });
 
         assertEquals("Adoption Center not found with id: " + invalidCenterId, exception.getMessage());
@@ -88,16 +90,16 @@ class PetServicesTest {
     void testUpdatePet() {
         Pet pet = new Pet();
         pet.setName("TestCat1");
-        pet.setSpecies("Cat");
+        pet.setSpecies(SPECIES_TYPE.Cat);
         pet = petRepository.save(pet);
 
         Pet updatedPet = new Pet();
         updatedPet.setName("TestCat1");
-        updatedPet.setSpecies("Dog");
+        updatedPet.setSpecies(SPECIES_TYPE.Dog);
 
         Pet result = petService.updatePet(pet.getId(), updatedPet);
         assertEquals("TestCat1", result.getName());
-        assertEquals("Dog", result.getSpecies());
+        assertEquals(SPECIES_TYPE.Dog, result.getSpecies());
     }
 
     @Test
@@ -118,11 +120,11 @@ class PetServicesTest {
     void testGetAllPets() {
         Pet pet1 = new Pet();
         pet1.setName("TestDog5");
-        pet1.setSpecies("Dog");
+        pet1.setSpecies(SPECIES_TYPE.Dog);
 
         Pet pet2 = new Pet();
         pet2.setName("TestCat2");
-        pet2.setSpecies("Cat");
+        pet2.setSpecies(SPECIES_TYPE.Cat);
 
         petRepository.save(pet1);
         petRepository.save(pet2);
@@ -135,7 +137,7 @@ class PetServicesTest {
     void testDeletePet() {
         Pet pet = new Pet();
         pet.setName("TestDog6");
-        pet.setSpecies("Dog");
+        pet.setSpecies(SPECIES_TYPE.Dog);
         pet = petRepository.save(pet);
 
         petService.deletePet(pet.getId());
@@ -159,7 +161,7 @@ class PetServicesTest {
     void testGetPetsByCenterId() {
         Pet pet = new Pet();
         pet.setName("TestDog7");
-        pet.setSpecies("Dog");
+        pet.setSpecies(SPECIES_TYPE.Dog);
         pet.setAdoptionCenter(adoptionCenter);
         petRepository.save(pet);
 

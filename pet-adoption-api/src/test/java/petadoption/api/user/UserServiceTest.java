@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import petadoption.api.models.USER_TYPE;
 import petadoption.api.models.UpdateUser;
+import petadoption.api.repositories.*;
 import petadoption.api.tables.User;
-import petadoption.api.repositories.UserRepository;
 import petadoption.api.service.UserService;
 
 import java.util.List;
@@ -24,11 +24,30 @@ class UserServiceTest {
     private UserService userService;
 
     @Autowired
+    private AdoptionCenterRepository adoptionCenterRepository;
+
+    @Autowired
+    private PetRepository petRepository;
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private AdoptionRequestRepository adoptionRequestRepository;
+    @Autowired
+    private UserInteractionRepository userInteractionRepository;
+    @Autowired
+    private CenterEventRepository centerEventRepository;
 
     @BeforeEach
     void setUp() {
+        petRepository.deleteAll();
+        userInteractionRepository.deleteAll();
+        messageRepository.deleteAll();
+        adoptionRequestRepository.deleteAll();
+        centerEventRepository.deleteAll();
         userRepository.deleteAll();
+        adoptionCenterRepository.deleteAll();
     }
 
     @Test
