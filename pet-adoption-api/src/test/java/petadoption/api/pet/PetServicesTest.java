@@ -95,7 +95,7 @@ class PetServicesTest {
 
         Pet updatedPet = new Pet();
         updatedPet.setName("TestCat1");
-        updatedPet.setSpecies(SPECIES_TYPE.Cat);
+        updatedPet.setSpecies(SPECIES_TYPE.Dog);
 
         Pet result = petService.updatePet(pet.getId(), updatedPet);
         assertEquals("TestCat1", result.getName());

@@ -43,10 +43,10 @@ class UserServiceTest {
     void setUp() {
         petRepository.deleteAll();
         userInteractionRepository.deleteAll();
-        userRepository.deleteAll();
         messageRepository.deleteAll();
         adoptionRequestRepository.deleteAll();
         centerEventRepository.deleteAll();
+        userRepository.deleteAll();
         adoptionCenterRepository.deleteAll();
     }
 
