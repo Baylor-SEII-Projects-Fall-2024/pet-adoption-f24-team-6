@@ -165,7 +165,7 @@ export default function MyPets() {
             <Typography variant="h4" gutterBottom>Your Pets</Typography>
             <Typography variant="subtitle1" gutterBottom>Click on a row to edit it</Typography>
 
-            <Box sx={{ height: 400, width: '80%' }}>
+            <Box sx={{ height: '80%', width: '80%' }}>
                 <DataGrid
                     rows={pets}
                     columns={columns}
