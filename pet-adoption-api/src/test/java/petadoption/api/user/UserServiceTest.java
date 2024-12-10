@@ -82,7 +82,7 @@ class UserServiceTest {
     @Test
     void testRegisterUserWithUniqueEmail() {
         User registeredUser = userService.registerUser("unique@example.com", "password",
-                USER_TYPE.CUSTOMER, "James", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                USER_TYPE.CUSTOMER, "James", "Doe");
 
         assertNotNull(registeredUser.getId());
         assertEquals("unique@example.com", registeredUser.getEmailAddress());
@@ -91,11 +91,11 @@ class UserServiceTest {
     @Test
     void testRegisterUserWithExistingEmail() {
         userService.registerUser("duplicate@example.com", "password", USER_TYPE.CUSTOMER,
-                "Jill", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                "Jill", "Doe");
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
             userService.registerUser("duplicate@example.com", "newPassword",
-                    USER_TYPE.CUSTOMER, "Johhny", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                    USER_TYPE.CUSTOMER, "Johhny", "Doe");
         });
 
         assertEquals("Email is already registered", exception.getMessage());
@@ -104,7 +104,7 @@ class UserServiceTest {
     @Test
     void testUpdateUser() {
         User user = userService.registerUser("update@example.com", "oldPassword",
-                USER_TYPE.CUSTOMER, "Janet", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                USER_TYPE.CUSTOMER, "Janet", "Doe");
 
         UpdateUser updateUser = new UpdateUser();
         updateUser.setFirstName("Jancy");
@@ -117,6 +117,7 @@ class UserServiceTest {
 
         assertEquals("Jancy", updatedUser.getFirstName());
         assertEquals("Doen't", updatedUser.getLastName());
+        assertEquals("newPassword", updatedUser.getPassword());
     }
 
     @Test
@@ -134,9 +135,9 @@ class UserServiceTest {
     @Test
     void testUpdateUserWithoutPermission() {
         User user1 = userService.registerUser("user1@example.com", "password",
-                USER_TYPE.CUSTOMER, "Joseph", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                USER_TYPE.CUSTOMER, "Joseph", "Doe");
         User user2 = userService.registerUser("user2@example.com", "password",
-                USER_TYPE.CUSTOMER, "Julian", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                USER_TYPE.CUSTOMER, "Julian", "Doe");
 
         UpdateUser updateUser = new UpdateUser();
         updateUser.setFirstName("Jameson");
@@ -151,7 +152,7 @@ class UserServiceTest {
     @Test
     void testFindUserByEmail() {
         userService.registerUser("findbyemail@example.com", "password",
-                USER_TYPE.CUSTOMER, "Jackson", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                USER_TYPE.CUSTOMER, "Jackson", "Doe");
 
         User foundUser = userService.findUserByEmail("findbyemail@example.com");
         assertNotNull(foundUser);
@@ -159,11 +160,20 @@ class UserServiceTest {
     }
 
     @Test
+    void testCheckPassword() {
+        String rawPassword = "myPassword";
+        String encodedPassword = "myPassword";
+
+        boolean isMatch = userService.checkPassword(rawPassword, encodedPassword);
+        assertTrue(isMatch);
+    }
+
+    @Test
     void testGetAllUsers() {
         userService.registerUser("user1@example.com", "password1",
-                USER_TYPE.CUSTOMER, "Johnston", "Doe", "1234 Baylor Drive, Waco Tx, 76706");
+                USER_TYPE.CUSTOMER, "Johnston", "Doe");
         userService.registerUser("user2@example.com", "password2",
-                USER_TYPE.ADMIN, "Jamie", "Doe","1234 Baylor Drive, Waco Tx, 76706" );
+                USER_TYPE.ADMIN, "Jamie", "Doe");
 
         List<User> users = userService.getAllUsers();
         assertEquals(2, users.size());
