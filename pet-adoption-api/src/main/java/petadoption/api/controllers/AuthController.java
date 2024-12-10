@@ -38,7 +38,8 @@ public class AuthController {
                 registerEndpoint.getPassword(),
                 registerEndpoint.getUserType(),
                 registerEndpoint.getFirstName(),
-                registerEndpoint.getLastName()
+                registerEndpoint.getLastName(),
+                registerEndpoint.getAddress()
         );
         return ResponseEntity.ok("User Registered");
     }
@@ -50,7 +51,8 @@ public class AuthController {
                 registerEndpoint.getPassword(),
                 registerEndpoint.getUserType(),
                 registerEndpoint.getFirstName(),
-                registerEndpoint.getLastName()
+                registerEndpoint.getLastName(),
+                registerEndpoint.getAddress()
         );
         return ResponseEntity.ok("User Registered");
     }
@@ -72,7 +74,8 @@ public class AuthController {
         return ResponseEntity.badRequest().body("Invalid Credentials");
     }
 
-    @GetMapping("/checkAuth")
+
+@GetMapping("/checkAuth")
     public ResponseEntity<?> checkAuthentication(@RequestParam String authToken) {
         try {
             String test = authService.extractUsername(authToken);
