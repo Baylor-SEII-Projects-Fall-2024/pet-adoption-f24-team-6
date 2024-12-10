@@ -33,6 +33,7 @@ jobs:
     - name: Build and run Docker Compose services
       run: |
           sudo docker-compose -f docker/ci.docker-compose.yml down
+          sudo docker system prune -a
           sudo docker-compose -f docker/ci.docker-compose.yml build --no-cache --build-arg SKIP_TESTS=true
           sudo docker-compose -f docker/ci.docker-compose.yml up -d
           sudo docker image prune -af
