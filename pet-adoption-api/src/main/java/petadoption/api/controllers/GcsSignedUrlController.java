@@ -25,7 +25,7 @@ public class GcsSignedUrlController {
 
     public GcsSignedUrlController(
             @Value("${spring.cloud.gcp.storage.bucket}") String bucketName) throws IOException {
-        try (InputStream serviceAccountStream = getClass().getClassLoader().getResourceAsStream("esoteric-parsec-443418-j9-332ce794dc3f.json")) {
+        try (InputStream serviceAccountStream = getClass().getClassLoader().getResourceAsStream("esoteric-parsec-443418-j9-5740ab2a82cb.json")) {
             if (serviceAccountStream == null) {
                 throw new FileNotFoundException("Service account JSON file not found in resources.");
             }
