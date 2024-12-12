@@ -15,7 +15,7 @@ spring:
     gcp:
       storage:
         credentials:
-          location: file:src/main/resources/esoteric-parsec-443418-j9-332ce794dc3f.json
+          location: file:src/main/resources/esoteric-parsec-443418-j9-5740ab2a82cb.json
         bucket: sw2-pet-adoption
   servlet:
     multipart:

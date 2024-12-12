@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "esoteric-parsec-443418-j9",
+  "private_key_id": "5740ab2a82cb57ddb98c0e3491f382d77b18ecae",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDrZ0P5SvOCC539\n5qxbqrL2zBGNjOAd0B8aRdp3RaLvkee+xU+rS/IXEVXhLxyN/5vhdv+HVeCZNlqM\n6n7Wh0rRsdZnpqKKrB8hjV9uWDRTK+X7Rb7tuPLV884MGiG+5clrsodrgMZ7nbrT\nZ2HMTPsPFG/Oo2mqG8RxmeQRoJ1oJ/O/Uy7fEIMdKV/2inNnRbRn8SP8d1O1YT+e\nJ445vI4tvQoCKUjlF9CHh+Y95wb0ou8jtlsUdNg8dEpKR79h/RSRQqHsKoXvPMyJ\nTnoVagXNHuiOwDBT0lBzq0HVONLdLRa9hs/CnXOaRR8G7VjsktGmVtYPWcE/O26d\nOjt2bPXbAgMBAAECggEANXVfD2cBA8BlobpX2/1Y5QkU12NtpfeUiJ/ibAGpbeRh\nj4Y5gHofwTNToG7Vej3ZBYvDndVXyxN33taF9WwGBrbvLNy/vuQ1saXsTR/EyjqG\n4NhG8q90njfezArHLRX79vQ1Iqm86We5fLbWk9HLlfIbLf8YSORDaVT8YTBrbrJs\ndn5PnqoHkMOsgk7OfnKrdhyaJLVUgVb9NcG8TZ9z39GNztBxVSNQ2egMHtEQ1u54\nJLgLBTYECB6N3vyoxizJVfXmaWbBGeMAk1Mz1xorDhf/f6WjV0FxhKzjTn2o7hGv\nS09dfJodov9FctYhs+dTg1ZTGhpIYMQDadhsUJO/UQKBgQD7F9WLbNgS4unkYldm\nTgDlHVbjJAHzLlb0Xa8Jh3EhprdlQQuB0hNXq02hEbFUioj8AHwdaqdVyoKRmIPO\nkBXnxWBzYxpAGPBzh+ZfB20SIpeG8FJFnTxybHf6safoQm2PPJjr87SaCPhJ+jEs\nW+z/53Q2oKLph3rmjUhgmONl+QKBgQDwAPBiHiqAc5MBWaAJ/4iVI5/W1Nr6jKgI\niL/mmPHeKy3vMXfFFhFsraHe0BiZWlcQIo2vxO2IiChZ+jBg/UqEqaHyjQi67enH\naXm701mtxk6o9PJ733VTxAqQVtM8UCefXHyOnPKvRM9CK4O6l3nYyV0EMAccVMEq\nMyP1TZUfcwKBgQDZKrINFqSDITK9zrhcyVZI0ulVJs1w8EFQtL4w9a3JNxIjRvCW\n5YTJLGXFyzGeNvtnSVwPbTExKCdpmYlWXJQ1kyZqZepMScWdhoqe4iNZrgV0NeJS\nRz4CkQHsFz9ryBhN7FEusecf2mY0RWnGPfNrGVoP7Ts5021efg99TH5QsQKBgHYR\n8DBE6OHSecKTRfFFPfso0GyOwL+7zLqOE+Is4ehLU8i1jFdv+Nh/Pv/vXfqrf+NX\nLF8JQVYGrds+AujkEvHaxeoeSeo0Ous4T4QAgMDFq1LhVh1snDq+WfgSTs8AG84B\nYOGEArwI3PGPmLmF5ZKp1VHHEuh0JadOC2WVakRTAoGANqmaiNO/jCUosuKUnuNt\nfcdg+Uksf5+JNlCqlpqkFQWS7mah6eOjHy2c4dTFz8y+EJbhelAdDw9euyGf/x/C\nnTGetnobONsElr23MiomIHjc+KSJbJYPkMxBNJVy4dM+vQP1Z+0rl5HryQQZ16ww\numrvCc+1wYiZ25kQ95+Xpeg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "storage-bucket@esoteric-parsec-443418-j9.iam.gserviceaccount.com",
+  "client_id": "113212547623333870668",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/storage-bucket%40esoteric-parsec-443418-j9.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
