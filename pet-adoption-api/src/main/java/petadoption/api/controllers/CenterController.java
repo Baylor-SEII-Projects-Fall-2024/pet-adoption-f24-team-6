@@ -3,6 +3,7 @@ package petadoption.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import petadoption.api.tables.AdoptionCenter;
 import petadoption.api.service.AdoptionCenterService;
@@ -14,14 +15,19 @@ import petadoption.api.tables.Pet;
 import petadoption.api.service.PetService;
 import petadoption.api.tables.User;
 import petadoption.api.service.UserService;
+import petadoption.api.config.SecurityConfig;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/center")
 @CrossOrigin(origins = "http://${PUBLIC_IP:localhost}:3000")
 public class CenterController {
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private AdoptionCenterService adoptionCenterService;
@@ -63,12 +69,13 @@ public class CenterController {
             newAdoptionCenter.setName(input.getName());
             AdoptionCenter createdCenter = adoptionCenterService.saveAdoptionCenter(newAdoptionCenter);
 
+            String encodedPassword = passwordEncoder.encode(input.getPassword());
             User newUser = new User();
             newUser.setUserType(USER_TYPE.ADOPTION_CENTER);
             newUser.setEmailAddress(input.getOwnerAddress());
             newUser.setFirstName(input.getOwnerFirstName());
             newUser.setLastName(input.getOwnerLastName());
-            newUser.setPassword(input.getPassword());
+            newUser.setPassword(encodedPassword);
             newAdoptionCenter.setUser(newUser);
             userService.saveUser(newUser);
 

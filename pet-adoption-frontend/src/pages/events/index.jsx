@@ -101,7 +101,7 @@ export default function Events() {
         setLoading(true)
         setEvents([])
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/closest/${userID}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}:8080/api/events/closest/user/${userID}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -174,6 +174,7 @@ export default function Events() {
                         <Button
                             color="primary"
                             variant="outlined"
+                            onClick={() => filterDistance()}
                         >
                             Filter by Distance
                         </Button>

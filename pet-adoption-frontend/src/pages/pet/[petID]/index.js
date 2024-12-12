@@ -187,7 +187,7 @@ export default function PetDetails() {
     const handleSendMessage = async () => {
         const payload = {
             senderId: userID,
-            receiverId: pet.adoptionCenter.id,
+            receiverId: pet.adoptionCenter.user.id,
             content: messageText
         };
 
